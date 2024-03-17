@@ -5,3 +5,15 @@ body {
 body * {
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.big-red {
+  background-color: #DC3545;
+  border-color: #DC3545;
+  color: white;
+ }
+
+ .big-green {
+  background-color: #198754;
+  border-color: #198754;
+  color: white;
+ }

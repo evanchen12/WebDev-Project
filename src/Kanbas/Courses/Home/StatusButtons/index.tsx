@@ -17,7 +17,7 @@ function StatusButtons() {
       <div className="wd-publish-buttons">
         <button type="button">
           <FaBan className="ms" /> Unpublish</button>
-        <button type="button" className="bg-success text-white" style={{margin: "5px"}}>
+        <button type="button" className="big-green" style={{margin: "5px"}}>
           <FaCheckCircle className="ms" /> Published</button>
       </div>
 

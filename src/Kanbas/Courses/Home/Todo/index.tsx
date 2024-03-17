@@ -1,9 +1,12 @@
 import "./index.css";
-import { todo } from "../../../Database";
+import db from "../../../Database";
 import { Link } from "react-router-dom";
 import { FaCircle } from "react-icons/fa";
+import { useState } from "react";
 
 function Todo() {
+  const [todo, setTodo] = useState(db.todo);
+
   return (
     <>
       <h6><b>To Do</b></h6>

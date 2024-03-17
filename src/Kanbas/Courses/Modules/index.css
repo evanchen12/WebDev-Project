@@ -57,3 +57,42 @@
   padding-left: 48px;
   padding-right: 48px;
 }
+
+.wd-side-button {
+  position: relative;
+  top: 5px;
+}
+
+.btn-secondary {
+  color: black;
+  background-color: transparent;
+  position: relative;
+  bottom: 8px;
+}
+
+.btn-secondary:hover {
+  background-color: transparent;
+}
+
+.wd-add > button {
+  margin-right: 10px;
+  background-color: #198754;
+  color: white;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.wd-add > input {
+  margin-right: 10px;
+}
+
+.wd-add > textarea {
+  position: relative;
+  top: 6px;
+  height: 24px;
+  width: 75%;
+}
+
+.dropdown-item:hover {
+  background-color: #b8daff;
+}

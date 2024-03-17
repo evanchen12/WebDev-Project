@@ -1,9 +1,12 @@
 import "./index.css";
-import { calender } from "../../../Database";
+import db from "../../../Database";
 import { Link } from "react-router-dom";
 import { FaCalendarAlt } from "react-icons/fa";
+import { useState } from "react";
 
 function CommingUp() {
+  const [calender, setCalender] = useState(db.calender);
+
   return (
     <>
       <h6><b>Comming Up</b></h6>

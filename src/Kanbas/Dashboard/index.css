@@ -25,3 +25,15 @@
  .fontsize {
   font-size: small;
  }
+
+ .card-buttons button {
+  margin-right: 10px;
+ }
+
+ .function-card input {
+  margin-bottom: 8px;
+ }
+
+ .function-card button {
+  margin-right: 10px;
+ }

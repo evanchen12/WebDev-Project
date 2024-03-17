@@ -1,4 +1,3 @@
-import { courses } from "../../Database";
 import { useParams, useLocation } from "react-router-dom";
 import { HiMiniBars3 } from "react-icons/hi2";
 import { FaChevronDown } from "react-icons/fa";
@@ -6,9 +5,10 @@ import '../../../libs/bootstrap/bootstrap.min.css';
 import { HeaderCourseNavigation } from "../Navigation";
 import { HeaderKanbasNavigation } from "../../Navigation";
 import "./index.css"
+import { Course } from "../../DataType";
 
 
-function Headers() {
+function Headers({ courses }: { courses: Course[] }) {
   const { courseId } = useParams();
   const course = courses.find((course) => course._id === courseId);
   const location = useLocation();
@@ -38,12 +38,12 @@ function Headers() {
             </button>
           </div>
         </nav>
-        <div className="collapse collapse-horizontal" id="courseNav">
+        <div className="collapse collapse-vertical" id="courseNav">
           <div className="card card-body text-black" style={{ width: "100%" }}>
             <HeaderCourseNavigation />
           </div>
         </div>
-        <div className="collapse collapse-vertical" id="kanbasNav">
+        <div className="collapse collapse-horizontal" id="kanbasNav">
           <div className="card card-body text-black" style={{ width: "100%" }}>
             <HeaderKanbasNavigation />
           </div>

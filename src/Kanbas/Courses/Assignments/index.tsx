@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaCheckCircle, FaEllipsisV, FaPlusCircle } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
-import { assignments } from "../../Database";
+import db from "../../Database";
 import "./index.css"
 
 function Assignments() {
   const { courseId } = useParams();
+  const [ assignments, setAssignment] = useState(db.assignments)
   const assignmentList = assignments.filter(
     (assignment) => assignment.course === courseId);
+
   return (
     <div className="wd-main-body">
       {/* {<!-- Add buttons and other fields here -->} */}
