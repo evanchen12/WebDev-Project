@@ -1,5 +1,3 @@
-import DetailsNav from "../detailsNav";
-
 function QuizDetailsEditor() {
   return (
     <div>
