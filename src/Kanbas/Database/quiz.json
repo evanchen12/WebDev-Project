@@ -1,3 +1,4 @@
 [
-  {"id": 1, "name": "quiz 1"}
+  {"_id": 1, "name": "quiz 1", "courseID": "RS101"},
+  {"_id": 1, "name": "quiz 2", "courseID": "RS101"}
 ]
