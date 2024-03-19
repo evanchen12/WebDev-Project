@@ -1,16 +1,12 @@
-import { Route, Routes } from "react-router";
-import QuizDetailsEditor from "./QuizDetailsEditor";
-import QuizQuestionsEditor from "./QuizQuestionsEditor";
-import DetailsNav from "./detailsNav";
+import { Link } from "react-router-dom";
 
 function QuizDetail() {
   return (
     <>
-      <DetailsNav />
-      <Routes>
-        <Route path="QuizDetailsEditor" element={<QuizDetailsEditor />} />
-        <Route path="QuizQuestionsEditor" element={<QuizQuestionsEditor />} />
-      </Routes>
+      <h2> Quiz Detail </h2>
+      <Link to={"Editor"}>
+        <button>edit</button> 
+      </Link>
     </>
   );
 }

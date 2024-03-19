@@ -4,6 +4,7 @@ import QuizDetail from "./QuizDetail"
 import db from "../../Database"
 import { useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function Quizzes() {
   const [quizzes, setQuizzes] = useState(db.quizzes);
@@ -22,8 +23,8 @@ function Quizzes() {
         <button type="button"><FaEllipsisV /></button>
         <hr />
       </div>
-      <QuizList />
-      <QuizDetail />
+      <QuizList /> <br/>
+      <Link to={`q1`}> detail </Link>
     </>
   )
 }

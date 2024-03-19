@@ -9,6 +9,7 @@ import Quizzes from "./Quiz";
 import QuizDetail from "./Quiz/QuizDetail";
 import QuizPreview from "./Quiz/QuizPreview";
 import { Course } from "../DataType";
+import Editor from "./Quiz/QuizDetail/Editor";
 
 function Courses({ courses }: {courses: Course[]}) {
   return (
@@ -32,7 +33,10 @@ function Courses({ courses }: {courses: Course[]}) {
             <Route path="Assignments" element={<Assignments />} />
             <Route path="Assignments/:assignmentId" element={<h1>Assignment Editor</h1>} />
             <Route path="Quizzes" element={<Quizzes />} />
-            <Route path="Quizzes/:quizId/QuizDetail" element={<QuizDetail />} />
+
+            <Route path="Quizzes/:quizId" element={<QuizDetail />} />
+            <Route path="Quizzes/:quizId/Editor" element={<Editor />} />
+
             <Route path="Quizzes/:quizId/QuizPreview" element={<QuizPreview />} />
             <Route path="Grades" element={<h1>Grades</h1>} />
             <Route path="People" element={<h1>People</h1>} />
