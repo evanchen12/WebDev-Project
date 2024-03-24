@@ -1,12 +1,15 @@
 import { Navigate, Route, Routes } from "react-router"
 import QuizList from "./QuizList"
-import QuizDetail from "./QuizDetail"
-import db from "../../Database"
-import { useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";
+import { addQuiz, deleteQuiz, updateQuiz, setQuiz } from "./quizzesReducer";
+import { KanbasState } from "../../Store";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 
 function Quizzes() {
-  const [quizzes, setQuizzes] = useState(db.quizzes);
+  const quiz = useSelector((state: KanbasState) => 
+    state.quizzesReducer.quiz);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -17,7 +20,7 @@ function Quizzes() {
           <option value="All">Publish All</option>
           <option value="This">Publish This</option>
         </select>
-        <button className="big-red" type="button">
+        <button className="big-red" type="button" onClick={() => dispatch(addQuiz({ ...quiz, courseID: "RS101"}))}> 
           + Quiz</button>
         <button type="button"><FaEllipsisV /></button>
         <hr />

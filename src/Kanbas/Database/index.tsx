@@ -3,8 +3,11 @@ import modules from "./modules.json";
 import todo from "./todo.json";
 import calender from "./calender.json"
 import assignments from "./assignments.json";
-import quizzes from "./quiz.json";
+import quizzes from "./quizzes.json";
+import choiceQ from "./choiceQ.json";
+import tfQ from "./tfQ.json";
+import options from "./options.json";
 
-let db = {courses, modules, todo, calender, assignments, quizzes};
+let db = {courses, modules, todo, calender, assignments, quizzes, choiceQ, tfQ, options};
 
 export default db;

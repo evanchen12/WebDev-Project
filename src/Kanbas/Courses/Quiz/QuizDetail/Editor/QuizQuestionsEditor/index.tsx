@@ -5,8 +5,6 @@ import { useState } from "react";
 
 
 function QuizQuestionsEditor() {
-  const [qtype, setType] = useState("MC");
-
   return (
     <div className="container">
       <h2>QuizQuestionsEditor</h2>

@@ -13,12 +13,11 @@ function Editor() {
         <Route path="QuizDetailsEditor" element={<QuizDetailsEditor/>} />
         <Route path="QuizQuestionsEditor" element={<QuizQuestionsEditor/>} />
       </Routes>
-      <hr/>
       <div className="d-flex">
         <Link to={`/Kanbas/Courses/RS101/Quizzes/${ "quizID" }`}>
           <button> Cancel </button>
           <button> Save & Publish </button>
-          <button>save</button> 
+          <button> Save </button> 
         </Link>
       </div> 
     </>
