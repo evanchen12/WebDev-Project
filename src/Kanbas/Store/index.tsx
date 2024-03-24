@@ -4,6 +4,7 @@ import modulesReducer from "../Courses/Modules/modulesReducer";
 import multChoiceQuestionReducer from "../Courses/Quiz/QuizDetail/Editor/QuizQuestionsEditor/multChoiceQuestionReducer";
 import quizzesReducer from "../Courses/Quiz/quizzesReducer";
 import tfQReducer from "../Courses/Quiz/tfQReducer";
+import optionReducer from "../Courses/Quiz/optionReducer";
 
 export interface KanbasState {
   modulesReducer: {
@@ -20,14 +21,19 @@ export interface KanbasState {
   tfQReducer: {
     tfQ: any[];
     tf: any;
+  };
+    optionReducer: {
+    options: any[];
+    option: any;
   }
 }
 const store = configureStore({
   reducer: {
     modulesReducer,
-    multChoiceQuestionReducer
+    multChoiceQuestionReducer,
     quizzesReducer,
-    tfQReducer
+    tfQReducer,
+    optionReducer
   }
 });
 
