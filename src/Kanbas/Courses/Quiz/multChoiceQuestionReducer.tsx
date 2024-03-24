@@ -3,7 +3,7 @@ import db from "../../Database";
 
 const initialState = {
     multChoiceQuestions: db.choiceQ,
-    multChoiceQuestion: {"quiz_id": 1, "p_id": 0, "type": "Blank", "question": "", "points": 30 },
+    multChoiceQuestion: {type: "MC", question: "", points: 30 },
 };
 
 const choiceQSlice = createSlice({
@@ -12,7 +12,7 @@ const choiceQSlice = createSlice({
   reducers: {
     addChoiceQ: (state, action) => {
       state.multChoiceQuestions = [
-        { ...action.payload, quiz_id: new Date().getTime().toString() },
+        { ...action.payload, p_id: new Date().getTime().toString() },
           ...state.multChoiceQuestions,
       ];
     },
