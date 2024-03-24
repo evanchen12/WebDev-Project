@@ -1,5 +1,5 @@
 [
   {"quiz_id": 1, "p_id": 1, "type": "MC", "question": "What is 2 + 2 =", "points": 50 },
-  {"quiz_id": 1, "p_id": 2, "type": "Blank", "question": "2 + 2 = ___", "points": 30 }
+  {"quiz_id": 2, "p_id": 2, "type": "Blank", "question": "2 + 2 = ___", "points": 30 }
 ]
 
