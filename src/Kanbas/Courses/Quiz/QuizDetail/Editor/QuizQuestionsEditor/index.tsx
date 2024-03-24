@@ -1,6 +1,6 @@
 import { UseSelector, useSelector } from "react-redux";
 import store from "../../../../../Store";
-import multChoiceQuestionReducer from "./multChoiceQuestionReducer";
+import multChoiceQuestionReducer from "../../../multChoiceQuestionReducer";
 
 
 function QuizQuestionsEditor() {

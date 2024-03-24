@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import modulesReducer from "../Courses/Modules/modulesReducer";
 
-import multChoiceQuestionReducer from "../Courses/Quiz/QuizDetail/Editor/QuizQuestionsEditor/multChoiceQuestionReducer";
+import multChoiceQuestionReducer from "../Courses/Quiz/multChoiceQuestionReducer";
 import quizzesReducer from "../Courses/Quiz/quizzesReducer";
 import tfQReducer from "../Courses/Quiz/tfQReducer";
 import optionReducer from "../Courses/Quiz/optionReducer";
@@ -14,6 +14,7 @@ export interface KanbasState {
   multChoiceReducer: {
     multChoiceQuestions: any[];
     multChoiceQuestion: any;
+  }
   quizzesReducer: {
     quizzes: any[];
     quiz: any;
@@ -25,7 +26,7 @@ export interface KanbasState {
     optionReducer: {
     options: any[];
     option: any;
-  }
+  };
 }
 const store = configureStore({
   reducer: {
