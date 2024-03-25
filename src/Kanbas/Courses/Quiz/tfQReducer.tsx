@@ -3,7 +3,7 @@ import db from "../../Database";
 
 const initialState = {
   tfQ: db.tfQ,
-  tf: {question: "", answer: true, points: 0},
+  tf: {title: "", question: "", answer: true, points: 0},
 };
 
 const tfQSlice = createSlice({
@@ -11,10 +11,12 @@ const tfQSlice = createSlice({
   initialState,
   reducers: {
     addTFQ: (state, action) => {
+      const id = new Date().getTime().toString();
       state.tfQ = [
-        { ...action.payload, p_id: new Date().getTime().toString() },
+        { ...action.payload, p_id: id },
           ...state.tfQ,
       ];
+      state.tf = { ...action.payload, p_id: id };
     },
     deleteTFQ: (state, action) => {
       state.tfQ = state.tfQ.filter(
@@ -23,7 +25,7 @@ const tfQSlice = createSlice({
     },
     updateTFQ: (state, action) => {
       state.tfQ = state.tfQ.map((tf) => {
-        if (tf.p_id === action.payload._id) {
+        if (tf.p_id === action.payload.p_id) {
           return action.payload;
         } else {
           return tf;
