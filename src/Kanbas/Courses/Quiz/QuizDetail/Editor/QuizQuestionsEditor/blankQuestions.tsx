@@ -14,12 +14,14 @@ function BlankQuestions() {
 
   return (
     <>
+      {JSON.stringify(options)}
       Enter your question text, then define all possible correct answers for the blank.
       Students will see the question followed by a small text box to type their answer.<br/>
       <b><h4>Question:</h4></b>
       <textarea value={ choiceQ.question }
         onChange={(e) => dispatch(setChoiceQ({...choiceQ, question: e.target.value }))}/>
       <b><h4>Answers:</h4></b>
+      {JSON.stringify(option)}
       <ul>
       {options
         .filter((option) => option.p_id === choiceQ.p_id)

@@ -3,7 +3,7 @@ import db from "../../Database";
 
 const initialState = {
   multChoiceQuestions: db.choiceQ,
-  multChoiceQuestion: {title: "", type: "MC", question: "", points: 30 },
+  multChoiceQuestion: {title: "", type: "MC", question: "", points: 0 },
 };
 
 const choiceQSlice = createSlice({
@@ -35,8 +35,11 @@ const choiceQSlice = createSlice({
     setChoiceQ: (state, action) => {
       state.multChoiceQuestion = action.payload;
     },
+    resetChoiceQ: (state) => {
+      state.multChoiceQuestion = {title: "", type: "", question: "", points: 0 };
+    },
   },
 });
 
-export const { addChoiceQ, deleteChoiceQ, updateChoiceQ, setChoiceQ } = choiceQSlice.actions;
+export const { addChoiceQ, deleteChoiceQ, updateChoiceQ, setChoiceQ, resetChoiceQ } = choiceQSlice.actions;
 export default choiceQSlice.reducer;

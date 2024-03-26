@@ -4,7 +4,7 @@ import BlankQuestions from "./blankQuestions";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { KanbasState } from "../../../../../Store";
-import { setChoiceQ, addChoiceQ, updateChoiceQ } from "../../../multChoiceQuestionReducer";
+import { setChoiceQ, addChoiceQ, updateChoiceQ, resetChoiceQ } from "../../../multChoiceQuestionReducer";
 import { setTFQ, addTFQ, updateTFQ } from "../../../tfQReducer";
 import { useState } from "react";
 
@@ -12,13 +12,13 @@ import { useState } from "react";
 function QuizQuestionsEditor() {
   const dispatch = useDispatch();
   const { quizId } = useParams();
-  const [qType, setQType] = useState("MC");
   const choiceQ = useSelector((state: KanbasState) => 
     state.multChoiceQuestionReducer.multChoiceQuestion);
   const choiceQs = useSelector((state: KanbasState) => 
     state.multChoiceQuestionReducer.multChoiceQuestions);
   const tfQ = useSelector((state: KanbasState) => 
     state.tfQReducer.tf);
+  const [qType, setQType] = useState("MC");
 
   const handleQType = (e: any) => {
     setQType(e.target.value);
@@ -66,7 +66,7 @@ function QuizQuestionsEditor() {
       {qType === "BLANK" ? <BlankQuestions/> : ""}
 
       <div className="d-flex">
-        <button> Cancel </button>
+        <button onClick={() => dispatch(resetChoiceQ(choiceQ))}> Cancel </button>
         <button onClick={() => (qType === "TF" ? dispatch(updateTFQ(tfQ)) : dispatch(updateChoiceQ(choiceQ)))}> 
           Update Question </button>
       </div>
