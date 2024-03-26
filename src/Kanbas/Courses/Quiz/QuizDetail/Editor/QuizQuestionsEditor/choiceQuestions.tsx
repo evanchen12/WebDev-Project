@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { KanbasState } from "../../../../../Store";
-import { setChoiceQ } from "../../../multChoiceQuestionReducer";
+import { setChoiceQ } from "../../../choiceQReducer";
 import { setOption, addOption, deleteOption, setOptionAnswer, updateOption } from "../../../optionReducer";
 
 function ChoiceQuestions() {
   const dispatch = useDispatch();
-  const choiceQ = useSelector((state: KanbasState) => 
-    state.multChoiceQuestionReducer.multChoiceQuestion);
+  const question = useSelector((state: KanbasState) => 
+    state.choiceQReducer.choiceQ);
   const options = useSelector((state: KanbasState) => 
     state.optionReducer.options);
   const option = useSelector((state: KanbasState) => 
@@ -16,12 +16,13 @@ function ChoiceQuestions() {
     <>
       Enter your question and multiple answers, then select the one correct answer.<br/>
       <b><h4>Question:</h4></b>
-      <textarea value={ choiceQ.question } 
-        onChange={(e) => dispatch(setChoiceQ({...choiceQ, question: e.target.value }))}/>
+      <textarea value={ question.question } 
+        onChange={(e) => dispatch(setChoiceQ({...question, question: e.target.value }))}/>
       <b><h4>Answers:</h4></b>
+      {JSON.stringify(options)}
       <ul>
       {options
-        .filter((option) => option.p_id === choiceQ.p_id)
+        .filter((option) => option.p_id === question.p_id)
         .map((option) => (
             <li>
               <input type="radio" name="answers" defaultChecked={Boolean(option.answer)} 
@@ -31,8 +32,8 @@ function ChoiceQuestions() {
             </li>
           ))}
       </ul>
-      <button onClick={() => dispatch(setOptionAnswer(option))}>Update</button><br/>
-      <button onClick={() => dispatch(addOption({ ...option, p_id: choiceQ.p_id}))}>Add another Answer</button>
+      <button onClick={() => dispatch(updateOption(option))}>Update</button><br/>
+      <button onClick={() => dispatch(addOption({ ...option, p_id: question.p_id}))}>Add another Answer</button>
     </>
   )
 }

@@ -4,74 +4,45 @@ import BlankQuestions from "./blankQuestions";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { KanbasState } from "../../../../../Store";
-import { setChoiceQ, addChoiceQ, updateChoiceQ, resetChoiceQ } from "../../../multChoiceQuestionReducer";
-import { setTFQ, addTFQ, updateTFQ } from "../../../tfQReducer";
-import { useState } from "react";
-
+import { setChoiceQ, addChoiceQ, updateChoiceQ, resetChoiceQ } from "../../../choiceQReducer";
 
 function QuizQuestionsEditor() {
   const dispatch = useDispatch();
   const { quizId } = useParams();
-  const choiceQ = useSelector((state: KanbasState) => 
-    state.multChoiceQuestionReducer.multChoiceQuestion);
-  const choiceQs = useSelector((state: KanbasState) => 
-    state.multChoiceQuestionReducer.multChoiceQuestions);
-  const tfQ = useSelector((state: KanbasState) => 
-    state.tfQReducer.tf);
-  const [qType, setQType] = useState("MC");
-
-  const handleQType = (e: any) => {
-    setQType(e.target.value);
-    if (qType === "TF") {
-      dispatch(setTFQ({...tfQ, type: e.target.value}))
-    } else {
-      dispatch(setChoiceQ({...choiceQ, type: e.target.value }))
-    }
-  }
-  const handleQTitle = (e: any) => {
-    if (qType === "TF") {
-      dispatch(setTFQ({...tfQ, title: e.target.value}))
-    } else {
-      dispatch(setChoiceQ({...choiceQ, title: e.target.value }))
-    }
-  }
-  const handleQPoint = (e: any) => {
-    if (qType === "TF") {
-      dispatch(setTFQ({...tfQ, points: e.target.value}))
-    } else {
-      dispatch(setChoiceQ({...choiceQ, points: e.target.value }))
-    }
-  }
+  const question = useSelector((state: KanbasState) => 
+    state.choiceQReducer.choiceQ);
+  const questions = useSelector((state: KanbasState) => 
+    state.choiceQReducer.choiceQs);
 
   return (
     <div className="container">
-      {JSON.stringify(choiceQs)}<br/>
+      {JSON.stringify(questions)}<br/>
       <h2>QuizQuestionsEditor</h2>
       <div className="d-flex">
-        <input value={ (qType === "TF" ? tfQ.title : choiceQ.title) } className="form-control" 
-          onChange={(e) => handleQTitle(e)}/>
+        <input value={ question.title } className="form-control" 
+          onChange={(e) => dispatch(setChoiceQ({...question, title: e.target.value}))}/>
 
-        <select onChange={(e) => handleQType(e)}>
-          <option value="MC"> Multiple Choice </option>
-          <option value="TF"> True/False </option>
-          <option value="BLANK"> Fill in the Blank </option>
+        <select onChange={(e) => dispatch(setChoiceQ({...question, type: e.target.value}))}>
+          <option value="MC" selected={question.type === "MC"}> Multiple Choice </option>
+          <option value="TF" selected={question.type === "TF"}> True/False </option>
+          <option value="BLANK" selected={question.type === "BLANK"}> Fill in the Blank </option>
         </select>
 
-        <input value={ (qType === "TF" ? tfQ.points : choiceQ.points) } className="form-control" 
-          onChange={(e) => handleQPoint(e)}/>
+        <input value={ question.points } type="number" className="form-control" 
+          onChange={(e) => dispatch(setChoiceQ({...question, points: e.target.value}))}/>
       </div>
 
-      {qType === "MC" ? <ChoiceQuestions/> : ""}
-      {qType === "TF" ? <TFQuestions/> : ""}
-      {qType === "BLANK" ? <BlankQuestions/> : ""}
+      {question.type === "MC" ? <ChoiceQuestions/> : ""}
+      {question.type === "TF" ? <TFQuestions/> : ""}
+      {question.type === "BLANK" ? <BlankQuestions/> : ""}
 
       <div className="d-flex">
-        <button onClick={() => dispatch(resetChoiceQ(choiceQ))}> Cancel </button>
-        <button onClick={() => (qType === "TF" ? dispatch(updateTFQ(tfQ)) : dispatch(updateChoiceQ(choiceQ)))}> 
+        <button onClick={() => dispatch(resetChoiceQ(question))}> Cancel </button>
+        <button onClick={() => dispatch(updateChoiceQ(question))}> 
           Update Question </button>
       </div>
       <hr/>
-      <button onClick={() => (qType === "TF" ? dispatch(addTFQ({ ...tfQ, quiz_id: quizId})) : dispatch(addChoiceQ({ ...choiceQ, quiz_id: quizId})))}> 
+      <button onClick={() => dispatch(addChoiceQ({ ...question, quiz_id: quizId}))}> 
           + Question </button>
     </div>
   )
