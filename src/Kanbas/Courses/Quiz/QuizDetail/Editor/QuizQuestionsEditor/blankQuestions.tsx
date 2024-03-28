@@ -9,6 +9,7 @@ function BlankQuestions() {
     state.choiceQReducer.choiceQ);
   const options = useSelector((state: KanbasState) => 
     state.optionReducer.options);
+
   const option = useSelector((state: KanbasState) => 
     state.optionReducer.option);
 
@@ -27,13 +28,12 @@ function BlankQuestions() {
         .filter((option) => option.p_id === question.p_id)
         .map((option) => (
             <li>
-              <input defaultValue={option.description} onChange={(e) => dispatch(setOption({ ...option, description: e.target.value }))} />
-              <input defaultValue={option.answer} onChange={(e) => dispatch(setOption({ ...option, answer: e.target.value }))} />
+              <input defaultValue={option.description} onChange={(e) => dispatch(updateOption({ ...option, description: e.target.value }))} />
+              <input defaultValue={option.answer} onChange={(e) => dispatch(updateOption({ ...option, answer: e.target.value }))} />
               <button type="button" onClick={() => dispatch(deleteOption(option.o_id))}>Delete</button>
             </li>
           ))}
       </ul>
-      <button onClick={() => dispatch(updateOption(option))}>Update</button><br/>
       <button onClick={() => dispatch(addOption({ ...option, p_id: question.p_id}))}>Add another Answer</button>
     </>
   )

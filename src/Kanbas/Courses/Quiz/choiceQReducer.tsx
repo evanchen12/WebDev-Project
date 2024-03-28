@@ -3,7 +3,7 @@ import db from "../../Database";
 
 const initialState = {
   choiceQs: db.choiceQ,
-  choiceQ: {title: "", type: "MC", question: "", answer: true, points: 0 },
+  choiceQ: {o_id: "", title: "", type: "MC", question: "", answer: true, points: 0 },
 };
 
 const choiceQSlice = createSlice({
@@ -36,7 +36,7 @@ const choiceQSlice = createSlice({
       state.choiceQ = action.payload;
     },
     resetChoiceQ: (state) => {
-      state.choiceQ = {title: "", type: "MC", question: "", answer: true, points: 0 };
+      state.choiceQ = {o_id: "", title: "", type: "MC", question: "", answer: true, points: 0 };
     },
   },
 });

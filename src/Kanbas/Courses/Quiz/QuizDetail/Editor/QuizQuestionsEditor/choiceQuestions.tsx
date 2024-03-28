@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { KanbasState } from "../../../../../Store";
 import { setChoiceQ } from "../../../choiceQReducer";
-import { setOption, addOption, deleteOption, setOptionAnswer, updateOption } from "../../../optionReducer";
+import { addOption, deleteOption, updateOption } from "../../../optionReducer";
 
 function ChoiceQuestions() {
   const dispatch = useDispatch();
@@ -25,14 +25,13 @@ function ChoiceQuestions() {
         .filter((option) => option.p_id === question.p_id)
         .map((option) => (
             <li>
-              <input type="radio" name="answers" defaultChecked={Boolean(option.answer)} 
-                onChange={(e) => dispatch(setOptionAnswer({ ...option, answer: e.target.checked.toString() }))}/>
-              <input defaultValue={option.description} onChange={(e) => dispatch(setOption({ ...option, description: e.target.value }))} />
+              <input type="radio" name="answers" defaultChecked={option.o_id === question.o_id} 
+                onChange={() => dispatch(setChoiceQ({ ...question, o_id: option.o_id }))}/>
+              <input defaultValue={option.description} onChange={(e) => dispatch(updateOption({ ...option, description: e.target.value }))} />
               <button type="button" onClick={() => dispatch(deleteOption(option.o_id))}>Delete</button>
             </li>
           ))}
       </ul>
-      <button onClick={() => dispatch(updateOption(option))}>Update</button><br/>
       <button onClick={() => dispatch(addOption({ ...option, p_id: question.p_id}))}>Add another Answer</button>
     </>
   )
