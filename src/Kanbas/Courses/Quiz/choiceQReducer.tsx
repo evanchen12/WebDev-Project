@@ -36,7 +36,7 @@ const choiceQSlice = createSlice({
       state.choiceQ = action.payload;
     },
     resetChoiceQ: (state) => {
-      state.choiceQ = {title: "", type: "", question: "", answer: true, points: 0 };
+      state.choiceQ = {title: "", type: "MC", question: "", answer: true, points: 0 };
     },
   },
 });
