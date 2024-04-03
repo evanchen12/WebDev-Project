@@ -1,40 +1,6 @@
 [
-  {
-    "_id": 1,
-    "courseID": "RS101",
-    "name": "Quiz 1",
-    "type": "Graded Quiz",
-    "points": 100,
-    "group": "Quizzes",
-    "shuffle": false,
-    "limit": 100,
-    "multiple": false,
-    "show": "Immediately",
-    "code": 101,
-    "oneAtATime": false,
-    "webcam": false,
-    "lock": false,
-    "due": "2022-08-20T13:00:00",
-    "availiable": "2022-08-20T11:40:00",
-    "until": "2022-08-20T13:00:00"
-  },
-  {
-    "_id": 2,
-    "courseID": "RS101",
-    "name": "Quiz 2",
-    "type": "Not Graded Quiz",
-    "points": 110,
-    "group": "Quizzes",
-    "shuffle": true,
-    "limit": 300,
-    "multiple": false,
-    "show": "Immediately",
-    "code": 101,
-    "oneAtATime": false,
-    "webcam": false,
-    "lock": false,
-    "due": "2023-09-21T13:00:00",
-    "availiable": "2023-09-21T11:40:00",
-    "until": "2023-09-21T13:00:00"
-  }
+  {"_id": 1, "courseID": "RS101", "name": "Quiz 1", 
+    "type": "Graded Quiz", "points": 100, "group": "Quizzes", "shuffle": false, "limit": 100,
+    "multiple": false, "show": "Immediately", "code": 101, "oneAtATime": false, "webcam": false,
+    "lock": false, "due": "2023-05-15", "availiable": "2023-05-15", "until": "2023-05-15"}
 ]

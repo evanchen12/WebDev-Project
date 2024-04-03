@@ -6,27 +6,6 @@ import quizzesReducer from "../Courses/Quiz/quizzesReducer";
 import tfQReducer from "../Courses/Quiz/tfQReducer";
 import optionReducer from "../Courses/Quiz/optionReducer";
 
-
-interface Quiz {
-  _id: number, 
-  courseID: string, 
-  name: string, 
-  type: string, 
-  points: number, 
-  group: string, 
-  shuffle: boolean, 
-  limit: number,
-  multiple: boolean, 
-  show: string, 
-  code: number, 
-  oneAtATime: boolean, 
-  webcam: boolean,
-  lock: boolean, 
-  due: Date, 
-  availiable: Date, 
-  until: Date
-}
-
 export interface KanbasState {
   modulesReducer: {
     modules: any[];
@@ -37,8 +16,8 @@ export interface KanbasState {
     multChoiceQuestion: any;
   }
   quizzesReducer: {
-    quizzes: Quiz[];
-    quiz: Quiz
+    quizzes: any[];
+    quiz: any;
   };
   tfQReducer: {
     tfQ: any[];

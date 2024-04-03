@@ -2,8 +2,8 @@ import { Navigate, Route, Routes } from "react-router"
 import QuizList from "./QuizList"
 import { FaEllipsisV } from "react-icons/fa";
 import { addQuiz, deleteQuiz, updateQuiz, setQuiz } from "./quizzesReducer";
-import store, { KanbasState } from "../../Store";
-import { Provider, useDispatch, useSelector } from "react-redux";
+import { KanbasState } from "../../Store";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
 function Quizzes() {
@@ -12,7 +12,7 @@ function Quizzes() {
   const dispatch = useDispatch();
 
   return (
-    <Provider store={store}>
+    <>
       <div className="wd-buttons">
         <button type="button">Collapse All</button>
         <button type="button">View Progress</button>
@@ -26,7 +26,7 @@ function Quizzes() {
         <hr />
       </div>
       <QuizList /> <br/>
-    </Provider>
+    </>
   )
 }
 
