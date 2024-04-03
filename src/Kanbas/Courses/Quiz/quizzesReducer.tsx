@@ -4,7 +4,7 @@ import db from "../../Database";
 const initialState = {
   quizzes: db.quizzes,
   quiz: { name: "new quiz", type: "Graded Quiz", points: 0, group: "Quizzes", shuffle: true, limit: 20,
-  multiple: false, show: "", oneAtATime: true, webcam: false, lock: false, due: "2023-05-15", availiable: "2023-05-15", until: "2023-05-15"},
+  multiple: false, show: "", oneAtATime: true, webcam: false, lock: false, due: new Date("2023-09-21T13:00:00"), availiable: new Date("2023-09-21T11:40:00"), until: new Date("2023-09-21T13:00:00")},
 };
 
 const quizzesSlice = createSlice({
