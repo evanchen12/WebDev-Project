@@ -12,7 +12,7 @@ function Quizzes() {
   const dispatch = useDispatch();
 
   return (
-    <Provider store={store}>
+    <>
       <div className="wd-buttons">
         <button type="button">Collapse All</button>
         <button type="button">View Progress</button>
@@ -26,7 +26,7 @@ function Quizzes() {
         <hr />
       </div>
       <QuizList /> <br />
-    </Provider>
+    </>
   )
 }
 

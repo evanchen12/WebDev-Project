@@ -8,6 +8,10 @@ function QuizDetail() {
   const { quizId } = useParams()
   const quizList = useSelector((state: KanbasState) => state.quizzesReducer.quizzes);
   const quiz = quizList.filter((quiz) => quiz._id === 2)[0]
+  // right now quizId is set as "quizId" from quiz list, after quiz list implementation is completed, 
+  // set quiz._id comparison with quizId
+  // const quiz = quizList.filter((quiz) => quiz._id === quizId)[0]
+
 
 
   return (
