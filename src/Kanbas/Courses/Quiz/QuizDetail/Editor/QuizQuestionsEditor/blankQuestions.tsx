@@ -25,7 +25,7 @@ function BlankQuestions() {
       {JSON.stringify(option)}
       <ul>
       {options
-        .filter((option) => option.p_id === question.p_id)
+        .filter((option) => ((option.p_id === question.p_id) && (option.answer !== "$MC-")))
         .map((option) => (
             <li>
               <input defaultValue={option.description} onChange={(e) => dispatch(updateOption({ ...option, description: e.target.value }))} />

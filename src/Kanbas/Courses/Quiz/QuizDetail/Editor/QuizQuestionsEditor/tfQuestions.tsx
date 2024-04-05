@@ -19,8 +19,6 @@ function TFQuestions() {
       <label><input type="radio" name="option" defaultChecked={!question.answer}
         onChange={() => dispatch(setChoiceQ({...question, answer: false}))}/>
         False</label><br/>
-
-      <button onClick={() => dispatch(updateChoiceQ(question))}>Update</button><br/>
     </>
   )
 }
