@@ -10,7 +10,6 @@ import { useState } from "react";
 function QuizQuestionsEditor() {
   const dispatch = useDispatch();
   const { quizId } = useParams();
-  const quizId2 = quizId?.toString();
   const [editing, setEditing] = useState(false);
   const question = useSelector((state: KanbasState) => 
     state.choiceQReducer.choiceQ);
