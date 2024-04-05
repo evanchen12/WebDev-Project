@@ -2,39 +2,44 @@ import { createSlice } from "@reduxjs/toolkit";
 import db from "../../Database";
 
 const initialState = {
-    multChoiceQuestions: db.choiceQ,
-    multChoiceQuestion: {type: "MC", question: "", points: 30 },
+  choiceQs: db.choiceQ,
+  choiceQ: {o_id: "", title: "", type: "MC", question: "", answer: true, points: 0 },
 };
 
 const choiceQSlice = createSlice({
-  name: "multChoiceQuestions",
+  name: "choiceQ",
   initialState,
   reducers: {
     addChoiceQ: (state, action) => {
-      state.multChoiceQuestions = [
-        { ...action.payload, p_id: new Date().getTime().toString() },
-          ...state.multChoiceQuestions,
+      const id = new Date().getTime().toString();
+      state.choiceQs = [
+        { ...action.payload, p_id: id },
+          ...state.choiceQs,
       ];
+      state.choiceQ = { ...action.payload, p_id: id };
     },
     deleteChoiceQ: (state, action) => {
-      state.multChoiceQuestions = state.multChoiceQuestions.filter(
-        (multChoiceQuestion) => multChoiceQuestion.quiz_id !== action.payload
+      state.choiceQs = state.choiceQs.filter(
+        (choiceQ) => choiceQ.p_id !== action.payload
       );
     },
     updateChoiceQ: (state, action) => {
-      state.multChoiceQuestions = state.multChoiceQuestions.map((multChoiceQuestion) => {
-        if (multChoiceQuestion.quiz_id === action.payload.quiz_id) {
+      state.choiceQs = state.choiceQs.map((choiceQ) => {
+        if (choiceQ.p_id === action.payload.p_id) {
           return action.payload;
         } else {
-          return multChoiceQuestion;
+          return choiceQ;
         }
       });
     },
     setChoiceQ: (state, action) => {
-      state.multChoiceQuestion = action.payload;
+      state.choiceQ = action.payload;
+    },
+    resetChoiceQ: (state) => {
+      state.choiceQ = {o_id: "", title: "", type: "MC", question: "", answer: true, points: 0 };
     },
   },
 });
 
-export const { addChoiceQ, deleteChoiceQ, updateChoiceQ, setChoiceQ } = choiceQSlice.actions;
+export const { addChoiceQ, deleteChoiceQ, updateChoiceQ, setChoiceQ, resetChoiceQ } = choiceQSlice.actions;
 export default choiceQSlice.reducer;
