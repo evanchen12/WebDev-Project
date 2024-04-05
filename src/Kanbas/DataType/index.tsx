@@ -21,3 +21,26 @@ export interface Lesson {
   description: string;
   module: string;
 };
+
+
+export interface Quiz {
+  _id: string, 
+  courseID: string, 
+  name: string, 
+  type: string, 
+  points: number, 
+  group: string, 
+  shuffle: boolean,
+  setLimit: boolean,
+  limit: number,
+  multiple: boolean, 
+  showCorrect: boolean,
+  show: string, 
+  code: number, 
+  oneAtATime: boolean, 
+  webcam: boolean,
+  lock: boolean, 
+  due: string, 
+  availiable: string, 
+  until: string
+}

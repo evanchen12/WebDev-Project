@@ -5,27 +5,8 @@ import multChoiceQuestionReducer from "../Courses/Quiz/multChoiceQuestionReducer
 import quizzesReducer from "../Courses/Quiz/quizzesReducer";
 import tfQReducer from "../Courses/Quiz/tfQReducer";
 import optionReducer from "../Courses/Quiz/optionReducer";
+import { Quiz } from "../DataType";
 
-
-interface Quiz {
-  _id: number, 
-  courseID: string, 
-  name: string, 
-  type: string, 
-  points: number, 
-  group: string, 
-  shuffle: boolean, 
-  limit: number,
-  multiple: boolean, 
-  show: string, 
-  code: number, 
-  oneAtATime: boolean, 
-  webcam: boolean,
-  lock: boolean, 
-  due: Date, 
-  availiable: Date, 
-  until: Date
-}
 
 export interface KanbasState {
   modulesReducer: {

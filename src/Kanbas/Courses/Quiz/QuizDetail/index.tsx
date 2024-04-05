@@ -7,7 +7,8 @@ function QuizDetail() {
 
   const { quizId } = useParams()
   const quizList = useSelector((state: KanbasState) => state.quizzesReducer.quizzes);
-  const quiz = quizList.filter((quiz) => quiz._id === 2)[0]
+  console.log(quizId);
+  const quiz = quizList.filter((quiz) => quiz._id === quizId)[0]
   // right now quizId is set as "quizId" from quiz list, after quiz list implementation is completed, 
   // set quiz._id comparison with quizId
   // const quiz = quizList.filter((quiz) => quiz._id === quizId)[0]
@@ -27,17 +28,17 @@ function QuizDetail() {
         <button className="btn btn-light">:</button>
       </div>
       <hr />
-      <h1>{`${quizId}`} - HTML</h1>      <div>
+      <h1>{`${quiz.name}`} - HTML</h1>      <div>
         <h5>Quiz Type: {`${quiz.type}`}</h5>
         <h5>Points: {`${quiz.points}`}</h5>
         <h5>Assignment Group: {`${quiz.group}`}</h5>
         <h5>Shuffle Answers: {`${quiz.shuffle ? "Yes" : "No"}`}</h5>
-        <h5>Time Limit: {`${quiz.limit}`}</h5>
+        <h5>Time Limit: {`${quiz.setLimit ? quiz.limit : "No Time Limit"}`}</h5>
         <h5>Multiple Attempts: {`${quiz.multiple ? "Yes" : "No"}`}</h5>
         <h5>View Responses: {`${quiz.show}`}</h5>
-        <h5>Show Correct Answers: {`${quiz.code}`}</h5>
+        <h5>Show Correct Answers: {`${quiz.showCorrect ? "Yes" : "No"}`}</h5>
         <h5>One Question at a Time: {`${quiz.oneAtATime ? "Yes" : "No"}`}</h5>
-        <h5>Webcam Required: {`${quiz.webcam}`}</h5>
+        <h5>Webcam Required: {`${quiz.webcam ? "Yes" : "No"}`}</h5>
         <h5>Lock Questions After Answering: {`${quiz.lock ? "Yes" : "No"}`}</h5>
       </div>
       <div className="table-responsive">
@@ -52,7 +53,7 @@ function QuizDetail() {
           </thead>
           <tbody>
             <tr>
-            <td>{`${format(quiz.due,'MMMM dd h:mm a')}`}</td>
+              <td>{`${format(quiz.due,'MMMM dd h:mm a')}`}</td>
               <td>Everyone</td>
               <td>{`${format(quiz.availiable,'MMMM dd h:mm a')}`}</td>
               <td>{`${format(quiz.until,'MMMM dd h:mm a')}`}</td>
