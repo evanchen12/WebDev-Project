@@ -12,9 +12,11 @@ function QuizDetailsEditor() {
   //const isDefaultSetting = quiz === undefined ? true : false;
   //const [shuffle, setShuffle] = useState(isDefaultSetting ? true : quiz.shuffle);
   const [shuffle, setShuffle] = useState(true);
+  const [quizType, setQuizType] = useState(quiz.type);
   const [islimit, setIsLimit] = useState(true);
   const [limitAmt, setLimitAmt] = useState(20);
   const [multiple, setMultiple] = useState(quiz.multiple);
+  const [instruction, setInstruction] = useState(quiz.instruction);
   const [showCorrect, setShowCorrect] = useState(quiz.showCorrect);
   const [accessCode, SetAccessCode] = useState(quiz.code);
   const [isOneAtATime, setOneAtTime] = useState(quiz.oneAtATime);
@@ -28,14 +30,15 @@ function QuizDetailsEditor() {
 
 
 
+
   // If the current value of shuffle is false in Quiz JSON object,
   // and "Shuffle Answers" is by default checked, then clicking on Save button without doing anything else will fail, 
   // because useState/dispatch is updated onChange, which means the user needs to click on the html for state to update. 
   // In addition, having a single dispatch call is cleaner approach than having multiple dispatch under every single
   // onChange trigger. 
   useEffect(() => {
-    dispatch(setQuiz({ ...quiz, shuffle: shuffle, limit: limitAmt, setLimit: islimit, multiple: multiple, showCorrect: showCorrect, webcam: isWebCam, code:accessCode, oneAtATime:isOneAtATime, lock:isLock, due:dueDate, availiable:availableDate, until:untilDate }))
-  }, [shuffle, islimit, limitAmt, multiple, showCorrect, accessCode, isOneAtATime, isWebCam, isLock, dueDate, availableDate, untilDate]);
+    dispatch(setQuiz({ ...quiz, shuffle: shuffle, limit: limitAmt, setLimit: islimit, multiple: multiple, showCorrect: showCorrect, webcam: isWebCam, code:accessCode, oneAtATime:isOneAtATime, lock:isLock, due:dueDate, availiable:availableDate, until:untilDate, instruction:instruction, type:quizType}))
+  }, [shuffle, islimit, limitAmt, multiple, showCorrect, accessCode, isOneAtATime, isWebCam, isLock, dueDate, availableDate, instruction, untilDate, quizType]);
 
   return (
     <div>
@@ -51,16 +54,16 @@ function QuizDetailsEditor() {
       />
       <div className="form-group mb-4 mt-4">
         <label htmlFor="instruction">Quiz Instructions:</label>
-        <textarea className="form-control" id="instruction" rows={3}></textarea>
+        <textarea className="form-control" id="instruction" rows={3} value={instruction} onChange={(e) => {setInstruction(e.target.value)}}></textarea>
       </div>
       <div className="d-flex gap-4">
         <label htmlFor="quiz-select">Quiz Type:</label>
 
-        <select name="quiz" id="quiz-select">
-          <option value="graded">Graded Quiz</option>
-          <option value="practice">Practice Quiz</option>
-          <option value="survey">Graded Survey</option>
-          <option value="upgraded">Upgraded Survey</option>
+        <select name="quiz" id="quiz-select" onChange={(e) => {setQuizType(e.target.value)}}>
+          <option value="Graded">Graded Quiz</option>
+          <option value="Practice">Practice Quiz</option>
+          <option value="Survey">Graded Survey</option>
+          <option value="Upgraded">Upgraded Survey</option>
         </select>
       </div>
       <label htmlFor="points">Points: </label>
@@ -134,11 +137,12 @@ function QuizDetailsEditor() {
         </div>
         <div>
           <div>Available from</div>
-          <input type="datetime-local" className="form-control" defaultValue={availableDate?.toLocaleString()} onChange={(e)=>{ setAvailableDate(e.target.value); console.log("picked date: ", e.target.valueAsDate)}}/>
+          <input type="datetime-local" className="form-control" defaultValue={availableDate?.toLocaleString()} onChange={(e)=>{ setAvailableDate(e.target.value)}}/>
         </div>
         <div>
           <div>Until</div>
-          <input type="datetime-local" className="form-control" defaultValue={untilDate?.toString()} onChange={(e)=>{ console.log(e.target.value); setUntilDate(e.target.value)}}/>
+          <input type="datetime-local" className="form-control" defaultValue={untilDate?.toString()} onChange={(e)=>{
+            setUntilDate(e.target.value)}}/>
         </div>
         <button className="w-100">+ Add</button>
       </div>

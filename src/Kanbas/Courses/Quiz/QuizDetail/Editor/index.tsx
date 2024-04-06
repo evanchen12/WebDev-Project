@@ -26,7 +26,6 @@ function Editor() {
           <button> Cancel </button>
           <button onClick={() => {
             dispatch(updateQuiz(quiz))
-            console.log("What quiz did we add?:", quiz);
           }} > Save & Publish </button>
           <button> Save </button> 
         </Link>

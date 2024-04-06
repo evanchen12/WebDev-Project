@@ -25,7 +25,8 @@ export interface Lesson {
 
 export interface Quiz {
   _id: string, 
-  courseID: string, 
+  courseID: string,
+  instruction:string, 
   name: string, 
   type: string, 
   points: number, 
