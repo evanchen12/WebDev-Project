@@ -1,6 +1,19 @@
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { KanbasState } from "../../../Store";
+import { format } from 'date-fns';
 
 function QuizDetail() {
+
+  const { quizId } = useParams()
+  const quizList = useSelector((state: KanbasState) => state.quizzesReducer.quizzes);
+  const quiz = quizList.filter((quiz) => quiz._id === quizId)[0]
+  // right now quizId is set as "quizId" from quiz list, after quiz list implementation is completed, 
+  // set quiz._id comparison with quizId
+  // const quiz = quizList.filter((quiz) => quiz._id === quizId)[0]
+
+
+
   return (
     <>
       <h2> Quiz Detail </h2>
@@ -10,26 +23,22 @@ function QuizDetail() {
         <button className="btn btn-light d-flex align-items-center">Preview</button>
         <Link to={"Editor"}>
           <button className="btn btn-light d-flex align-items-center">Edit</button>
-          </Link>
+        </Link>
         <button className="btn btn-light">:</button>
       </div>
       <hr />
-      <h1>Q1 - HTML</h1>
-      <div>
-        <h5>Quiz Type</h5>
-        <h5>Points</h5>
-        <h5>Assignment Group</h5>
-        <h5>Shuffle Answers</h5>
-        <h5>Time Limit</h5>
-        <h5>Multiple Attempts</h5>
-        <h5>View Responses</h5>
-        <h5>Show Correct Answers</h5>
-        <h5>One Question at a Time</h5>
-        <h5>Require Respondus LockDown</h5>
-        <h5>Browser</h5>
-        <h5>Required to View Quiz Results</h5>
-        <h5>Webcam Required</h5>
-        <h5>Lock Question After Answering</h5>
+      <h1>{`${quiz.name}`} - HTML</h1>      <div>
+        <h5>Quiz Type: {`${quiz.type}`}</h5>
+        <h5>Points: {`${quiz.points}`}</h5>
+        <h5>Assignment Group: {`${quiz.group}`}</h5>
+        <h5>Shuffle Answers: {`${quiz.shuffle ? "Yes" : "No"}`}</h5>
+        <h5>Time Limit: {`${quiz.setLimit ? quiz.limit : "No Time Limit"}`}</h5>
+        <h5>Multiple Attempts: {`${quiz.multiple ? "Yes" : "No"}`}</h5>
+        <h5>View Responses: {`${quiz.show}`}</h5>
+        <h5>Show Correct Answers: {`${quiz.showCorrect ? "Yes" : "No"}`}</h5>
+        <h5>One Question at a Time: {`${quiz.oneAtATime ? "Yes" : "No"}`}</h5>
+        <h5>Webcam Required: {`${quiz.webcam ? "Yes" : "No"}`}</h5>
+        <h5>Lock Questions After Answering: {`${quiz.lock ? "Yes" : "No"}`}</h5>
       </div>
       <div className="table-responsive">
         <table className="table">
@@ -43,10 +52,10 @@ function QuizDetail() {
           </thead>
           <tbody>
             <tr>
-              <td>Sep 21 at 1pm</td>
+              <td>{`${format(quiz.due,'MMMM dd h:mm a')}`}</td>
               <td>Everyone</td>
-              <td>Sep 21 at 11:40am</td>
-              <td>Sep 21 at 1 pm</td>
+              <td>{`${format(quiz.availiable,'MMMM dd h:mm a')}`}</td>
+              <td>{`${format(quiz.until,'MMMM dd h:mm a')}`}</td>
             </tr>
           </tbody>
         </table>

@@ -3,6 +3,8 @@ import modulesReducer from "../Courses/Modules/modulesReducer";
 import choiceQReducer from "../Courses/Quiz/choiceQReducer";
 import quizzesReducer from "../Courses/Quiz/quizzesReducer";
 import optionReducer from "../Courses/Quiz/optionReducer";
+import { Quiz } from "../DataType";
+
 
 export interface KanbasState {
   modulesReducer: {
@@ -14,8 +16,8 @@ export interface KanbasState {
     choiceQ: any;
   };
   quizzesReducer: {
-    quizzes: any[];
-    quiz: any;
+    quizzes: Quiz[];
+    quiz: Quiz;
   };
   optionReducer: {
     options: any[];
