@@ -1,3 +1,4 @@
+
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { KanbasState } from "../../../../../Store";
@@ -27,10 +28,6 @@ function QuizDetailsEditor() {
   const [untilDate, setUntilDate] = useState(quiz.until);
 
 
-
-
-
-
   // If the current value of shuffle is false in Quiz JSON object,
   // and "Shuffle Answers" is by default checked, then clicking on Save button without doing anything else will fail, 
   // because useState/dispatch is updated onChange, which means the user needs to click on the html for state to update. 
@@ -39,6 +36,7 @@ function QuizDetailsEditor() {
   useEffect(() => {
     dispatch(setQuiz({ ...quiz, shuffle: shuffle, limit: limitAmt, setLimit: islimit, multiple: multiple, showCorrect: showCorrect, webcam: isWebCam, code:accessCode, oneAtATime:isOneAtATime, lock:isLock, due:dueDate, availiable:availableDate, until:untilDate, instruction:instruction, type:quizType}))
   }, [shuffle, islimit, limitAmt, multiple, showCorrect, accessCode, isOneAtATime, isWebCam, isLock, dueDate, availableDate, instruction, untilDate, quizType]);
+
 
   return (
     <div>
