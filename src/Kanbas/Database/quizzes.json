@@ -19,7 +19,8 @@
     "lock": false,
     "due": "2022-08-20T13:00",
     "availiable": "2022-08-20T11:40",
-    "until": "2022-08-20T13:00"
+    "until": "2022-08-20T13:00",
+    "publish": false
   },
   {
     "_id": "2",
@@ -41,6 +42,7 @@
     "lock": false,
     "due": "2023-09-21T13:00",
     "availiable": "2023-09-21T11:40",
-    "until": "2023-09-21T13:00"
+    "until": "2023-09-21T13:00",
+    "publish": false
   }
 ]
