@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { KanbasState } from "../../../../../Store";
-import { setChoiceQ, updateChoiceQ } from "../../../choiceQReducer"; 
+import { setChoiceQ } from "../../../choiceQReducer"; 
 
 function TFQuestions() {
   const dispatch = useDispatch();
