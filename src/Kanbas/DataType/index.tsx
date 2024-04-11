@@ -44,4 +44,5 @@ export interface Quiz {
   due: string, 
   availiable: string, 
   until: string
+  publish: boolean,
 }
