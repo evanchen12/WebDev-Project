@@ -5,7 +5,6 @@ const initialState = {
   quizzes: db.quizzes,
   quiz: { name: "new quiz", type: "Graded Quiz", points: 0, group: "Quizzes", shuffle: true, limit: 20, publish: false,
   multiple: false, show: "", oneAtATime: true, webcam: false, lock: false, due: new Date("2023-09-21T13:00:00"), availiable: new Date("2023-09-21T11:40:00"), until: new Date("2023-09-21T13:00:00")},
-
 };
 
 const quizzesSlice = createSlice({
@@ -37,8 +36,13 @@ const quizzesSlice = createSlice({
     setQuiz: (state, action) => {
       state.quiz = action.payload;
     },
+    resetQuiz: (state) => {
+      state.quiz = { name: "new quiz", type: "Graded Quiz", points: 0, group: "Quizzes", shuffle: true, limit: 20, publish: false,
+                    multiple: false, show: "", oneAtATime: true, webcam: false, lock: false, due: new Date("2023-09-21T13:00:00"), 
+                    availiable: new Date("2023-09-21T11:40:00"), until: new Date("2023-09-21T13:00:00")};
+    },
   },
 });
 
-export const { addQuiz, deleteQuiz, updateQuiz, setQuiz } = quizzesSlice.actions;
+export const { addQuiz, deleteQuiz, updateQuiz, setQuiz, resetQuiz } = quizzesSlice.actions;
 export default quizzesSlice.reducer;

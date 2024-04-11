@@ -5,16 +5,21 @@ import QuizQuestionsEditor from "./QuizQuestionsEditor";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { KanbasState } from "../../../../Store";
-import { updateModule } from "../../../Modules/modulesReducer";
-import { updateQuiz } from "../../quizzesReducer";
+import { updateQuiz, resetQuiz } from "../../quizzesReducer";
 
 function Editor() {
   const {quizId}= useParams();
   const quiz = useSelector((state: KanbasState) => 
   state.quizzesReducer.quiz);
   const dispatch = useDispatch()
+
+  const handleSaveQuiz = (quiz: any) => {
+    dispatch(resetQuiz());
+    dispatch(updateQuiz(quiz));
+  }
+
   return(
-    <>
+    <div className="container">
       <DetailsNav />
       <Routes>
         <Route path="/" element={<Navigate to="QuizDetailsEditor"/>}/> 
@@ -24,12 +29,12 @@ function Editor() {
       <div className="d-flex">
         <Link to={`/Kanbas/Courses/RS101/Quizzes/${ quizId }`}>
           <button> Cancel </button>
-          <button onClick={() => {dispatch(updateQuiz({...quiz, publish: true}))}}>
+          <button onClick={() => handleSaveQuiz({...quiz, publish: true})}>
             Save & Publish </button>
-          <button onClick={() => {dispatch(updateQuiz(quiz))}}> Save </button> 
+          <button onClick={() => handleSaveQuiz(quiz)}> Save </button> 
         </Link>
       </div> 
-    </>
+    </div>
   );
 }
 

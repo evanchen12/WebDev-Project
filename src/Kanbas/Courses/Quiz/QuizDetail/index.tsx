@@ -15,9 +15,7 @@ function QuizDetail() {
 
 
   return (
-    <>
-      <h2> Quiz Detail </h2>
-
+    <div>
       <div className="d-flex">
         <button className="btn btn-success d-flex align-items-center">Published</button>
         <Link to={"QuizPreview"}>
@@ -65,7 +63,7 @@ function QuizDetail() {
       </div>
 
 
-    </>
+    </div>
   );
 }
 

@@ -13,8 +13,8 @@ const choiceQSlice = createSlice({
     addChoiceQ: (state, action) => {
       const id = new Date().getTime().toString();
       state.choiceQs = [
-        { ...action.payload, p_id: id },
           ...state.choiceQs,
+          { ...action.payload, p_id: id },
       ];
       state.choiceQ = { ...action.payload, p_id: id };
     },

@@ -1,7 +1,7 @@
-import { Navigate, Route, Routes, useParams } from "react-router"
+import { useParams } from "react-router"
 import QuizList from "./QuizList"
 import { FaEllipsisV } from "react-icons/fa";
-import { addQuiz, deleteQuiz, updateQuiz, setQuiz } from "./quizzesReducer";
+import { addQuiz, resetQuiz } from "./quizzesReducer";
 import { KanbasState } from "../../Store";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -10,6 +10,11 @@ function Quizzes() {
     state.quizzesReducer.quiz);
   const dispatch = useDispatch();
   const courseID = useParams();
+
+  const handleAddQuiz = () => {
+    dispatch(resetQuiz())
+    dispatch(addQuiz({ ...quiz, courseID: courseID }))
+  }
 
   return (
     <>
@@ -20,7 +25,7 @@ function Quizzes() {
           <option value="All">Publish All</option>
           <option value="This">Publish This</option>
         </select>
-        <button className="big-red" type="button" onClick={() => dispatch(addQuiz({ ...quiz, courseID: courseID }))}>
+        <button className="big-red" type="button" onClick={handleAddQuiz}>
           + Quiz</button>
         <button type="button"><FaEllipsisV /></button>
         <hr />

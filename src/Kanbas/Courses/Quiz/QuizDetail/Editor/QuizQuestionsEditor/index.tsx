@@ -4,7 +4,7 @@ import BlankQuestions from "./blankQuestions";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { KanbasState } from "../../../../../Store";
-import { setChoiceQ, addChoiceQ, updateChoiceQ, resetChoiceQ } from "../../../choiceQReducer";
+import { setChoiceQ, addChoiceQ, updateChoiceQ, resetChoiceQ, deleteChoiceQ } from "../../../choiceQReducer";
 import { useState } from "react";
 
 function QuizQuestionsEditor() {
@@ -35,7 +35,7 @@ function QuizQuestionsEditor() {
   }
 
   return (
-    <div className="container">
+    <div>
       <ul>
         {questions
           .filter((q) => (q.quiz_id === quizId))
@@ -47,7 +47,8 @@ function QuizQuestionsEditor() {
                   <div>{q.points}</div> 
                 </div>
                 <div className="card-text"> 
-                  <button onClick={() => handleEditQuestion(q)}> edit </button>
+                  <button onClick={() => handleEditQuestion(q)}> Edit </button>
+                  <button onClick={() => dispatch(deleteChoiceQ(q.p_id))}> Delete </button>
                   <div>{q.question}</div>
                 </div>
               </div>
