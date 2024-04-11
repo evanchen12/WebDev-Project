@@ -20,7 +20,10 @@ function QuizDetail() {
 
       <div className="d-flex">
         <button className="btn btn-success d-flex align-items-center">Published</button>
-        <button className="btn btn-light d-flex align-items-center">Preview</button>
+        <Link to={"QuizPreview"}>
+           <button className="btn btn-light d-flex align-items-center">Preview</button>
+        </Link>
+        
         <Link to={"Editor"}>
           <button className="btn btn-light d-flex align-items-center">Edit</button>
         </Link>

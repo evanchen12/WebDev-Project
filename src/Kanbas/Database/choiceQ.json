@@ -1,6 +1,5 @@
 [
-  {"quiz_id": "1", "p_id": "1", "title": "Question 1", "type": "MC", "question": "What is 2 + 2 =", "answer": true, "o_id": "", "points": 50 },
-  {"quiz_id": "2", "p_id": "2", "title": "Question 2", "type": "BLANK", "question": "2 + 2 = ___", "answer": true, "o_id": "", "points": 30 },
-  {"quiz_id": "1", "p_id": "3", "title": "Question 3", "type": "TF", "question": "Is 2 + 2 = 4?", "answer": true, "o_id": "", "point": 20}
+  {"quiz_id": "1", "p_id": "1", "title": "Question 1", "type": "MC", "question": "What is 2 + 2 =", "answer": true, "o_id": "567", "points": 50 },
+  {"quiz_id": "1", "p_id": "2", "title": "Question 2", "type": "BLANK", "question": "2 + 2 = __", "answer": true, "o_id": "", "points": 30 },
+  {"quiz_id": "1", "p_id": "3", "title": "Question 3", "type": "TF", "question": "Is 2 + 2 = 4?", "answer": true, "o_id": "", "points": 20}
 ]
-
