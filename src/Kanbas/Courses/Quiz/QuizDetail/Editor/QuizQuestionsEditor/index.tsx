@@ -16,6 +16,10 @@ function QuizQuestionsEditor() {
   const questions = useSelector((state: KanbasState) => 
     state.choiceQReducer.choiceQs);
 
+  const handleEditQuestion = (question: any) => {
+    setEditing(true);
+    dispatch(setChoiceQ(question));
+  }
   const handleAddQuestion = () => {
     setEditing(true);
     dispatch(addChoiceQ({ ...question, quiz_id: quizId}));
@@ -32,12 +36,28 @@ function QuizQuestionsEditor() {
 
   return (
     <div className="container">
-      {JSON.stringify(questions)}<br/>
-      <h2>QuizQuestionsEditor</h2>
-      {editing ?
-        <>
-          <div className="d-flex">
-            <input value={ question.title } className="form-control" 
+      <ul>
+        {questions
+          .filter((q) => (q.quiz_id === quizId))
+          .map((q) => (
+            <li className="card">
+              <div className="card-body">
+                <div className="card-title d-flex">
+                  <div>{q.title}</div> 
+                  <div>{q.points}</div> 
+                </div>
+                <div className="card-text"> 
+                  <button onClick={() => handleEditQuestion(q)}> edit </button>
+                  <div>{q.question}</div>
+                </div>
+              </div>
+            </li>
+        ))}
+      </ul>
+      {editing &&
+        <div className="card">
+          <div className="d-flex card-title">
+            <input value={ question.title } 
               onChange={(e) => dispatch(setChoiceQ({...question, title: e.target.value}))}/>
 
             <select onChange={(e) => dispatch(setChoiceQ({...question, type: e.target.value}))}>
@@ -46,21 +66,28 @@ function QuizQuestionsEditor() {
               <option value="BLANK" selected={question.type === "BLANK"}> Fill in the Blank </option>
             </select>
 
-            <input value={ question.points } type="number" className="form-control" 
-              onChange={(e) => dispatch(setChoiceQ({...question, points: e.target.value}))}/>
+            <div>
+              Points 
+              <input value={ question.points } type="number"
+                onChange={(e) => dispatch(setChoiceQ({...question, points: e.target.value}))}/>
+            </div>
           </div>
 
-          {question.type === "MC" ? <ChoiceQuestions/> : ""}
-          {question.type === "TF" ? <TFQuestions/> : ""}
-          {question.type === "BLANK" ? <BlankQuestions/> : ""}
-
-          <div className="d-flex">
-            <button onClick={handleResetQuestion}> Cancel </button>
-            <button onClick={handleUpdateQuestion}> Update Question </button>
+          <div className="card-body">
+            <div className="card-text">
+              {question.type === "MC" && <ChoiceQuestions/>}
+              {question.type === "TF" && <TFQuestions/>}
+              {question.type === "BLANK" && <BlankQuestions/>}
+            </div>
+            
+            <div className="d-flex">
+              <button onClick={handleResetQuestion}> Cancel </button>
+              <button onClick={handleUpdateQuestion}> Update Question </button>
+            </div>
           </div>
-          <hr/>
-        </>
-      : ""}
+         
+        </div>
+      }
       <button onClick={handleAddQuestion}> + Question </button>
     </div>
   )

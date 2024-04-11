@@ -16,10 +16,9 @@ function ChoiceQuestions() {
     <>
       Enter your question and multiple answers, then select the one correct answer.<br/>
       <b><h4>Question:</h4></b>
-      <textarea value={ question.question } 
+      <textarea className="form-control" value={ question.question } 
         onChange={(e) => dispatch(setChoiceQ({...question, question: e.target.value }))}/>
       <b><h4>Answers:</h4></b>
-      {JSON.stringify(options)}
       <ul>
       {options
         .filter((option) => ((option.p_id === question.p_id) && (option.answer === "$MC-")))
