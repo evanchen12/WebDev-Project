@@ -24,10 +24,9 @@ function Editor() {
       <div className="d-flex">
         <Link to={`/Kanbas/Courses/RS101/Quizzes/${ quizId }`}>
           <button> Cancel </button>
-          <button onClick={() => {
-            dispatch(updateQuiz(quiz))
-          }} > Save & Publish </button>
-          <button> Save </button> 
+          <button onClick={() => {dispatch(updateQuiz({...quiz, publish: true}))}}>
+            Save & Publish </button>
+          <button onClick={() => {dispatch(updateQuiz(quiz))}}> Save </button> 
         </Link>
       </div> 
     </>

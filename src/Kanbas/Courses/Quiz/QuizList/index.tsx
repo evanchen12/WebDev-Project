@@ -1,13 +1,14 @@
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { FaEllipsisV, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
-import { deleteQuiz } from '../quizzesReducer';
+import { deleteQuiz, setQuiz } from '../quizzesReducer';
 import { KanbasState } from '../../../Store';
 import { updateQuiz } from "../quizzesReducer";
 import { format, isBefore, isAfter } from 'date-fns';
 import './index.css';
+import { displayPartsToString } from 'typescript';
 
 function QuizList() {
   const quizzes = useSelector((state: KanbasState) => state.quizzesReducer.quizzes);
@@ -18,7 +19,7 @@ function QuizList() {
   const toggleMenu = (quizId: any) => {
     setVisibleMenuQuizId(visibleMenuQuizId === quizId ? null : quizId);
   };
-
+  const {courseId} = useParams();
 
 
 
@@ -74,7 +75,7 @@ function QuizList() {
 
                 <div className={`dropdown-menu ${visibleMenuQuizId === quiz._id ? "show" : ""}`}>
                   <ul>
-                    <li><Link to={`/Kanbas/Courses/RS101/Quizzes/${quiz._id}`}>Edit</Link></li>
+                    <li><Link to={`/Kanbas/Courses/${courseId}/Quizzes/${quiz._id}`}><button onClick={() => dispatch(setQuiz(quiz))}>Edit</button></Link></li>
                     <li><button onClick={() => handleDelete(quiz._id)}>Delete</button></li>
                     <li><button onClick={() => handlePublish(quiz._id)}>{quiz.publish ? "Unpublish" : "Publish"}</button></li>
                   </ul>
