@@ -1,11 +1,13 @@
 import ChoiceQuestions from "./choiceQuestions";
 import TFQuestions from "./tfQuestions";
 import BlankQuestions from "./blankQuestions";
+import * as client from "../../../Clients/choiceQClient"
+import { ChoiceQ } from "../../../../../DataType";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { KanbasState } from "../../../../../Store";
-import { setChoiceQ, addChoiceQ, updateChoiceQ, resetChoiceQ, deleteChoiceQ } from "../../../choiceQReducer";
-import { useState } from "react";
+import { setChoiceQ, addChoiceQ, updateChoiceQ, resetChoiceQ, deleteChoiceQ, setChoiceQs } from "../../../choiceQReducer";
+import { useEffect, useState } from "react";
 
 function QuizQuestionsEditor() {
   const dispatch = useDispatch();
@@ -16,23 +18,36 @@ function QuizQuestionsEditor() {
   const questions = useSelector((state: KanbasState) => 
     state.choiceQReducer.choiceQs);
 
+  useEffect(() => {
+    client.findAllChoiceQs(quizId)
+    .then((questions) => dispatch(setChoiceQs(questions)));
+  }, [quizId]);
+
   const handleEditQuestion = (question: any) => {
     setEditing(true);
     dispatch(setChoiceQ(question));
-  }
+  };
   const handleAddQuestion = () => {
     setEditing(true);
-    dispatch(addChoiceQ({ ...question, quiz_id: quizId}));
-  }
+    client.createChoiceQ({ ...question, quiz_id: quizId})
+    .then((question) => {
+      dispatch(addChoiceQ(question));
+    });
+  };
   const handleResetQuestion = () => {
     setEditing(false);
     dispatch(resetChoiceQ(question));
-  }
-  const handleUpdateQuestion = () => {
+  };
+  const handleUpdateQuestion = async () => {
     setEditing(false);
+    const status = await client.updateChoiceQ(question);
     dispatch(updateChoiceQ(question));
     dispatch(resetChoiceQ(question));
-  }
+  };
+  const handleDeleteQuestion = (_id: string) => {
+    client.deleteChoiceQ(_id)
+    .then((status) => {dispatch(deleteChoiceQ(_id))});
+  };
 
   return (
     <div>
@@ -48,7 +63,7 @@ function QuizQuestionsEditor() {
                 </div>
                 <div className="card-text"> 
                   <button onClick={() => handleEditQuestion(q)}> Edit </button>
-                  <button onClick={() => dispatch(deleteChoiceQ(q.p_id))}> Delete </button>
+                  <button onClick={() => handleDeleteQuestion(q._id)}> Delete </button>
                   <div>{q.question}</div>
                 </div>
               </div>

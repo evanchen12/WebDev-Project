@@ -23,7 +23,7 @@ function BlankQuestions() {
       <b><h4>Answers:</h4></b>
       <ul>
       {options
-        .filter((option) => ((option.p_id === question.p_id) && (option.answer !== "$MC-")))
+        .filter((option) => ((option.p_id === question._id) && (option.answer !== "$MC-")))
         .map((option) => (
             <li>
               <input defaultValue={option.description} onChange={(e) => dispatch(updateOption({ ...option, description: e.target.value }))} />
@@ -32,7 +32,7 @@ function BlankQuestions() {
             </li>
           ))}
       </ul>
-      <button onClick={() => dispatch(addOption({ ...option, p_id: question.p_id}))}>Add another Answer</button>
+      <button onClick={() => dispatch(addOption({ ...option, p_id: question._id}))}>Add another Answer</button>
     </>
   )
 }

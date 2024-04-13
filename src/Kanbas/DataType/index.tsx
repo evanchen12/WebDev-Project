@@ -46,3 +46,14 @@ export interface Quiz {
   until: string
   publish: boolean,
 }
+
+export interface ChoiceQ {
+  _id: string,
+  quiz_id: string,
+  o_id: string,
+  title: string,
+  type: string,
+  question: string,
+  answer: boolean,
+  points: number,
+}

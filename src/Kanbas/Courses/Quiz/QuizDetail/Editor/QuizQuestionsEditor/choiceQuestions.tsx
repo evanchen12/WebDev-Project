@@ -21,7 +21,7 @@ function ChoiceQuestions() {
       <b><h4>Answers:</h4></b>
       <ul>
       {options
-        .filter((option) => ((option.p_id === question.p_id) && (option.answer === "$MC-")))
+        .filter((option) => ((option.p_id === question._id) && (option.answer === "$MC-")))
         .map((option) => (
             <li>
               <input type="radio" name="answers" defaultChecked={option.o_id === question.o_id} 
@@ -31,7 +31,7 @@ function ChoiceQuestions() {
             </li>
           ))}
       </ul>
-      <button onClick={() => dispatch(addOption({ ...option, p_id: question.p_id, answer: "$MC-"}))}>Add another Answer</button>
+      <button onClick={() => dispatch(addOption({ ...option, p_id: question._id, answer: "$MC-"}))}>Add another Answer</button>
     </>
   )
 }
