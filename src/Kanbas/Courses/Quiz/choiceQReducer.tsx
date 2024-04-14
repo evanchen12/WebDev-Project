@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import db from "../../Database";
 import { ChoiceQ } from "../../DataType";
 
 const initialState = {
