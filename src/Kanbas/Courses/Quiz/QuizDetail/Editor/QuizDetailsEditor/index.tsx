@@ -4,6 +4,9 @@ import { useParams } from "react-router";
 import { KanbasState } from "../../../../../Store";
 import { setQuiz } from "../../../quizzesReducer";
 import { useEffect, useState } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+import { format } from "path";
+import { setTextRange } from "typescript";
 
 function QuizDetailsEditor() {
   const { quizId } = useParams()
@@ -26,7 +29,6 @@ function QuizDetailsEditor() {
   const [dueDate, setDueDate] = useState(quiz.due);
   const [availableDate, setAvailableDate] = useState(quiz.availiable);
   const [untilDate, setUntilDate] = useState(quiz.until);
-
 
   // If the current value of shuffle is false in Quiz JSON object,
   // and "Shuffle Answers" is by default checked, then clicking on Save button without doing anything else will fail, 
@@ -52,7 +54,8 @@ function QuizDetailsEditor() {
       />
       <div className="form-group mb-4 mt-4">
         <label htmlFor="instruction">Quiz Instructions:</label>
-        <textarea className="form-control" id="instruction" rows={3} value={instruction} onChange={(e) => {setInstruction(e.target.value)}}></textarea>
+        <Editor apiKey="fuwvr20gje9j16aatycd3yxkofqonpysg7nuf5jjsxm41iyi" initialValue={quiz.instruction} onEditorChange={(value, editor) => {setInstruction(editor.getContent({format: 'text'}))}} />
+        {/* <textarea className="form-control" id="instruction" rows={3} value={instruction} ></textarea> */}
       </div>
       <div className="d-flex gap-4">
         <label htmlFor="quiz-select">Quiz Type:</label>
