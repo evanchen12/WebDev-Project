@@ -16,12 +16,14 @@ function TFQuestions() {
         onChange={(e) => dispatch(setChoiceQ({...question, question: e.target.value }))}/>
         
       <b><h5>Answer:</h5></b>
-      <label><input type="radio" name="option" defaultChecked={question.answer}
-        onChange={() => dispatch(setChoiceQ({...question, answer: true}))}/>
-        True</label><br/>
-      <label><input type="radio" name="option" defaultChecked={!question.answer}
-        onChange={() => dispatch(setChoiceQ({...question, answer: false}))}/>
-        False</label><br/>
+      <div className="tf">
+        <label><input type="radio" name="option" defaultChecked={question.answer}
+          onChange={() => dispatch(setChoiceQ({...question, answer: true}))}/>
+          True</label><br/>
+        <label><input type="radio" name="option" defaultChecked={!question.answer}
+          onChange={() => dispatch(setChoiceQ({...question, answer: false}))}/>
+          False</label><br/>
+      </div>
     </>
   )
 }

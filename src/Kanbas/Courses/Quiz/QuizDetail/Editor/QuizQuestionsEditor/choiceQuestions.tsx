@@ -29,13 +29,13 @@ function ChoiceQuestions() {
               <input type="radio" name="answers" defaultChecked={option.o_id === question.o_id} 
                 onChange={() => dispatch(setChoiceQ({ ...question, o_id: option.o_id }))}/>
               <input defaultValue={option.description} onChange={(e) => dispatch(updateOption({ ...option, description: e.target.value }))} />
-              <button type="button"  onClick={() => dispatch(deleteOption(option.o_id))}>
+              <button type="button" className="btn-secondary trash-button" onClick={() => dispatch(deleteOption(option.o_id))}>
                 <FaTrashAlt className="ms-2" />
               </button>
             </li>
           ))}
       </ul>
-      <button className="add-button" onClick={() => dispatch(addOption({ ...option, p_id: question._id, answer: "$MC-"}))}>
+      <button className="d-flex add-button" onClick={() => dispatch(addOption({ ...option, p_id: question._id, answer: "$MC-"}))}>
         + Add Another Answer
       </button>
     </>

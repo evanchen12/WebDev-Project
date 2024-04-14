@@ -11,7 +11,6 @@ function BlankQuestions() {
     state.choiceQReducer.choiceQ);
   const options = useSelector((state: KanbasState) => 
     state.optionReducer.options);
-
   const option = useSelector((state: KanbasState) => 
     state.optionReducer.option);
 
@@ -23,20 +22,20 @@ function BlankQuestions() {
       <textarea className="form-control" value={ question.question } cols={150}
         onChange={(e) => dispatch(setChoiceQ({...question, question: e.target.value }))}/>
       <b><h5>Answers:</h5></b>
-      <ul>
+      <ul className="options">
       {options
         .filter((option) => ((option.p_id === question._id) && (option.answer !== "$MC-")))
         .map((option) => (
             <li>
               <input defaultValue={option.description} onChange={(e) => dispatch(updateOption({ ...option, description: e.target.value }))} />
               <input defaultValue={option.answer} onChange={(e) => dispatch(updateOption({ ...option, answer: e.target.value }))} />
-              <button type="button" onClick={() => dispatch(deleteOption(option.o_id))}>
+              <button type="button" className="btn-secondary trash-button" onClick={() => dispatch(deleteOption(option.o_id))}>
                 <FaTrashAlt className="ms-2" />
               </button>
             </li>
           ))}
       </ul>
-      <button className="add-button" onClick={() => dispatch(addOption({ ...option, p_id: question._id}))}>
+      <button className="d-flex add-button" onClick={() => dispatch(addOption({ ...option, p_id: question._id}))}>
         + Add Another Answer
       </button>
     </>

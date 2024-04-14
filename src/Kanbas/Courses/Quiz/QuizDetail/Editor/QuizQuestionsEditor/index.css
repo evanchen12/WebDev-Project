@@ -74,27 +74,28 @@
   color: red;
   background-color: transparent;
   border: none;
+  margin-left: auto;
 }
 
-.card {
+.editor {
   margin-top: 20px;
 }
 
-.card-title {
+.editor-title {
   padding: 20px;
   border-bottom: 1px solid lightgray;
   margin: 0px;
 }
 
-.card-title select {
+.editor-title select {
   margin-left: 10px;
 }
 
-.card-title div {
+.editor-title div {
   margin-left: auto;
 }
 
-.card-title div input {
+.editor-title div input {
   margin-left: 2px;
 }
 
@@ -103,10 +104,24 @@
   list-style: none;
 }
 
+.options li {
+  margin-bottom: 5px;
+}
+
 .options li input{
-  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .options li button {
-  margin-left: 100px;
+  margin-left: 5px;
+}
+
+.tf label {
+  margin-bottom: 10px;
+}
+
+.trash-button {
+  position: relative;
+  top: 0px;
+  right: 5px;
 }

@@ -81,8 +81,8 @@ function QuizQuestionsEditor() {
         ))}
       </ul>
       {editing &&
-        <div className="card">
-          <div className="d-flex card-title">
+        <div className="card editor">
+          <div className="d-flex card-title editor-title">
             <input value={ question.title } 
               onChange={(e) => dispatch(setChoiceQ({...question, title: e.target.value}))}/>
 
