@@ -1,13 +1,14 @@
-import ChoiceQuestions from "./choiceQuestions";
-import TFQuestions from "./tfQuestions";
-import BlankQuestions from "./blankQuestions";
-import * as client from "../../../Clients/choiceQClient"
-import { ChoiceQ } from "../../../../../DataType";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { KanbasState } from "../../../../../Store";
 import { setChoiceQ, addChoiceQ, updateChoiceQ, resetChoiceQ, deleteChoiceQ, setChoiceQs } from "../../../choiceQReducer";
 import { useEffect, useState } from "react";
+import ChoiceQuestions from "./choiceQuestions";
+import TFQuestions from "./tfQuestions";
+import BlankQuestions from "./blankQuestions";
+import * as client from "../../../Clients/choiceQClient"
+import { FaPen, FaTrashAlt } from "react-icons/fa";
+import "./index.css";
 
 function QuizQuestionsEditor() {
   const dispatch = useDispatch();
@@ -18,11 +19,14 @@ function QuizQuestionsEditor() {
   const questions = useSelector((state: KanbasState) => 
     state.choiceQReducer.choiceQs);
 
-  useEffect(() => {
-    client.findAllChoiceQs(quizId)
-    .then((questions) => dispatch(setChoiceQs(questions)));
-  }, [quizId]);
-
+  const fetchQuestions = async () => {
+    const questions = await client.findAllChoiceQs(quizId);
+    dispatch(setChoiceQs(questions));
+  };
+  const handleResetQuestion = () => {
+    setEditing(false);
+    dispatch(resetChoiceQ(question));
+  };
   const handleEditQuestion = (question: any) => {
     setEditing(true);
     dispatch(setChoiceQ(question));
@@ -34,39 +38,45 @@ function QuizQuestionsEditor() {
       dispatch(addChoiceQ(question));
     });
   };
-  const handleResetQuestion = () => {
-    setEditing(false);
-    dispatch(resetChoiceQ(question));
-  };
   const handleUpdateQuestion = async () => {
     setEditing(false);
-    const status = await client.updateChoiceQ(question);
-    dispatch(updateChoiceQ(question));
+    client.updateChoiceQ(question)
+    .then((status) => {dispatch(updateChoiceQ(question))});
     dispatch(resetChoiceQ(question));
   };
   const handleDeleteQuestion = (_id: string) => {
     client.deleteChoiceQ(_id)
     .then((status) => {dispatch(deleteChoiceQ(_id))});
+    if (_id === question._id) {
+      setEditing(false);
+    }
   };
+  useEffect(() => {
+    fetchQuestions();
+  }, [quizId]);
 
   return (
     <div>
-      <ul>
+      <ul className="wd-questions">
         {questions
           .filter((q) => (q.quiz_id === quizId))
           .map((q) => (
-            <li className="card">
-              <div className="card-body">
-                <div className="card-title d-flex">
+            <li>
+                <div className="d-flex title">
                   <div>{q.title}</div> 
-                  <div>{q.points}</div> 
+                  <div className="point">{q.points} pts</div> 
                 </div>
-                <div className="card-text"> 
-                  <button onClick={() => handleEditQuestion(q)}> Edit </button>
-                  <button onClick={() => handleDeleteQuestion(q._id)}> Delete </button>
+                <div className="body"> 
+                  <div className="question-button">
+                    <button className="btn-secondary" onClick={() => handleEditQuestion(q)}>
+                      <FaPen className="ms-2" />
+                    </button>
+                    <button className="btn-secondary" onClick={() => handleDeleteQuestion(q._id)}>
+                      <FaTrashAlt className="ms-2" />
+                    </button>
+                  </div>
                   <div>{q.question}</div>
                 </div>
-              </div>
             </li>
         ))}
       </ul>
@@ -83,7 +93,7 @@ function QuizQuestionsEditor() {
             </select>
 
             <div>
-              Points 
+              pts  
               <input value={ question.points } type="number"
                 onChange={(e) => dispatch(setChoiceQ({...question, points: e.target.value}))}/>
             </div>
@@ -96,15 +106,21 @@ function QuizQuestionsEditor() {
               {question.type === "BLANK" && <BlankQuestions/>}
             </div>
             
-            <div className="d-flex">
+            <div className="d-flex buttons-2">
               <button onClick={handleResetQuestion}> Cancel </button>
-              <button onClick={handleUpdateQuestion}> Update Question </button>
+              <button className="big-red" onClick={handleUpdateQuestion}> Update Question </button>
             </div>
           </div>
          
         </div>
       }
-      <button onClick={handleAddQuestion}> + Question </button>
+      <div className="buttons">
+        <div className="text-center">
+          <button onClick={handleAddQuestion}> + New Question </button>
+          <button> + New Question Group </button>
+          <button> Find Question </button>
+        </div>
+      </div>
     </div>
   )
 }

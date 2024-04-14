@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { KanbasState } from "../../../../../Store";
 import { setChoiceQ } from "../../../choiceQReducer";
-import { setOption, addOption, deleteOption, updateOption } from "../../../optionReducer";
+import { addOption, deleteOption, updateOption } from "../../../optionReducer";
+import "./index.css";
+import { FaTrashAlt } from "react-icons/fa";
 
 function BlankQuestions() {
   const dispatch = useDispatch();
@@ -17,10 +19,10 @@ function BlankQuestions() {
     <>
       Enter your question text, then define all possible correct answers for the blank.
       Students will see the question followed by a small text box to type their answer.<br/>
-      <b><h4>Question:</h4></b>
+      <b><h5>Question:</h5></b>
       <textarea className="form-control" value={ question.question } cols={150}
         onChange={(e) => dispatch(setChoiceQ({...question, question: e.target.value }))}/>
-      <b><h4>Answers:</h4></b>
+      <b><h5>Answers:</h5></b>
       <ul>
       {options
         .filter((option) => ((option.p_id === question._id) && (option.answer !== "$MC-")))
@@ -28,11 +30,15 @@ function BlankQuestions() {
             <li>
               <input defaultValue={option.description} onChange={(e) => dispatch(updateOption({ ...option, description: e.target.value }))} />
               <input defaultValue={option.answer} onChange={(e) => dispatch(updateOption({ ...option, answer: e.target.value }))} />
-              <button type="button" onClick={() => dispatch(deleteOption(option.o_id))}>Delete</button>
+              <button type="button" onClick={() => dispatch(deleteOption(option.o_id))}>
+                <FaTrashAlt className="ms-2" />
+              </button>
             </li>
           ))}
       </ul>
-      <button onClick={() => dispatch(addOption({ ...option, p_id: question._id}))}>Add another Answer</button>
+      <button className="add-button" onClick={() => dispatch(addOption({ ...option, p_id: question._id}))}>
+        + Add Another Answer
+      </button>
     </>
   )
 }

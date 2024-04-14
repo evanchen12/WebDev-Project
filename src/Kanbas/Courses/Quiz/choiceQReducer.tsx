@@ -28,7 +28,7 @@ const choiceQSlice = createSlice({
     },
     updateChoiceQ: (state, action) => {
       state.choiceQs = state.choiceQs.map((choiceQ) => {
-        if (choiceQ._id === action.payload.p_id) {
+        if (choiceQ._id === action.payload._id) {
           return action.payload;
         } else {
           return choiceQ;

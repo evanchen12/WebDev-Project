@@ -9,7 +9,7 @@ export const createChoiceQ = async (choiceQ: any) => {
 }
 
 export const findAllChoiceQs = async (quiz_id: any) => {
-  const response = await axios.get(`${QUESTIONS_API}/quiz/${quiz_id}`);
+  const response = await axios.get(`${QUESTIONS_API}/${quiz_id}`);
   return response.data;
 };
 

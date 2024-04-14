@@ -1,0 +1,112 @@
+.wd-questions * {
+  border-radius: 0%;
+  margin: 0px;
+  padding: 0px;
+}
+
+.wd-questions {
+  margin: 5px;
+  margin-top: 40px;
+  padding-right: 32px;
+  list-style: none;
+}
+
+.wd-questions li {
+  margin: 5px;
+  margin-top: 40px;
+} 
+
+.title {
+  background-color: lightgray;
+  border: 1px solid gray;
+  border-bottom: none;
+}
+
+.title div {
+  padding: 5px;
+}
+
+.point {
+  margin-left: auto;
+}
+
+.body {
+  border: 1px solid gray;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.question-button {
+  text-align: right;
+}
+
+.question-button button {
+  margin-left: 5px;
+}
+
+.btn-secondary {
+  color: black;
+  background-color: transparent;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: transparent;
+}
+
+.buttons > div {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.buttons button {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.buttons-2 button {
+  margin-right: 10px;
+}
+
+.add-button {
+  color: red;
+  background-color: transparent;
+  border: none;
+}
+
+.card {
+  margin-top: 20px;
+}
+
+.card-title {
+  padding: 20px;
+  border-bottom: 1px solid lightgray;
+  margin: 0px;
+}
+
+.card-title select {
+  margin-left: 10px;
+}
+
+.card-title div {
+  margin-left: auto;
+}
+
+.card-title div input {
+  margin-left: 2px;
+}
+
+.options {
+  padding: 0px;
+  list-style: none;
+}
+
+.options li input{
+  margin-left: 10px;
+}
+
+.options li button {
+  margin-left: 100px;
+}
