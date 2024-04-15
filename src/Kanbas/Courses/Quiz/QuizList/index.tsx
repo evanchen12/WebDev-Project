@@ -1,34 +1,47 @@
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaEllipsisV, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
-import { deleteQuiz, setQuiz } from '../quizzesReducer';
+import { addQuiz, deleteQuiz, setQuiz, setQuizzes } from '../quizzesReducer';
 import { KanbasState } from '../../../Store';
 import { updateQuiz } from "../quizzesReducer";
 import { format, isBefore, isAfter } from 'date-fns';
 import './index.css';
 import { displayPartsToString } from 'typescript';
+import * as client from '../Client/quizClient'
+import { Quiz } from '../../../DataType';
 
 function QuizList() {
   const quizzes = useSelector((state: KanbasState) => state.quizzesReducer.quizzes);
+  const {courseId} = useParams();
+  const dispatch = useDispatch();
+  
+  const fetchAllQuizzes = async () => {
+   const quizzesFromDB = await client.getAllQuizzes();
+    dispatch(setQuizzes(quizzesFromDB))
+  }
+
+  useEffect(() => {
+      fetchAllQuizzes();
+  }, [courseId])
+
+  const handleDelete = async (quizId:string) => {
+    try {
+      await client.deleteQuiz(quizId).then(() => fetchAllQuizzes())
+      
+    } catch (error) {
+      console.log(error);
+    }
+    
+    setVisibleMenuQuizId(null);
+  };
+
   const [visibleMenuQuizId, setVisibleMenuQuizId] = useState(null);
 
-  const dispatch = useDispatch();
 
   const toggleMenu = (quizId: any) => {
     setVisibleMenuQuizId(visibleMenuQuizId === quizId ? null : quizId);
-  };
-  const {courseId} = useParams();
-
-
-
-  if (quizzes.length === 0) {
-    return <p>No quizzes available. Click the "+ Quiz" button to create one.</p>;
-  }
-  const handleDelete = (quizId: any) => {
-    dispatch(deleteQuiz(quizId));
-    setVisibleMenuQuizId(null);
   };
 
   const handlePublish = (quizId: any) => {
@@ -39,7 +52,9 @@ function QuizList() {
     }
   };
 
-
+    if (quizzes.length === 0) {
+    return <p>No quizzes available. Click the "+ Quiz" button to create one.</p>;
+  }
 
   return (
     <>
@@ -47,8 +62,8 @@ function QuizList() {
       <ul className="wd-modules">
         {quizzes.map((quiz) => {
           const now = new Date();
-          const availableDate = new Date(quiz.availiable); // Ensure this matches your data model
-          const untilDate = new Date(quiz.until);
+          const availableDate = new Date(quiz.availiable).toString(); // Ensure this matches your data model
+          const untilDate = new Date(quiz.until).toString();
           let availabilityStatus = "Closed";
           if (isBefore(now, availableDate)) {
             availabilityStatus = `Not available until ${format(availableDate, 'PPP')}`;

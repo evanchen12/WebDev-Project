@@ -22,7 +22,6 @@ export interface Lesson {
   module: string;
 };
 
-
 export interface Quiz {
   _id: string, 
   courseID: string,

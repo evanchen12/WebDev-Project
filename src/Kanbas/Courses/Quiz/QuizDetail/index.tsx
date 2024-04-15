@@ -2,16 +2,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { KanbasState } from "../../../Store";
 import { format } from 'date-fns';
-
+import { useEffect } from "react";
+import * as client from "../Client/quizClient"
+import { setQuiz } from "../quizzesReducer";
 function QuizDetail() {
 
   const { quizId } = useParams()
-  const quizList = useSelector((state: KanbasState) => state.quizzesReducer.quizzes);
-  const quiz = quizList.filter((quiz) => quiz._id === quizId)[0]
-  // right now quizId is set as "quizId" from quiz list, after quiz list implementation is completed, 
-  // set quiz._id comparison with quizId
-  // const quiz = quizList.filter((quiz) => quiz._id === quizId)[0]
+  let quiz = useSelector((state: KanbasState) => 
+    state.quizzesReducer.quiz);
+  const dispatch = useDispatch();
 
+  const fetchQuizDetail = async () => {
+    if (quizId) {
+      quiz = await client.getQuizDetail(quizId);
+    }
+    dispatch(setQuiz(quiz))
+  }
+
+  useEffect(() => {
+
+      fetchQuizDetail();
+    
+  }, [quizId])
 
 
   return (
@@ -53,10 +65,10 @@ function QuizDetail() {
           </thead>
           <tbody>
             <tr>
-              <td>{`${format(quiz.due,'MMMM dd h:mm a')}`}</td>
+              {/* <td>{`${format(quiz.due,'MMMM dd h:mm a')}`}</td>
               <td>Everyone</td>
               <td>{`${format(quiz.availiable,'MMMM dd h:mm a')}`}</td>
-              <td>{`${format(quiz.until,'MMMM dd h:mm a')}`}</td>
+              <td>{`${format(quiz.until,'MMMM dd h:mm a')}`}</td> */}
             </tr>
           </tbody>
         </table>
@@ -68,3 +80,7 @@ function QuizDetail() {
 }
 
 export default QuizDetail;
+
+function dispatch(arg0: { payload: any; type: "quizzes/setQuiz"; }) {
+  throw new Error("Function not implemented.");
+}

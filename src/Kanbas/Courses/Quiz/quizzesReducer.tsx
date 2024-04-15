@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import db from "../../Database";
+//import db from "../../Database";
 
 const initialState = {
-  quizzes: db.quizzes,
+  quizzes: [{ _id:"", name: "new quiz", type: "Graded Quiz", points: 0, group: "Quizzes", shuffle: true, limit: 20, publish: false,
+  multiple: false, show: "", oneAtATime: true, webcam: false, lock: false, due:"2023-09-21T13:00:00", availiable: "2023-09-21T11:40:00", until: "2023-09-21T13:00:00"}],
   quiz: { name: "new quiz", type: "Graded Quiz", points: 0, group: "Quizzes", shuffle: true, limit: 20, publish: false,
-  multiple: false, show: "", oneAtATime: true, webcam: false, lock: false, due: new Date("2023-09-21T13:00:00"), availiable: new Date("2023-09-21T11:40:00"), until: new Date("2023-09-21T13:00:00")},
+  multiple: false, show: "", oneAtATime: true, webcam: false, lock: false, due:"2023-09-21T13:00:00", availiable: "2023-09-21T11:40:00", until: "2023-09-21T13:00:00"},
 };
 
 const quizzesSlice = createSlice({
@@ -14,7 +15,7 @@ const quizzesSlice = createSlice({
     addQuiz: (state, action) => {
       state.quizzes = [
         { ...action.payload,
-          _id: new Date().getTime().toString(),
+          // _id: new Date().getTime().toString(),
           code: Math.random()},
           ...state.quizzes,
       ];
@@ -38,11 +39,14 @@ const quizzesSlice = createSlice({
     },
     resetQuiz: (state) => {
       state.quiz = { name: "new quiz", type: "Graded Quiz", points: 0, group: "Quizzes", shuffle: true, limit: 20, publish: false,
-                    multiple: false, show: "", oneAtATime: true, webcam: false, lock: false, due: new Date("2023-09-21T13:00:00"), 
-                    availiable: new Date("2023-09-21T11:40:00"), until: new Date("2023-09-21T13:00:00")};
+                    multiple: false, show: "", oneAtATime: true, webcam: false, lock: false, due: "2023-09-21T13:00:00", 
+                    availiable: "2023-09-21T11:40:00", until: "2023-09-21T13:00:00"};
     },
+    setQuizzes: (state, action) => {
+      state.quizzes = action.payload;
+    }
   },
 });
 
-export const { addQuiz, deleteQuiz, updateQuiz, setQuiz, resetQuiz } = quizzesSlice.actions;
+export const { addQuiz, deleteQuiz, updateQuiz, setQuiz, resetQuiz, setQuizzes } = quizzesSlice.actions;
 export default quizzesSlice.reducer;

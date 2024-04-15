@@ -5,7 +5,8 @@ import QuizQuestionsEditor from "./QuizQuestionsEditor";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { KanbasState } from "../../../../Store";
-import { updateQuiz, resetQuiz } from "../../quizzesReducer";
+import { updateQuiz, resetQuiz, setQuiz } from "../../quizzesReducer";
+import * as client from "../../Client/quizClient";
 
 function Editor() {
   const {quizId}= useParams();
@@ -14,8 +15,10 @@ function Editor() {
   const dispatch = useDispatch()
 
   const handleSaveQuiz = (quiz: any) => {
-    dispatch(resetQuiz());
-    dispatch(updateQuiz(quiz));
+    // dispatch(resetQuiz());
+    console.log(quiz)
+    client.updateQuizDetail(quiz)
+    // getQuizDetail(quiz._id).then((detail) => {   console.log("Returned after saving", detail); return dispatch(setQuiz(detail));})
   }
 
   return(
