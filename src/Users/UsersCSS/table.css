@@ -1,0 +1,28 @@
+.container-fluid {
+  margin-top: 20px
+}
+
+.table {
+  border-style: solid;
+}
+
+.head th {
+  background-color: #dc3545;
+  color: white;
+}
+
+.add-button {
+  background-color: transparent;
+  border-style: none;
+  padding-left: 0px;
+}
+
+.add-button svg {
+  color: green;
+  width: 100%;
+  height: 100%;
+}
+
+.table input {
+  margin-right: 10px;
+}

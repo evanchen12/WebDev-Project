@@ -1,0 +1,26 @@
+.profile {
+  margin-top: 20px;
+}
+
+.profile div {
+  margin-bottom: 50px;
+}
+
+.bio h3 {
+  margin-bottom: 20px;
+}
+
+.bio input {
+  margin-bottom: 20px;
+  margin-right: 10px;
+}
+
+.bio select {
+  margin-bottom: 20px;
+  margin-right: 10px;
+}
+
+.profile button {
+  margin-top: 10px;
+  margin-right: 10px
+}
