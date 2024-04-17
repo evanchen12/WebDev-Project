@@ -33,7 +33,7 @@ function QuizQuestionsEditor() {
   };
   const handleAddQuestion = () => {
     setEditing(true);
-    client.createChoiceQ({ ...question, quiz_id: quizId})
+    client.createChoiceQ({ ...{o_id: "", title: "", type: "MC", question: "", answer: true, points: 0 }, quiz_id: quizId})
     .then((question) => {
       dispatch(addChoiceQ(question));
     });
