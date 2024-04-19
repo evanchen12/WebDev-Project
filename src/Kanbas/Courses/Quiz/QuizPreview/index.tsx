@@ -4,8 +4,10 @@ import { KanbasState } from "../../../Store";
 import { useState, useEffect } from "react";
 import './QuizPreview.css';
 import { Option } from '../../../DataType';
-import * as client from "../../../Courses/Quiz/Clients/optionClient"
+import * as optionClient from "../../../Courses/Quiz/Clients/optionClient"
+import * as choiceQClient from "../../../Courses/Quiz/Clients/choiceQClient"
 import { setOption } from "../optionReducer";
+import { setChoiceQs } from "../choiceQReducer";
 
 function QuizPreview() {
   const { quizId } = useParams();
@@ -20,11 +22,28 @@ function QuizPreview() {
 
 
   const fetchOptions = async () => {
-    const options = await client.findAllOptions();
+ 
+    const options = await optionClient.findAllOptions();
+    console.log('test2' , options);
     dispatch(setOption(options));
+
   };
 
+
+  //const fetchQuestions = async () => {
+   // const questions = await choiceQClient.findAllChoiceQs(quizId);
+   // dispatch(setChoiceQs(questions));
+ // };
   
+  useEffect(() => {
+    fetchOptions();
+  }, []);
+ // useEffect(() => {
+  //  fetchQuestions();
+  //}, [quizId]);
+
+
+
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   const currentQuestion = questionsForQuiz[currentQuestionIndex];
