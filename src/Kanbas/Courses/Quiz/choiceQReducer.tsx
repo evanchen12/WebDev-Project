@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import db from "../../Database";
+import { ChoiceQ } from "../../DataType";
 
 const initialState = {
-  choiceQs: db.choiceQ,
+  choiceQs: [] as ChoiceQ[],
   choiceQ: {o_id: "", title: "", type: "MC", question: "", answer: true, points: 0 },
 };
 
@@ -10,22 +10,24 @@ const choiceQSlice = createSlice({
   name: "choiceQ",
   initialState,
   reducers: {
+    setChoiceQs: (state, action) => {
+      state.choiceQs = action.payload;
+    },
     addChoiceQ: (state, action) => {
-      const id = new Date().getTime().toString();
       state.choiceQs = [
           ...state.choiceQs,
-          { ...action.payload, p_id: id },
+          action.payload
       ];
-      state.choiceQ = { ...action.payload, p_id: id };
+      state.choiceQ = action.payload;
     },
     deleteChoiceQ: (state, action) => {
       state.choiceQs = state.choiceQs.filter(
-        (choiceQ) => choiceQ.p_id !== action.payload
+        (choiceQ) => choiceQ._id !== action.payload
       );
     },
     updateChoiceQ: (state, action) => {
       state.choiceQs = state.choiceQs.map((choiceQ) => {
-        if (choiceQ.p_id === action.payload.p_id) {
+        if (choiceQ._id === action.payload._id) {
           return action.payload;
         } else {
           return choiceQ;
@@ -41,5 +43,5 @@ const choiceQSlice = createSlice({
   },
 });
 
-export const { addChoiceQ, deleteChoiceQ, updateChoiceQ, setChoiceQ, resetChoiceQ } = choiceQSlice.actions;
+export const { setChoiceQs, addChoiceQ, deleteChoiceQ, updateChoiceQ, setChoiceQ, resetChoiceQ } = choiceQSlice.actions;
 export default choiceQSlice.reducer;
