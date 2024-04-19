@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import { KanbasState } from "../../../../../Store";
 import { setChoiceQ } from "../../../choiceQReducer";
-import { addOption, deleteOption, updateOption } from "../../../optionReducer";
+import { addOption, deleteOption, updateOption, setOptions } from "../../../optionReducer";
+import * as client from "../../../Clients/optionClient"
 import "./index.css";
 import { FaTrashAlt } from "react-icons/fa";
 
@@ -11,8 +13,29 @@ function BlankQuestions() {
     state.choiceQReducer.choiceQ);
   const options = useSelector((state: KanbasState) => 
     state.optionReducer.options);
-  const option = useSelector((state: KanbasState) => 
-    state.optionReducer.option);
+
+  const fetchOptions = async () => {
+    const options = await client.findAllOptions();
+    dispatch(setOptions(options));
+  }
+  const handleAddOption = (_id: string) => {
+    client.createOption({p_id: _id, description: "", answer: ""})
+    .then((option) => {
+      dispatch(addOption(option));
+    });
+  };
+  const handleUpdateOption = async (option: any) => {
+    client.updateOption(option)
+    .then((status) => {dispatch(updateOption(option))});
+  };
+  const handleDeleteOption = (_id: string) => {
+    client.deleteOption(_id)
+    .then((status) => {dispatch(deleteOption(_id))});
+  }
+  useEffect(() => {
+    fetchOptions();
+  }, []);
+
 
   return (
     <>
@@ -24,18 +47,18 @@ function BlankQuestions() {
       <b><h5>Answers:</h5></b>
       <ul className="options">
       {options
-        .filter((option) => ((option.p_id === question._id) && (option.answer !== "$MC-")))
-        .map((option) => (
+        .filter((o) => ((o.p_id === question._id) && (o.answer !== "$MC-")))
+        .map((o) => (
             <li>
-              <input defaultValue={option.description} onChange={(e) => dispatch(updateOption({ ...option, description: e.target.value }))} />
-              <input defaultValue={option.answer} onChange={(e) => dispatch(updateOption({ ...option, answer: e.target.value }))} />
-              <button type="button" className="btn-secondary trash-button" onClick={() => dispatch(deleteOption(option.o_id))}>
+              <input defaultValue={o.description} onChange={(e) => handleUpdateOption({ ...o, description: e.target.value })} />
+              <input defaultValue={o.answer} onChange={(e) => handleUpdateOption({ ...o, answer: e.target.value })} />
+              <button type="button" className="btn-secondary trash-button" onClick={() => handleDeleteOption(o._id)}>
                 <FaTrashAlt className="ms-2" />
               </button>
             </li>
           ))}
       </ul>
-      <button className="d-flex add-button" onClick={() => dispatch(addOption({ ...option, p_id: question._id}))}>
+      <button className="d-flex add-button" onClick={() => handleAddOption(question._id)}>
         + Add Another Answer
       </button>
     </>
