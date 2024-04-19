@@ -14,26 +14,26 @@ import { Quiz } from '../../../DataType';
 
 function QuizList() {
   const quizzes = useSelector((state: KanbasState) => state.quizzesReducer.quizzes);
-  const {courseId} = useParams();
+  const { courseId } = useParams();
   const dispatch = useDispatch();
-  
+
   const fetchAllQuizzes = async () => {
-   const quizzesFromDB = await client.getAllQuizzes();
+    const quizzesFromDB = await client.getAllQuizzes();
     dispatch(setQuizzes(quizzesFromDB))
   }
 
   useEffect(() => {
-      fetchAllQuizzes();
+    fetchAllQuizzes();
   }, [courseId])
 
-  const handleDelete = async (quizId:string) => {
+  const handleDelete = async (quizId: string) => {
     try {
       await client.deleteQuiz(quizId).then(() => fetchAllQuizzes())
-      
+
     } catch (error) {
       console.log(error);
     }
-    
+
     setVisibleMenuQuizId(null);
   };
 
@@ -44,15 +44,16 @@ function QuizList() {
     setVisibleMenuQuizId(visibleMenuQuizId === quizId ? null : quizId);
   };
 
-  const handlePublish = (quizId: any) => {
+  const handlePublish = async (quizId: any) => {
     const quizToPublish = quizzes.find((quiz) => quiz._id === quizId);
     if (quizToPublish) {
       const updatedQuiz = { ...quizToPublish, publish: !quizToPublish.publish };
+      await client.updateQuizDetail(updatedQuiz)
       dispatch(updateQuiz(updatedQuiz));
     }
   };
 
-    if (quizzes.length === 0) {
+  if (quizzes.length === 0) {
     return <p>No quizzes available. Click the "+ Quiz" button to create one.</p>;
   }
 
@@ -84,13 +85,17 @@ function QuizList() {
                   </div>
                 </div>
                 <button className="menu-button" onClick={() => toggleMenu(quiz._id)}>
-                  {quiz.publish ? <FaCheckCircle color="green" /> : <FaTimesCircle color="red" />}
+                  {quiz.publish ? "✅" : "🚫"}
                   <FaEllipsisV />
                 </button>
 
                 <div className={`dropdown-menu ${visibleMenuQuizId === quiz._id ? "show" : ""}`}>
                   <ul>
-                    <li><Link to={`/Kanbas/Courses/${courseId}/Quizzes/${quiz._id}`}><button onClick={() => dispatch(setQuiz(quiz))}>Edit</button></Link></li>
+                    <li>
+                      <Link to={`/Kanbas/Courses/${courseId}/Quizzes/${quiz._id}`}>
+                        <button onClick={() => dispatch(setQuiz(quiz))}>Edit</button>
+                      </Link>
+                    </li>
                     <li><button onClick={() => handleDelete(quiz._id)}>Delete</button></li>
                     <li><button onClick={() => handlePublish(quiz._id)}>{quiz.publish ? "Unpublish" : "Publish"}</button></li>
                   </ul>

@@ -15,7 +15,6 @@ const quizzesSlice = createSlice({
     addQuiz: (state, action) => {
       state.quizzes = [
         { ...action.payload,
-          // _id: new Date().getTime().toString(),
           code: Math.random()},
           ...state.quizzes,
       ];

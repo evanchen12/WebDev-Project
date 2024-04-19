@@ -11,6 +11,7 @@ function QuizDetail() {
   let quiz = useSelector((state: KanbasState) => 
     state.quizzesReducer.quiz);
   const dispatch = useDispatch();
+  const published = quiz.publish;
 
   const fetchQuizDetail = async () => {
     if (quizId) {
@@ -29,7 +30,7 @@ function QuizDetail() {
   return (
     <div>
       <div className="d-flex">
-        <button className="btn btn-success d-flex align-items-center">Published</button>
+        <button className={`btn ${published? 'btn-success' : 'btn-danger'} d-flex align-items-center`}>{published? "Published" : "Unpublished"}</button>
         <Link to={"QuizPreview"}>
            <button className="btn btn-light d-flex align-items-center">Preview</button>
         </Link>
@@ -81,6 +82,3 @@ function QuizDetail() {
 
 export default QuizDetail;
 
-function dispatch(arg0: { payload: any; type: "quizzes/setQuiz"; }) {
-  throw new Error("Function not implemented.");
-}

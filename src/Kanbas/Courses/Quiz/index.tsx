@@ -7,40 +7,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { createQuizDetail } from "./Client/quizClient";
 import { useEffect, useState } from "react";
 import { Quiz } from "../../DataType";
+import { Link, useNavigate } from "react-router-dom";
+import { current } from "@reduxjs/toolkit";
 
 function Quizzes() {
   const quiz = useSelector((state: KanbasState) =>
     state.quizzesReducer.quiz);
-  const quizzes = useSelector((state: KanbasState) => state.quizzesReducer.quizzes)
+  const quizzes = useSelector((state: KanbasState) =>
+    state.quizzesReducer.quizzes)
+  const quizName = "Quiz " + (quizzes.length + 1);
+
   const dispatch = useDispatch();
   const { courseId } = useParams();
-  const [quizDetail, setQuizDetail] = useState<Quiz>({
-        _id: "", 
-        courseID: courseId ?? "",
-        instruction:"This is from the database!!", 
-        name: "Quiz", 
-        type: "", 
-        points: 1000, 
-        group: "", 
-        shuffle: false,
-        setLimit: false,
-        limit: 0,
-        multiple: false, 
-        showCorrect: false,
-        show: "", 
-        code: 0, 
-        oneAtATime: false, 
-        webcam: false,
-        lock: false, 
-        due: new Date().toString(), 
-        availiable: new Date().toString(), 
-        until: new Date().toString(),
-        publish: false,
-  });
+  const navigate = useNavigate();
 
-  const handleAddQuiz = () => {
-    createQuizDetail(quizDetail).then((detail) => {dispatch(addQuiz(detail))    
-    });
+
+  const handleAddQuiz = async () => {
+    // Create Quiz from Database
+    const createdQuiz = await createQuizDetail({ ...quiz, name: quizName, courseID: courseId ? courseId : "" });
+    // Add newly created quiz to redux store
+    dispatch(addQuiz(createdQuiz));
+    // Navigate to the new quiz detail page
+    navigate(`/Kanbas/Courses/${courseId}/Quizzes/${createdQuiz._id}`)
   }
 
   return (
@@ -52,9 +40,12 @@ function Quizzes() {
           <option value="All">Publish All</option>
           <option value="This">Publish This</option>
         </select>
-        <button className="big-red" type="button" onClick={handleAddQuiz}>
-          + Quiz</button>
-        <button type="button"><FaEllipsisV /></button>
+          <button className="big-red" type="button" onClick={handleAddQuiz}>
+            + Quiz
+          </button>
+        <button type="button">
+          <FaEllipsisV />
+        </button>
         <hr />
       </div>
       <QuizList /> <br />
