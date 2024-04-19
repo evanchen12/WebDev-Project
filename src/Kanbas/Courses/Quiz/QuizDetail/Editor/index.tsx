@@ -16,9 +16,8 @@ function Editor() {
 
   const handleSaveQuiz = (quiz: any) => {
     // dispatch(resetQuiz());
-    console.log(quiz)
     client.updateQuizDetail(quiz)
-    // getQuizDetail(quiz._id).then((detail) => {   console.log("Returned after saving", detail); return dispatch(setQuiz(detail));})
+    // getQuizDetailById(quiz._id).then((detail) => {   console.log("Returned after saving", detail); return dispatch(setQuiz(detail));})
   }
 
   return(

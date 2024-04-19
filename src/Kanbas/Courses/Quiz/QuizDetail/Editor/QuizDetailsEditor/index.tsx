@@ -21,7 +21,7 @@ function QuizDetailsEditor() {
 
   const fetchQuizDetail = async () => {
     if (quizId) {
-      quizDetail = await client.getQuizDetail(quizId);
+      quizDetail = await client.getQuizDetailById(quizId);
     }
     dispatch(setQuiz(quizDetail))
   }

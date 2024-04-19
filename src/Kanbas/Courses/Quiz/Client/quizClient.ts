@@ -4,7 +4,7 @@ import { Quiz } from "../../../DataType";
 
 const QUIZ_API = "http://localhost:4000";
 
-export const getQuizDetail = async (quizId:string) => {
+export const getQuizDetailById = async (quizId:string) => {
     const response = await axios.get(`${QUIZ_API}/api/quiz/${quizId}`)
     return response.data;
 }

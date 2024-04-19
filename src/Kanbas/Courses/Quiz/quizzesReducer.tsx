@@ -2,10 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 //import db from "../../Database";
 
 const initialState = {
-  quizzes: [{ _id:"", name: "new quiz", type: "Graded Quiz", points: 0, group: "Quizzes", shuffle: true, limit: 20, publish: false,
-  multiple: false, show: "", oneAtATime: true, webcam: false, lock: false, due:"2023-09-21T13:00:00", availiable: "2023-09-21T11:40:00", until: "2023-09-21T13:00:00"}],
-  quiz: { name: "new quiz", type: "Graded Quiz", points: 0, group: "Quizzes", shuffle: true, limit: 20, publish: false,
-  multiple: false, show: "", oneAtATime: true, webcam: false, lock: false, due:"2023-09-21T13:00:00", availiable: "2023-09-21T11:40:00", until: "2023-09-21T13:00:00"},
+  quizzes: [{
+    _id: "", name: "new quiz", type: "Graded Quiz", points: 0, group: "Quizzes", shuffle: true, limit: 20, setLimit: true, publish: false,
+    multiple: false, code: null, oneAtATime: true, webcam: false, lock: false, due: "2023-09-21T13:00:00", availiable: "2023-09-21T11:40:00", until: "2023-09-21T13:00:00"
+  }],
+  quiz: {
+    name: "new quiz", type: "Graded Quiz", points: 0, group: "Quizzes", shuffle: true, limit: 20, setLimit: true, publish: false,
+    multiple: false, code: null, oneAtATime: true, webcam: false, lock: false, due: "2023-09-21T13:00:00", availiable: "2023-09-21T11:40:00", until: "2023-09-21T13:00:00"
+  },
 };
 
 const quizzesSlice = createSlice({
@@ -14,9 +18,11 @@ const quizzesSlice = createSlice({
   reducers: {
     addQuiz: (state, action) => {
       state.quizzes = [
-        { ...action.payload,
-          code: Math.random()},
-          ...state.quizzes,
+        {
+          ...action.payload,
+          code: Math.random()
+        },
+        ...state.quizzes,
       ];
     },
     deleteQuiz: (state, action) => {
@@ -37,9 +43,11 @@ const quizzesSlice = createSlice({
       state.quiz = action.payload;
     },
     resetQuiz: (state) => {
-      state.quiz = { name: "new quiz", type: "Graded Quiz", points: 0, group: "Quizzes", shuffle: true, limit: 20, publish: false,
-                    multiple: false, show: "", oneAtATime: true, webcam: false, lock: false, due: "2023-09-21T13:00:00", 
-                    availiable: "2023-09-21T11:40:00", until: "2023-09-21T13:00:00"};
+      state.quiz = {
+        name: "new quiz", type: "Graded Quiz", points: 0, group: "Quizzes", shuffle: true, limit: 20, setLimit: true, publish: false,
+        multiple: false, code:null, oneAtATime: true, webcam: false, lock: false, due: "2023-09-21T13:00:00",
+        availiable: "2023-09-21T11:40:00", until: "2023-09-21T13:00:00"
+      };
     },
     setQuizzes: (state, action) => {
       state.quizzes = action.payload;
