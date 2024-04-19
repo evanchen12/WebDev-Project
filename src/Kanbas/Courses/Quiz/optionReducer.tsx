@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import db from "../../Database";
+import { Option } from '../../DataType';
 
 const initialState = {
-  options: db.options,
+  options: [] as Option[],
   option: {description: "", answer: ""},
 };
 
@@ -13,18 +14,17 @@ const optionSlice = createSlice({
     addOption: (state, action) => {
       state.options = [
         ...state.options,
-        { ...action.payload, o_id: new Date().getTime().toString() },
+        ...action.payload,
       ];
     },
     deleteOption: (state, action) => {
       state.options = state.options.filter(
-        (option) => (option.o_id !== action.payload)
+        (option) => (option._id !== action.payload)
       );
     },
     updateOption: (state, action) => {
-      state.options = state.options
-      .map((option) => {
-        if (option.o_id === action.payload.o_id) {
+      state.options = state.options.map((option) => {
+        if (option._id === action.payload._id) {
           return action.payload;
         } else {
           return option;
@@ -34,8 +34,11 @@ const optionSlice = createSlice({
     setOption: (state, action) => {
       state.option = action.payload;
     },
+    setOptions: (state, action) => {
+      state.option = action.payload;
+    },
   },
 });
 
-export const { addOption, deleteOption, updateOption, setOption } = optionSlice.actions;
+export const { addOption, deleteOption, updateOption, setOption, setOptions } = optionSlice.actions;
 export default optionSlice.reducer;

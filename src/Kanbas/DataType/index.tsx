@@ -57,3 +57,10 @@ export interface ChoiceQ {
   answer: boolean,
   points: number,
 }
+
+export interface Option {
+  _id: string;
+  p_id: string;
+  description: string;
+  answer: string;
+}
