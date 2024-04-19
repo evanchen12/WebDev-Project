@@ -1,21 +1,36 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { KanbasState } from "../../../Store";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import './QuizPreview.css';
+import { Option } from '../../../DataType';
+import * as client from "../../../Courses/Quiz/Clients/optionClient"
+import { setOption } from "../optionReducer";
+
 function QuizPreview() {
   const { quizId } = useParams();
+  const dispatch = useDispatch();
   const quizList = useSelector((state: KanbasState) => state.quizzesReducer.quizzes);
   const options = useSelector((state: KanbasState) => state.optionReducer.options);
+  
   const choiceQuestions = useSelector((state: KanbasState) => state.choiceQReducer.choiceQs);
 
   const quiz = quizList.filter((quiz) => quiz._id === quizId)[0]
   const questionsForQuiz = choiceQuestions.filter((question) => question.quiz_id === quiz._id);
 
+
+  const fetchOptions = async () => {
+    const options = await client.findAllOptions();
+    dispatch(setOption(options));
+  };
+
+  
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   const currentQuestion = questionsForQuiz[currentQuestionIndex];
   const optionsForCurrentQuestion = currentQuestion ? options.filter((option) => option.p_id === currentQuestion.p_id) : [];
+  console.log('Options for Current Question:', optionsForCurrentQuestion);
+  
 
 
   const [userAnswer, setUserAnswer] = useState("");
@@ -40,6 +55,12 @@ function QuizPreview() {
   };
 
 
+
+
+
+
+  
+
   return (
     <>
       <h2>{quiz?.name} - HTML</h2>
@@ -53,7 +74,10 @@ function QuizPreview() {
       <div><strong>{currentQuestion.title}</strong></div>
       <div>{currentQuestion.question}</div>
       {currentQuestion.type === "MC" && optionsForCurrentQuestion.map((option) => (
-        <div key={option.o_id}>
+
+
+
+        <div key={option._id}>
           <label>
             <input
               type="radio"
@@ -83,13 +107,14 @@ function QuizPreview() {
   )
 ) : (
   // display all questions at once
+  
   <>
     {questionsForQuiz.map((question, index) => (
       <div key={question.p_id} className="border">
         <div><strong>Question {index + 1}: {question.title}</strong></div>
         <div>{question.question}</div>
         {options.filter(option => option.p_id === question.p_id).map(option => (
-          <div key={option.o_id}>
+          <div key={option._id}>
             <label>
               <input
                 type="radio"
@@ -149,6 +174,16 @@ function QuizPreview() {
 </button>
 </>
 )}
+
+
+
+
+
+
+
+
+
+
 
 
       <div className="border">
