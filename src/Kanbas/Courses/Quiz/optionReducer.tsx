@@ -35,7 +35,7 @@ const optionSlice = createSlice({
       state.option = action.payload;
     },
     setOptions: (state, action) => {
-      state.option = action.payload;
+      state.options = action.payload;
     },
   },
 });

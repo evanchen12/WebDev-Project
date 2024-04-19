@@ -4,17 +4,17 @@ import { KanbasState } from "../../../Store";
 import { useState, useEffect } from "react";
 import './QuizPreview.css';
 import { Option } from '../../../DataType';
-import * as optionClient from "../../../Courses/Quiz/Clients/optionClient"
+import * as optionClient from "../Clients/optionClient"
 import * as choiceQClient from "../../../Courses/Quiz/Clients/choiceQClient"
-import { setOption } from "../optionReducer";
+import { setOptions } from "../optionReducer";
 import { setChoiceQs } from "../choiceQReducer";
 
 function QuizPreview() {
   const { quizId } = useParams();
   const dispatch = useDispatch();
+  
   const quizList = useSelector((state: KanbasState) => state.quizzesReducer.quizzes);
   const options = useSelector((state: KanbasState) => state.optionReducer.options);
-  
   const choiceQuestions = useSelector((state: KanbasState) => state.choiceQReducer.choiceQs);
 
   const quiz = quizList.filter((quiz) => quiz._id === quizId)[0]
@@ -22,32 +22,29 @@ function QuizPreview() {
 
 
   const fetchOptions = async () => {
- 
     const options = await optionClient.findAllOptions();
-    console.log('test2' , options);
-    dispatch(setOption(options));
-
+    dispatch(setOptions(options));
   };
-
-
-  //const fetchQuestions = async () => {
-   // const questions = await choiceQClient.findAllChoiceQs(quizId);
-   // dispatch(setChoiceQs(questions));
- // };
+  const fetchQuestions = async () => {
+   const questions = await choiceQClient.findAllChoiceQs(quizId);
+   dispatch(setChoiceQs(questions));
+ };
   
   useEffect(() => {
     fetchOptions();
+    console.log("hey")
   }, []);
- // useEffect(() => {
-  //  fetchQuestions();
-  //}, [quizId]);
+
+ useEffect(() => {
+   fetchQuestions();
+  }, [quizId]);
 
 
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   const currentQuestion = questionsForQuiz[currentQuestionIndex];
-  const optionsForCurrentQuestion = currentQuestion ? options.filter((option) => option.p_id === currentQuestion.p_id) : [];
+  const optionsForCurrentQuestion = currentQuestion ? options.filter((option) => option.p_id === currentQuestion._id) : [];
   console.log('Options for Current Question:', optionsForCurrentQuestion);
   
 
@@ -73,15 +70,9 @@ function QuizPreview() {
     }
   };
 
-
-
-
-
-
-  
-
   return (
     <>
+      {JSON.stringify(options)}
       <h2>{quiz?.name} - HTML</h2>
       <h2>Quiz Instructions</h2>
 
