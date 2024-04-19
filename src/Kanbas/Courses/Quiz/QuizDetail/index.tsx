@@ -1,37 +1,40 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { KanbasState } from "../../../Store";
-import { format } from 'date-fns';
+import { format, set } from 'date-fns';
 import { useEffect, useState } from "react";
 import * as client from "../Client/quizClient"
 import { setQuiz, updateQuiz } from "../quizzesReducer";
 
 function QuizDetail() {
-
-  const { quizId } = useParams()
-  let quiz = useSelector((state: KanbasState) =>
-    state.quizzesReducer.quiz);
+  const { quizId } = useParams();
+  const quiz = useSelector((state: KanbasState) =>
+    state.quizzesReducer.quiz
+  );
   const dispatch = useDispatch();
   const [publish, setPublish] = useState(false);
 
   const updatePublished = async () => {
-    const updatedPublish = !publish; 
-    setPublish(updatedPublish); 
-    await client.updateQuizDetail({ ...quiz, publish: updatedPublish }); 
-  }
+    const updatedPublish = !publish;
+    setPublish(updatedPublish);
+    await client.updateQuizDetail({ ...quiz, publish: updatedPublish });
+  };
 
-  // Grab the current quiz detail
+  // Fetch quiz detail from the database and update Redux store
   const fetchQuizDetail = async () => {
     if (quizId) {
-      quiz = await client.getQuizDetailById(quizId);
-      setPublish(quiz.publish);
+      const fetchedQuiz = await client.getQuizDetailById(quizId);
+      console.log("Fetched Quiz:", fetchedQuiz); // Log fetched quiz
+      dispatch(setQuiz(fetchedQuiz)); // Update Redux store with fetched quiz
+      setPublish(fetchedQuiz.publish);
     }
-    dispatch(setQuiz(quiz))
-  }
+  };
 
   useEffect(() => {
-    fetchQuizDetail();
-  }, [quizId])
+    fetchQuizDetail()
+    //.then(() => {console.log("Current Quiz in Redux Store:", quiz)}) // Log current quiz in Redux store});
+    console.log("Current Quiz in Redux Store:", quiz)
+  }, [quizId, dispatch]); 
 
 
   return (

@@ -14,10 +14,9 @@ function Editor() {
   state.quizzesReducer.quiz);
   const dispatch = useDispatch()
 
-  const handleSaveQuiz = (quiz: any) => {
-    // dispatch(resetQuiz());
-    client.updateQuizDetail(quiz)
-    // getQuizDetailById(quiz._id).then((detail) => {   console.log("Returned after saving", detail); return dispatch(setQuiz(detail));})
+  const handleSaveQuiz = async (quiz: any) => {
+    await client.updateQuizDetail(quiz)
+    //getQuizDetailById(quiz._id).then((detail) => {   console.log("Returned after saving", detail); return dispatch(setQuiz(detail));})
   }
 
   return(
