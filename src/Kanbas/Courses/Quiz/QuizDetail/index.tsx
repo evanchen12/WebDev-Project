@@ -3,13 +3,11 @@ import { format } from 'date-fns';
 import { useEffect, useState } from "react";
 import * as client from "../Client/quizClient"
 import { Quiz } from "../../../DataType";
-import quizzesReducer from "../quizzesReducer";
 
 function QuizDetail() {
 
 
   const { quizId } = useParams()
-  console.log(quizId)
 
   const [quiz, setThisQuiz] = useState<Quiz>({
     _id: "",

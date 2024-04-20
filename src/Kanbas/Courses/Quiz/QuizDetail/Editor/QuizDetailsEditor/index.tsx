@@ -2,7 +2,6 @@
 import { useParams } from "react-router";
 import React, { useEffect, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import { format } from "path";
 import * as client from "../../../Client/quizClient";
 import { Quiz } from "../../../../../DataType";
 import { useDispatch } from "react-redux";
