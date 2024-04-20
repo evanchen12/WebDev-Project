@@ -1,23 +1,18 @@
-import { Navigate, Route, Routes, useParams } from "react-router";
+import { Navigate, Route, Routes, useNavigate, useParams } from "react-router";
 import DetailsNav from "./detailsNav";
 import QuizDetailsEditor from "./QuizDetailsEditor";
 import QuizQuestionsEditor from "./QuizQuestionsEditor";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { KanbasState } from "../../../../Store";
-import { updateQuiz, resetQuiz, setQuiz } from "../../quizzesReducer";
 import * as client from "../../Client/quizClient";
+import { useSelector } from "react-redux";
 
 function Editor() {
   const {quizId}= useParams();
-  const quiz = useSelector((state: KanbasState) => 
-  state.quizzesReducer.quiz);
-  const dispatch = useDispatch()
-
-  const handleSaveQuiz = (quiz: any) => {
-    // dispatch(resetQuiz());
-    client.updateQuizDetail(quiz)
-    // getQuizDetailById(quiz._id).then((detail) => {   console.log("Returned after saving", detail); return dispatch(setQuiz(detail));})
+  const quiz = useSelector((state: KanbasState) => state.quizzesReducer.quiz);
+  const navigate = useNavigate();
+  const handleSaveQuiz = async (quiz: any) => {
+    await client.updateQuizDetail(quiz)
+    navigate(`/Kanbas/Courses/RS101/Quizzes/${ quizId }`)
   }
 
   return(
@@ -29,12 +24,10 @@ function Editor() {
         <Route path="QuizQuestionsEditor" element={<QuizQuestionsEditor/>} />
       </Routes>
       <div className="d-flex">
-        <Link to={`/Kanbas/Courses/RS101/Quizzes/${ quizId }`}>
           <button> Cancel </button>
           <button onClick={() => handleSaveQuiz({...quiz, publish: true})}>
             Save & Publish </button>
           <button onClick={() => handleSaveQuiz(quiz)}> Save </button> 
-        </Link>
       </div> 
     </div>
   );

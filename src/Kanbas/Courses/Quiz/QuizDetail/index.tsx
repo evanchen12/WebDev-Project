@@ -1,17 +1,38 @@
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { KanbasState } from "../../../Store";
 import { format } from 'date-fns';
 import { useEffect, useState } from "react";
 import * as client from "../Client/quizClient"
-import { setQuiz, updateQuiz } from "../quizzesReducer";
+import { Quiz } from "../../../DataType";
 
 function QuizDetail() {
 
+
   const { quizId } = useParams()
-  let quiz = useSelector((state: KanbasState) =>
-    state.quizzesReducer.quiz);
-  const dispatch = useDispatch();
+
+  const [quiz, setThisQuiz] = useState<Quiz>({
+    _id: "", 
+    courseID: "",
+    instruction:"", 
+    name: "", 
+    type: "", 
+    points: 0, 
+    group: "", 
+    shuffle: false,
+    setLimit: false,
+    limit: 0,
+    multiple: false, 
+    showCorrect: false,
+    code: 0, 
+    oneAtATime: false, 
+    webcam: false,
+    lock: false, 
+    due: "", 
+    availiable: "", 
+    until: "",
+    publish: false
+  })
+
+
   const [publish, setPublish] = useState(false);
 
   const updatePublished = async () => {
@@ -23,10 +44,10 @@ function QuizDetail() {
   // Grab the current quiz detail
   const fetchQuizDetail = async () => {
     if (quizId) {
-      quiz = await client.getQuizDetailById(quizId);
-      setPublish(quiz.publish);
+      const fetchedQuiz = await client.getQuizDetailById(quizId);
+      setPublish(fetchedQuiz.publish);
+      setThisQuiz(fetchedQuiz);
     }
-    dispatch(setQuiz(quiz))
   }
 
   useEffect(() => {
@@ -71,7 +92,7 @@ function QuizDetail() {
           </thead>
           <tbody>
             <tr>
-              <td>{`${format(quiz.due, 'MMMM dd h:mm a')}`}</td>
+              <td>{quiz.due}</td>
             </tr>
           </tbody>
         </table>

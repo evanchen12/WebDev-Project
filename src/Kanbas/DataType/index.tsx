@@ -35,7 +35,7 @@ export interface Quiz {
   limit: number,
   multiple: boolean, 
   showCorrect: boolean,
-  code: number, 
+  code: number | undefined, 
   oneAtATime: boolean, 
   webcam: boolean,
   lock: boolean, 

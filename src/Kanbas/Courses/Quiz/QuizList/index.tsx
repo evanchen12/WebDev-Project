@@ -13,18 +13,48 @@ import * as client from '../Client/quizClient'
 import { Quiz } from '../../../DataType';
 
 function QuizList() {
-  const quizzes = useSelector((state: KanbasState) => state.quizzesReducer.quizzes);
   const { courseId } = useParams();
-  const dispatch = useDispatch();
+  const [quizzes, setQuizzes] = useState<Quiz []>([])
+  const [quiz, setThisQuiz] = useState<Quiz>({
+    _id: "", 
+    courseID: "",
+    instruction:"", 
+    name: "", 
+    type: "Graded Quiz", 
+    points: 0, 
+    group: "Quizzes", 
+    shuffle: true,
+    setLimit: true,
+    limit: 20,
+    multiple: false, 
+    showCorrect: false,
+    code: undefined, 
+    oneAtATime: false, 
+    webcam: false,
+    lock: false, 
+    due: "", 
+    availiable: "", 
+    until: "",
+    publish: false
+  })
+
+  const [publish, setPublish] = useState(false)
 
   const fetchAllQuizzes = async () => {
     const quizzesFromDB = await client.getAllQuizzes();
-    dispatch(setQuizzes(quizzesFromDB))
+    setQuizzes(quizzesFromDB);
+  }
+
+  
+  const handlePublish = async (quizId : string) => {
+    const selectedQuiz = quizzes.filter((quiz) => quiz._id === quizId)[0]
+    const updatedPublish = !selectedQuiz.publish; 
+    await client.updateQuizDetail({ ...selectedQuiz, publish: updatedPublish }); 
   }
 
   useEffect(() => {
     fetchAllQuizzes();
-  }, [courseId])
+  }, [courseId, handlePublish])
 
   const handleDelete = async (quizId: string) => {
     try {
@@ -33,7 +63,6 @@ function QuizList() {
     } catch (error) {
       console.log(error);
     }
-
     setVisibleMenuQuizId(null);
   };
 
@@ -44,14 +73,6 @@ function QuizList() {
     setVisibleMenuQuizId(visibleMenuQuizId === quizId ? null : quizId);
   };
 
-  const handlePublish = async (quizId: any) => {
-    const quizToPublish = quizzes.find((quiz) => quiz._id === quizId);
-    if (quizToPublish) {
-      const updatedQuiz = { ...quizToPublish, publish: !quizToPublish.publish };
-      await client.updateQuizDetail(updatedQuiz)
-      dispatch(updateQuiz(updatedQuiz));
-    }
-  };
 
   if (quizzes.length === 0) {
     return <p>No quizzes available. Click the "+ Quiz" button to create one.</p>;
@@ -79,7 +100,7 @@ function QuizList() {
                   <Link to={`/Kanbas/Courses/RS101/Quizzes/${quiz._id}`} className="quiz-name">{quiz.name}</Link>
                   <div className="quiz-details">
                     <p>{availabilityStatus}</p>
-                    <p>Due date: {format(new Date(quiz.due), 'PPP')}</p>
+                    <p>Due date: {quiz.due}</p>
                     <p>Points: {quiz.points}</p>
                     <p>Number of questions:</p>
                   </div>
@@ -93,7 +114,7 @@ function QuizList() {
                   <ul>
                     <li>
                       <Link to={`/Kanbas/Courses/${courseId}/Quizzes/${quiz._id}`}>
-                        <button onClick={() => dispatch(setQuiz(quiz))}>Edit</button>
+                        <button onClick={() => setThisQuiz(quiz)}>Edit</button>
                       </Link>
                     </li>
                     <li><button onClick={() => handleDelete(quiz._id)}>Delete</button></li>
