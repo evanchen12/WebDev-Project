@@ -47,7 +47,7 @@ function ChoiceQuestions() {
       {options
         .filter((o) => ((o.p_id === question._id) && (o.answer === "$MC-")))
         .map((o) => (
-            <li>
+            <li key={o._id}>
               <input type="radio" name="answers" defaultChecked={o._id === question.o_id} 
                 onChange={() => dispatch(setChoiceQ({ ...question, o_id: o._id }))}/>
               <input defaultValue={o.description} onChange={(e) => handleUpdateOption({ ...o, description: e.target.value })} />

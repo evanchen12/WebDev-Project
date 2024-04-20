@@ -49,7 +49,7 @@ function BlankQuestions() {
       {options
         .filter((o) => ((o.p_id === question._id) && (o.answer !== "$MC-")))
         .map((o) => (
-            <li>
+            <li key={o._id}>
               <input defaultValue={o.description} onChange={(e) => handleUpdateOption({ ...o, description: e.target.value })} />
               <input defaultValue={o.answer} onChange={(e) => handleUpdateOption({ ...o, answer: e.target.value })} />
               <button type="button" className="btn-secondary trash-button" onClick={() => handleDeleteOption(o._id)}>

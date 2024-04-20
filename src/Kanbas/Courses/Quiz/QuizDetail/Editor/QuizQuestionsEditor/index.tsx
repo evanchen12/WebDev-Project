@@ -61,7 +61,7 @@ function QuizQuestionsEditor() {
         {questions
           .filter((q) => (q.quiz_id === quizId))
           .map((q) => (
-            <li>
+            <li key={q._id}>
                 <div className="d-flex title">
                   <div>{q.title}</div> 
                   <div className="point">{q.points} pts</div> 
