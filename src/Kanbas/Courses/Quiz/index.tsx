@@ -42,7 +42,7 @@ function Quizzes() {
     // Create Quiz from Database
     const createdQuiz = await createQuizDetail({ ...defaultQuiz, courseID: courseId ? courseId : "" });
     // Navigate to the new quiz detail page
-    navigate(`/Kanbas/Courses/${courseId}/Quizzes/${createdQuiz._id}`)
+    navigate(`/Kanbas/Courses/${courseId}/Quizzes/${createdQuiz._id}/QuizDetail`)
   }
 
   return (

@@ -3,11 +3,13 @@ import { format } from 'date-fns';
 import { useEffect, useState } from "react";
 import * as client from "../Client/quizClient"
 import { Quiz } from "../../../DataType";
+import quizzesReducer from "../quizzesReducer";
 
 function QuizDetail() {
 
 
   const { quizId } = useParams()
+  console.log(quizId)
 
   const [quiz, setThisQuiz] = useState<Quiz>({
     _id: "",
@@ -57,7 +59,6 @@ function QuizDetail() {
 
   useEffect(() => {
     fetchQuizDetail();
-    console.log(quiz.due)
   }, [quizId])
 
 
@@ -103,8 +104,6 @@ function QuizDetail() {
               <td>{quiz.due === "" ? '' : format(new Date(quiz.due).toISOString(), "MMMM d 'at' h:mm a")}</td>
               <td>{quiz.availiable === "" ? '' : format(new Date(quiz.availiable).toISOString(), "MMMM d 'at' h:mm a")}</td>
               <td>{quiz.until === "" ? '' : format(new Date(quiz.until).toISOString(), "MMMM d 'at' h:mm a")}</td>
-              {/* <td>{format(new Date(quiz.availiable).toISOString(), "MMMM d 'at' h:mm a")}</td>
-              <td>{format(new Date(quiz.until).toISOString(), "MMMM d 'at' h:mm a")}</td> */}
             </tr>
           </tbody>
         </table>

@@ -112,9 +112,9 @@ function QuizDetailsEditor({setIsValid} : ChildComponentProps) {
         </select>
       </div>
       <label htmlFor="points">Points: </label>
-      <input type="number" className="" id="points" value={quiz.points}
+      <input type="number" min="0" max="240" className="" id="points" value={quiz.points}
         onChange={(e) => {
-          handleClick({ ...quiz, points: parseInt(e.target.value) })
+          handleClick({ ...quiz, points: e.target.value? parseInt(e.target.value) : 0 })
         }}
       />
       <div className="d -flex gap-4">
@@ -142,8 +142,8 @@ function QuizDetailsEditor({setIsValid} : ChildComponentProps) {
             onChange={(e) => { handleClick({ ...quiz, setLimit: e.target.checked }) }} />
           <label htmlFor="time-limit" >Time Limit </label>
           <span style={{ display: quiz.setLimit ? "block" : "none" }}>
-            <input type="number" id="minutes" name="minutes" placeholder="20" value={quiz.limit}
-              onChange={(e) => handleClick({ ...quiz, limit: parseInt(e.target.value) })} />
+            <input type="number" min="0" max="240" id="minutes" name="minutes" placeholder="20" value={quiz.limit}
+              onChange={(e) => handleClick({ ...quiz, limit: e.target.value? parseInt(e.target.value) : 0 })} />
             <label htmlFor="minutes">Minutes</label>
 
           </span>
@@ -162,7 +162,7 @@ function QuizDetailsEditor({setIsValid} : ChildComponentProps) {
         </div>
         <div>
           <label htmlFor="access-code">Access Code: </label>
-          <input type="number" name="access-code" id="access-code" value={quiz.code} onChange={(e) =>
+          <input type="number" min="0" max="999" name="access-code" id="access-code" value={quiz.code} onChange={(e) =>
             handleClick({ ...quiz, code: e.target.value ? parseInt(e.target.value) : "" })
           } />
         </div>
