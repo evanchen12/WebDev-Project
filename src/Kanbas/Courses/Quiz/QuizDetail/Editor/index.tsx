@@ -5,13 +5,27 @@ import QuizQuestionsEditor from "./QuizQuestionsEditor";
 import { KanbasState } from "../../../../Store";
 import * as client from "../../Client/quizClient";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 function Editor() {
   const {quizId}= useParams();
   const quiz = useSelector((state: KanbasState) => state.quizzesReducer.quiz);
   const navigate = useNavigate();
+
+  const [isValid, setIsValid] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('')
+
   const handleSaveQuiz = async (quiz: any) => {
-    await client.updateQuizDetail(quiz)
+    if (isValid) {
+      await client.updateQuizDetail(quiz)
+      navigate(`/Kanbas/Courses/RS101/Quizzes/${ quizId }`)
+    }
+    else {
+      setErrorMessage('Please fill out the date and time field')
+    }
+
+  }
+  const handleCancelEdit = () => {
     navigate(`/Kanbas/Courses/RS101/Quizzes/${ quizId }`)
   }
 
@@ -20,11 +34,12 @@ function Editor() {
       <DetailsNav />
       <Routes>
         <Route path="/" element={<Navigate to="QuizDetailsEditor"/>}/> 
-        <Route path="QuizDetailsEditor" element={<QuizDetailsEditor/>} />
+        <Route path="QuizDetailsEditor" element={<QuizDetailsEditor setIsValid={setIsValid}/>} />
         <Route path="QuizQuestionsEditor" element={<QuizQuestionsEditor/>} />
       </Routes>
+      {errorMessage && <div className="text-danger">{errorMessage}</div>}
       <div className="d-flex">
-          <button> Cancel </button>
+          <button onClick={handleCancelEdit}> Cancel </button>
           <button onClick={() => handleSaveQuiz({...quiz, publish: true})}>
             Save & Publish </button>
           <button onClick={() => handleSaveQuiz(quiz)}> Save </button> 

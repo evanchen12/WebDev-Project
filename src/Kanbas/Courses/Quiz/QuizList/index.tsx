@@ -28,7 +28,7 @@ function QuizList() {
     limit: 20,
     multiple: false, 
     showCorrect: false,
-    code: undefined, 
+    code: '', 
     oneAtATime: false, 
     webcam: false,
     lock: false, 
@@ -99,7 +99,7 @@ function QuizList() {
                 <div className="quiz-info">
                   <Link to={`/Kanbas/Courses/RS101/Quizzes/${quiz._id}`} className="quiz-name">{quiz.name}</Link>
                   <div className="quiz-details">
-                    <p>{availabilityStatus}</p>
+                    <p>Availability: {availabilityStatus}</p>
                     <p>Due date: {quiz.due}</p>
                     <p>Points: {quiz.points}</p>
                     <p>Number of questions:</p>
