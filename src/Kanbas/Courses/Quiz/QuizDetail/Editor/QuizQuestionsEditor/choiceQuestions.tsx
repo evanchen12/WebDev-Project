@@ -38,7 +38,6 @@ function ChoiceQuestions() {
 
   return (
     <>
-      {JSON.stringify(options)}
       Enter your question and multiple answers, then select the one correct answer.<br/>
       <b><h5>Question:</h5></b>
       <textarea className="form-control" value={ question.question } 
