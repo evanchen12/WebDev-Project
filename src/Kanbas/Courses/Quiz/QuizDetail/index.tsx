@@ -57,6 +57,7 @@ function QuizDetail() {
 
   useEffect(() => {
     fetchQuizDetail();
+    console.log(quiz.due)
   }, [quizId])
 
 
@@ -93,11 +94,17 @@ function QuizDetail() {
           <thead>
             <tr>
               <th>Due</th>
+              <th>Available from</th>
+              <th>Until</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>{quiz.due}</td>
+              <td>{quiz.due === "" ? '' : format(new Date(quiz.due).toISOString(), "MMMM d 'at' h:mm a")}</td>
+              <td>{quiz.availiable === "" ? '' : format(new Date(quiz.availiable).toISOString(), "MMMM d 'at' h:mm a")}</td>
+              <td>{quiz.until === "" ? '' : format(new Date(quiz.until).toISOString(), "MMMM d 'at' h:mm a")}</td>
+              {/* <td>{format(new Date(quiz.availiable).toISOString(), "MMMM d 'at' h:mm a")}</td>
+              <td>{format(new Date(quiz.until).toISOString(), "MMMM d 'at' h:mm a")}</td> */}
             </tr>
           </tbody>
         </table>

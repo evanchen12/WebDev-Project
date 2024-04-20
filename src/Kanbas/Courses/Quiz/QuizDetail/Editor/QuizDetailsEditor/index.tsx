@@ -207,6 +207,7 @@ function QuizDetailsEditor({setIsValid} : ChildComponentProps) {
           <input type="datetime-local" className="form-control" value={quiz.until} required
             onChange={(e) => {
               handleClick({ ...quiz, until: e.target.value })
+              console.log(e.target.value)
               handleSetTime(e.target.value)
               }} />
         </div>

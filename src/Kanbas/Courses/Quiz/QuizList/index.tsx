@@ -1,14 +1,8 @@
-import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { FaEllipsisV, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
-import { useDispatch } from 'react-redux';
-import { addQuiz, deleteQuiz, setQuiz, setQuizzes } from '../quizzesReducer';
-import { KanbasState } from '../../../Store';
-import { updateQuiz } from "../quizzesReducer";
 import { format, isBefore, isAfter } from 'date-fns';
 import './index.css';
-import { displayPartsToString } from 'typescript';
 import * as client from '../Client/quizClient'
 import { Quiz } from '../../../DataType';
 
@@ -37,8 +31,6 @@ function QuizList() {
     until: "",
     publish: false
   })
-
-  const [publish, setPublish] = useState(false)
 
   const fetchAllQuizzes = async () => {
     const quizzesFromDB = await client.getAllQuizzes();
@@ -100,7 +92,7 @@ function QuizList() {
                   <Link to={`/Kanbas/Courses/RS101/Quizzes/${quiz._id}`} className="quiz-name">{quiz.name}</Link>
                   <div className="quiz-details">
                     <p>Availability: {availabilityStatus}</p>
-                    <p>Due date: {quiz.due}</p>
+                    <p>Due date: {quiz.due === "" ? '' : format(new Date(quiz.due).toISOString(), "MMMM d 'at' h:mm a")}</p>
                     <p>Points: {quiz.points}</p>
                     <p>Number of questions:</p>
                   </div>
