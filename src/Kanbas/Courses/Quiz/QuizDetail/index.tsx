@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { format } from 'date-fns';
 import { useEffect, useState } from "react";
 import * as client from "../Client/quizClient"
@@ -10,35 +10,40 @@ function QuizDetail() {
   const { quizId } = useParams()
 
   const [quiz, setThisQuiz] = useState<Quiz>({
-    _id: "", 
+    _id: "",
     courseID: "",
-    instruction:"", 
-    name: "", 
-    type: "", 
-    points: 0, 
-    group: "", 
+    instruction: "",
+    name: "",
+    type: "",
+    points: 0,
+    group: "",
     shuffle: false,
     setLimit: false,
     limit: 0,
-    multiple: false, 
+    multiple: false,
     showCorrect: false,
-    code: 0, 
-    oneAtATime: false, 
+    code: 0,
+    oneAtATime: false,
     webcam: false,
-    lock: false, 
-    due: "", 
-    availiable: "", 
+    lock: false,
+    due: "",
+    availiable: "",
     until: "",
     publish: false
   })
 
 
   const [publish, setPublish] = useState(false);
+  const navigate = useNavigate()
+
+  const handleEditRedirect = () => {
+    navigate('Editor')
+  }
 
   const updatePublished = async () => {
-    const updatedPublish = !publish; 
-    setPublish(updatedPublish); 
-    await client.updateQuizDetail({ ...quiz, publish: updatedPublish }); 
+    const updatedPublish = !publish;
+    setPublish(updatedPublish);
+    await client.updateQuizDetail({ ...quiz, publish: updatedPublish });
   }
 
   // Grab the current quiz detail
@@ -64,9 +69,9 @@ function QuizDetail() {
           <button className="btn btn-light d-flex align-items-center">Preview</button>
         </Link>
 
-        <Link to={"Editor"}>
-          <button className="btn btn-light d-flex align-items-center">Edit</button>
-        </Link>
+
+        <button className="btn btn-light d-flex align-items-center" onClick={handleEditRedirect}>Edit</button>
+
         <button className="btn btn-light">:</button>
       </div>
       <hr />

@@ -37,6 +37,7 @@ function QuizDetailsEditor() {
   })
 
   const [text, setText] = useState("");
+  
   const handleClick = (quiz: Quiz) => {
     const updatedQuiz = quiz;
     setThisQuiz(updatedQuiz)
@@ -78,10 +79,10 @@ function QuizDetailsEditor() {
         <label htmlFor="quiz-select">Quiz Type:</label>
 
         <select name="quiz" id="quiz-select" onChange={(e) => handleClick({ ...quiz, type: e.target.value })}>
-          <option value="Graded">Graded Quiz</option>
-          <option value="Practice">Practice Quiz</option>
-          <option value="Survey">Graded Survey</option>
-          <option value="Upgraded">Upgraded Survey</option>
+          <option value="Graded Quiz">Graded Quiz</option>
+          <option value="Practice Quiz">Practice Quiz</option>
+          <option value="Graded Survey">Graded Survey</option>
+          <option value="Upgraded Survey">Upgraded Survey</option>
         </select>
       </div>
       <label htmlFor="points">Points: </label>
@@ -91,9 +92,9 @@ function QuizDetailsEditor() {
         }}
       />
       <div className="d -flex gap-4">
-        <label htmlFor="quiz-select">Assignment Group</label>
+        <label htmlFor="assignment-group">Assignment Group</label>
 
-        <select name="quiz" id="quiz-select">
+        <select name="assignment" id="assignment-group" onChange={(e) => handleClick({ ...quiz, group: e.target.value })}>
           <option value="Quizzes">Quizzes</option>
           <option value="Exams">Exams</option>
           <option value="Assignments">Assignments</option>
