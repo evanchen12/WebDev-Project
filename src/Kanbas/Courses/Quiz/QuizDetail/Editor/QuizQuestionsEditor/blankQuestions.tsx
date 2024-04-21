@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { Editor } from "@tinymce/tinymce-react";
 import { KanbasState } from "../../../../../Store";
 import { setChoiceQ } from "../../../choiceQReducer";
 import { addOption, deleteOption, updateOption, setOptions } from "../../../optionReducer";
@@ -41,9 +42,13 @@ function BlankQuestions() {
     <>
       Enter your question text, then define all possible correct answers for the blank.
       Students will see the question followed by a small text box to type their answer.<br/>
-      <b><h5>Question:</h5></b>
-      <textarea className="form-control" value={ question.question } cols={150}
-        onChange={(e) => dispatch(setChoiceQ({...question, question: e.target.value }))}/>
+      <div className="form-group mb-4 mt-4">
+        <b><h5>Question:</h5></b>
+        <Editor apiKey="fuwvr20gje9j16aatycd3yxkofqonpysg7nuf5jjsxm41iyi"
+          value={ question.question }
+          onEditorChange={(value, editor) => { dispatch(setChoiceQ({...question, question: editor.getContent({ format: 'text' })}))}} />
+      </div>
+
       <b><h5>Answers:</h5></b>
       <ul className="options">
       {options
