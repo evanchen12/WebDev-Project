@@ -22,7 +22,6 @@ export interface Lesson {
   module: string;
 };
 
-
 export interface Quiz {
   _id: string, 
   courseID: string,
@@ -36,8 +35,7 @@ export interface Quiz {
   limit: number,
   multiple: boolean, 
   showCorrect: boolean,
-  show: string, 
-  code: number, 
+  code: number | string, 
   oneAtATime: boolean, 
   webcam: boolean,
   lock: boolean, 
