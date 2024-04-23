@@ -1,79 +1,125 @@
 
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { KanbasState } from "../../../../../Store";
+import React, { useEffect, useState } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+import * as client from "../../../Client/quizClient";
+import { Quiz } from "../../../../../DataType";
+import { useDispatch } from "react-redux";
 import { setQuiz } from "../../../quizzesReducer";
-import { useEffect, useState } from "react";
 
-function QuizDetailsEditor() {
+
+interface ChildComponentProps {
+  setIsValid: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function QuizDetailsEditor({setIsValid} : ChildComponentProps) {
+
   const { quizId } = useParams()
-  const quizList = useSelector((state: KanbasState) => state.quizzesReducer.quizzes);
-  const quiz = quizList.filter((quiz) => quiz._id === quizId)[0]
-  const dispatch = useDispatch();
-  //const isDefaultSetting = quiz === undefined ? true : false;
-  //const [shuffle, setShuffle] = useState(isDefaultSetting ? true : quiz.shuffle);
-  const [shuffle, setShuffle] = useState(true);
-  const [quizType, setQuizType] = useState(quiz.type);
-  const [islimit, setIsLimit] = useState(true);
-  const [limitAmt, setLimitAmt] = useState(20);
-  const [multiple, setMultiple] = useState(quiz.multiple);
-  const [instruction, setInstruction] = useState(quiz.instruction);
-  const [showCorrect, setShowCorrect] = useState(quiz.showCorrect);
-  const [accessCode, SetAccessCode] = useState(quiz.code);
-  const [isOneAtATime, setOneAtTime] = useState(quiz.oneAtATime);
-  const [isWebCam, setIsWebCam] = useState(quiz.webcam);
-  const [isLock, setIsLock] = useState(quiz.lock);
-  const [dueDate, setDueDate] = useState(quiz.due);
-  const [availableDate, setAvailableDate] = useState(quiz.availiable);
-  const [untilDate, setUntilDate] = useState(quiz.until);
+  const dispatch = useDispatch()
+  const [quiz, setThisQuiz] = useState<Quiz>({
+    _id: "",
+    courseID: "",
+    instruction: "",
+    name: "New Quiz",
+    type: "Graded Quiz",
+    points: 0,
+    group: "Quizzes",
+    shuffle: true,
+    setLimit: true,
+    limit: 20,
+    multiple: false,
+    showCorrect: false,
+    code: '',
+    oneAtATime: false,
+    webcam: false,
+    lock: false,
+    due: "",
+    availiable: "",
+    until: "",
+    publish: false
+  })
 
+  const [text, setText] = useState("");
 
-  // If the current value of shuffle is false in Quiz JSON object,
-  // and "Shuffle Answers" is by default checked, then clicking on Save button without doing anything else will fail, 
-  // because useState/dispatch is updated onChange, which means the user needs to click on the html for state to update. 
-  // In addition, having a single dispatch call is cleaner approach than having multiple dispatch under every single
-  // onChange trigger. 
+  const [editorContent, setEditorContent] = useState("");
+
+  const handleEditorChange = (content: string) => {
+    setEditorContent(content);
+    handleClick({ ...quiz, instruction: content });
+  };
+
+  const handleSetTime = (timeText: string) => {
+    const isDueFilled = timeText.length >= 16;
+    const isAvailableFilled = timeText.length >= 16;
+    const isUntilFilled = timeText.length >= 16;
+    if (isDueFilled && isAvailableFilled && isUntilFilled) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }
+
+  const handleClick = (quiz: Quiz) => {
+
+    const updatedQuiz = quiz;
+    setThisQuiz(updatedQuiz)
+    dispatch(setQuiz(updatedQuiz));
+  }
+  // // Grab the current quiz detail
+  const fetchQuizDetailById = async () => {
+    if (quizId) {
+      const fetchedQuiz : Quiz = await client.getQuizDetailById(quizId);
+      setText(fetchedQuiz.instruction);
+      setThisQuiz(fetchedQuiz);
+      if (fetchedQuiz.due.length >= 16 && fetchedQuiz.until.length >= 16 && fetchedQuiz.availiable.length >= 16) {
+        setIsValid(true);
+      }
+    }
+  }
+
   useEffect(() => {
-    dispatch(setQuiz({ ...quiz, shuffle: shuffle, limit: limitAmt, setLimit: islimit, multiple: multiple, showCorrect: showCorrect, webcam: isWebCam, code:accessCode, oneAtATime:isOneAtATime, lock:isLock, due:dueDate, availiable:availableDate, until:untilDate, instruction:instruction, type:quizType}))
-  }, [shuffle, islimit, limitAmt, multiple, showCorrect, accessCode, isOneAtATime, isWebCam, isLock, dueDate, availableDate, instruction, untilDate, quizType]);
-
+    fetchQuizDetailById();
+  }, [quizId]);
 
   return (
     <div>
       <div className="d-flex align-items-center gap-4 mb-3">
         <div>Points {quiz.points}</div>
-        <div>Not Published</div>
+        <div>{quiz.publish ? "Published" : "Not Published"}</div>
         <button className="btn btn-light d-flex align-items-center">:</button>
       </div>
-      <input type="text" defaultValue={quiz.name} placeholder="Quiz Name"
+      <input type="text" value={quiz.name} placeholder="Quiz Name"
         onChange={(e) => {
-          dispatch(setQuiz({ ...quiz, name: e.target.value }))
+          handleClick({ ...quiz, name: e.target.value });
         }}
       />
       <div className="form-group mb-4 mt-4">
         <label htmlFor="instruction">Quiz Instructions:</label>
-        <textarea className="form-control" id="instruction" rows={3} value={instruction} onChange={(e) => {setInstruction(e.target.value)}}></textarea>
+        <Editor apiKey="fuwvr20gje9j16aatycd3yxkofqonpysg7nuf5jjsxm41iyi"
+          initialValue={text}
+          onInit={(evt, editor) => { setEditorContent(editor.getContent({ format: 'text' })) }}
+          onEditorChange={(value, editor) => { handleEditorChange(editor.getContent({ format: 'text' })); }} />
       </div>
       <div className="d-flex gap-4">
         <label htmlFor="quiz-select">Quiz Type:</label>
 
-        <select name="quiz" id="quiz-select" onChange={(e) => {setQuizType(e.target.value)}}>
-          <option value="Graded">Graded Quiz</option>
-          <option value="Practice">Practice Quiz</option>
-          <option value="Survey">Graded Survey</option>
-          <option value="Upgraded">Upgraded Survey</option>
+        <select name="quiz" id="quiz-select" value={quiz.type} onChange={(e) => handleClick({ ...quiz, type: e.target.value })}>
+          <option value="Graded Quiz">Graded Quiz</option>
+          <option value="Practice Quiz">Practice Quiz</option>
+          <option value="Graded Survey">Graded Survey</option>
+          <option value="Upgraded Survey">Upgraded Survey</option>
         </select>
       </div>
       <label htmlFor="points">Points: </label>
-      <input type="number" className="" id="points"
+      <input type="number" min="0" max="240" className="" id="points" value={quiz.points}
         onChange={(e) => {
-          dispatch(setQuiz({ ...quiz, points: e.target.value }))
+          handleClick({ ...quiz, points: e.target.value? parseInt(e.target.value) : 0 })
         }}
       />
       <div className="d -flex gap-4">
-        <label htmlFor="quiz-select">Assignment Group</label>
+        <label htmlFor="assignment-group">Assignment Group</label>
 
-        <select name="quiz" id="quiz-select">
+        <select name="assignment" id="assignment-group" value={quiz.group} onChange={(e) => handleClick({ ...quiz, group: e.target.value })}>
           <option value="Quizzes">Quizzes</option>
           <option value="Exams">Exams</option>
           <option value="Assignments">Assignments</option>
@@ -83,66 +129,87 @@ function QuizDetailsEditor() {
       <div>
         <div>Options</div>
         <div>
-          <input type="checkbox" id="shuffle-answers" name="shuffle-answers" defaultChecked={true} onChange={(e) => {
-            //dispatch(setQuiz({...quiz, shuffle: e.target.checked}))
-            setShuffle(e.target.checked)
-          }} />
+          <input type="checkbox" id="shuffle-answers" name="shuffle-answers" checked={quiz.shuffle}
+            onChange={(e) => {
+              handleClick({ ...quiz, shuffle: e.target.checked })
+            }} />
           <label htmlFor="shuffle-answers">Shuffle Answers</label>
         </div>
 
         <div>
-          <input type="checkbox" id="time-limit" name="time-limit" defaultChecked={true} onChange={(e) => { setIsLimit(e.target.checked) }} />
+          <input type="checkbox" id="time-limit" name="time-limit" checked={quiz.setLimit}
+            onChange={(e) => { handleClick({ ...quiz, setLimit: e.target.checked }) }} />
           <label htmlFor="time-limit" >Time Limit </label>
-          <span style={{ display: islimit ? "block" : "none" }}>
-            <input type="number" id="minutes" name="minutes" placeholder="20" value={limitAmt} onChange={(e) => { 
-              setLimitAmt(parseInt(e.target.value));
-              }} />
-          <label htmlFor="minutes">Minutes</label>
+          <span style={{ display: quiz.setLimit ? "block" : "none" }}>
+            <input type="number" min="0" max="240" id="minutes" name="minutes" placeholder="20" value={quiz.limit}
+              onChange={(e) => handleClick({ ...quiz, limit: e.target.value? parseInt(e.target.value) : 0 })} />
+            <label htmlFor="minutes">Minutes</label>
 
           </span>
         </div>
         <div className="border">
-          <input type="checkbox" id="allow-mult-atmpt" name="allow-mult-atmpt" defaultChecked={multiple} onChange={(e) => {setMultiple(e.target.checked)}}/>
+          <input type="checkbox" id="allow-mult-atmpt" name="allow-mult-atmpt" checked={quiz.multiple}
+            onChange={(e) => handleClick({ ...quiz, multiple: e.target.checked })} />
           <label htmlFor="allow-mult-atmpt">Allow Multiple Attempts</label>
         </div>
         <div className="border">
-          <input type="checkbox" id="allow-mult-atmpt" name="allow-mult-atmpt" defaultChecked={showCorrect} onChange={(e) => {
-            setShowCorrect(e.target.checked)
-          }}/>
+          <input type="checkbox" id="allow-mult-atmpt" name="allow-mult-atmpt" checked={quiz.showCorrect}
+            onChange={(e) => {
+              handleClick({ ...quiz, showCorrect: e.target.checked })
+            }} />
           <label htmlFor="allow-mult-atmpt">Show Correct Answers</label>
         </div>
         <div>
           <label htmlFor="access-code">Access Code: </label>
-          <input type="number" name="access-code" id="access-code" value={accessCode} onChange={(e) => {SetAccessCode(parseInt(e.target.value))}} />
+          <input type="number" min="0" max="999" name="access-code" id="access-code" value={quiz.code} onChange={(e) =>
+            handleClick({ ...quiz, code: e.target.value ? parseInt(e.target.value) : "" })
+          } />
         </div>
         <div>
           <label htmlFor="one-question">One Question at a Time </label>
-          <input type="checkbox" id="one-question" defaultChecked={isOneAtATime} onChange={(e) => {setOneAtTime(e.target.checked)}} />
+          <input type="checkbox" id="one-question" checked={quiz.oneAtATime} onChange={(e) =>
+            handleClick({ ...quiz, oneAtATime: e.target.checked })
+          } />
         </div>
         <div>
           <label htmlFor="webcam">Webcam Required</label>
-          <input type="checkbox" id="webcam" defaultChecked={isWebCam} onChange={(e) => {setIsWebCam(e.target.checked)}}/>
+          <input type="checkbox" id="webcam" checked={quiz.webcam} onChange={(e) =>
+            handleClick({ ...quiz, webcam: e.target.checked })} />
         </div>
         <div>
           <label htmlFor="lock-question">Lock Questions After Answering </label>
-          <input type="checkbox" id="lock-question" defaultChecked={isLock} onChange={(e) => {setIsLock(e.target.checked)}}/>
+          <input type="checkbox" id="lock-question" checked={quiz.lock} onChange={(e) =>
+            handleClick({ ...quiz, lock: e.target.checked })
+          } />
         </div>
       </div>
       <div className="w-50">
         <div>
           <div>Due</div>
-          <input type="datetime-local" className="form-control" defaultValue={dueDate?.toLocaleString()} onChange={(e)=>{ setDueDate(e.target.value)}} />
+          <input type="datetime-local" className="form-control" value={quiz.due}
+            onChange={(e) => {
+              handleClick({ ...quiz, due: e.target.value })
+              handleSetTime(e.target.value)
+
+            }} />
         </div>
         <div>
           <div>Available from</div>
-          <input type="datetime-local" className="form-control" defaultValue={availableDate?.toLocaleString()} onChange={(e)=>{ setAvailableDate(e.target.value)}}/>
+          <input type="datetime-local" className="form-control" value={quiz.availiable}
+            onChange={(e) => {
+              handleClick({ ...quiz, availiable: e.target.value })
+              handleSetTime(e.target.value)
+            }} />
         </div>
         <div>
           <div>Until</div>
-          <input type="datetime-local" className="form-control" defaultValue={untilDate?.toString()} onChange={(e)=>{
-            setUntilDate(e.target.value)}}/>
+          <input type="datetime-local" className="form-control" value={quiz.until} required
+            onChange={(e) => {
+              handleClick({ ...quiz, until: e.target.value })
+              console.log(e.target.value)
+              handleSetTime(e.target.value)
+              }} />
         </div>
-        <button className="w-100">+ Add</button>
       </div>
     </div>
   )

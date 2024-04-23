@@ -1,21 +1,32 @@
-import { Navigate, Route, Routes, useParams } from "react-router";
+import { Navigate, Route, Routes, useNavigate, useParams } from "react-router";
 import DetailsNav from "./detailsNav";
 import QuizDetailsEditor from "./QuizDetailsEditor";
 import QuizQuestionsEditor from "./QuizQuestionsEditor";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { KanbasState } from "../../../../Store";
-import { updateQuiz, resetQuiz } from "../../quizzesReducer";
+import * as client from "../../Client/quizClient";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
 function Editor() {
   const {quizId}= useParams();
-  const quiz = useSelector((state: KanbasState) => 
-  state.quizzesReducer.quiz);
-  const dispatch = useDispatch()
+  const quiz = useSelector((state: KanbasState) => state.quizzesReducer.quiz);
+  const navigate = useNavigate();
 
-  const handleSaveQuiz = (quiz: any) => {
-    dispatch(resetQuiz());
-    dispatch(updateQuiz(quiz));
+  const [isValid, setIsValid] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const handleSaveQuiz = async (quiz: any) => {
+    if (isValid) {
+      await client.updateQuizDetail(quiz)
+      navigate(`/Kanbas/Courses/RS101/Quizzes/${ quizId }/QuizDetail`)
+    }
+    else {
+      setErrorMessage('Please fill out the date and time field')
+    }
+
+  }
+  const handleCancelEdit = () => {
+    navigate(`/Kanbas/Courses/RS101/Quizzes/${ quizId }/QuizDetail`)
   }
 
   return(
@@ -23,16 +34,15 @@ function Editor() {
       <DetailsNav />
       <Routes>
         <Route path="/" element={<Navigate to="QuizDetailsEditor"/>}/> 
-        <Route path="QuizDetailsEditor" element={<QuizDetailsEditor/>} />
+        <Route path="QuizDetailsEditor" element={<QuizDetailsEditor setIsValid={setIsValid}/>} />
         <Route path="QuizQuestionsEditor" element={<QuizQuestionsEditor/>} />
       </Routes>
+      {errorMessage && <div className="text-danger">{errorMessage}</div>}
       <div className="d-flex">
-        <Link to={`/Kanbas/Courses/RS101/Quizzes/${ quizId }`}>
-          <button> Cancel </button>
+          <button onClick={handleCancelEdit}> Cancel </button>
           <button onClick={() => handleSaveQuiz({...quiz, publish: true})}>
             Save & Publish </button>
           <button onClick={() => handleSaveQuiz(quiz)}> Save </button> 
-        </Link>
       </div> 
     </div>
   );
