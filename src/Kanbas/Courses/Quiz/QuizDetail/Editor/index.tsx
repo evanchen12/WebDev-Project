@@ -3,7 +3,7 @@ import DetailsNav from "./detailsNav";
 import QuizDetailsEditor from "./QuizDetailsEditor";
 import QuizQuestionsEditor from "./QuizQuestionsEditor";
 import { KanbasState } from "../../../../Store";
-import * as client from "../../Client/quizClient";
+import * as client from "../../Clients/quizClient";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 

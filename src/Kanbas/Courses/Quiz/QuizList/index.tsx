@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { FaEllipsisV, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { format, isBefore, isAfter } from 'date-fns';
 import './index.css';
-import * as client from '../Client/quizClient'
+import * as client from '../Clients/quizClient'
 import { Quiz } from '../../../DataType';
 
 function QuizList() {
@@ -34,7 +34,8 @@ function QuizList() {
 
   const fetchAllQuizzes = async () => {
     const quizzesFromDB = await client.getAllQuizzes();
-    setQuizzes(quizzesFromDB);
+    const courseQuiz = quizzesFromDB.filter((q: Quiz) => q.courseID === courseId);
+    setQuizzes(courseQuiz);
   }
 
   

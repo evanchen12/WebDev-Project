@@ -1,7 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { format } from 'date-fns';
 import { useEffect, useState } from "react";
-import * as client from "../Client/quizClient"
+import * as client from "../Clients/quizClient"
 import { Quiz } from "../../../DataType";
 
 function QuizDetail() {

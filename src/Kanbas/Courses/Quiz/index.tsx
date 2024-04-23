@@ -3,7 +3,7 @@ import QuizList from "./QuizList"
 import { FaEllipsisV } from "react-icons/fa";
 import { addQuiz, resetQuiz, setQuiz } from "./quizzesReducer";
 import { KanbasState } from "../../Store";
-import { createQuizDetail } from "./Client/quizClient";
+import { createQuizDetail } from "./Clients/quizClient";
 import { useEffect, useState } from "react";
 import { Quiz } from "../../DataType";
 import { Link, useNavigate } from "react-router-dom";
