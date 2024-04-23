@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import db from "../../Database";
 import { Option } from '../../DataType';
 
 const initialState = {
@@ -14,7 +13,7 @@ const optionSlice = createSlice({
     addOption: (state, action) => {
       state.options = [
         ...state.options,
-        ...action.payload,
+        action.payload,
       ];
     },
     deleteOption: (state, action) => {

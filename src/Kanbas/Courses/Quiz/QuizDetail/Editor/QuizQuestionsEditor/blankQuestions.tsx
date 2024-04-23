@@ -1,7 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { Editor } from "@tinymce/tinymce-react";
 import { KanbasState } from "../../../../../Store";
 import { setChoiceQ } from "../../../choiceQReducer";
-import { addOption, deleteOption, updateOption } from "../../../optionReducer";
+import { addOption, deleteOption, updateOption, setOptions } from "../../../optionReducer";
+import * as client from "../../../Clients/optionClient"
 import "./index.css";
 import { FaTrashAlt } from "react-icons/fa";
 
@@ -11,31 +14,56 @@ function BlankQuestions() {
     state.choiceQReducer.choiceQ);
   const options = useSelector((state: KanbasState) => 
     state.optionReducer.options);
-  const option = useSelector((state: KanbasState) => 
-    state.optionReducer.option);
+
+  const fetchOptions = async () => {
+    const options = await client.findAllOptions();
+    dispatch(setOptions(options));
+  }
+  const handleAddOption = (_id: string) => {
+    client.createOption({p_id: _id, description: "", answer: ""})
+    .then((option) => {
+      dispatch(addOption(option));
+    });
+  };
+  const handleUpdateOption = async (option: any) => {
+    client.updateOption(option)
+    .then((status) => {dispatch(updateOption(option))});
+  };
+  const handleDeleteOption = (_id: string) => {
+    client.deleteOption(_id)
+    .then((status) => {dispatch(deleteOption(_id))});
+  }
+  useEffect(() => {
+    fetchOptions();
+  }, []);
+
 
   return (
     <>
       Enter your question text, then define all possible correct answers for the blank.
       Students will see the question followed by a small text box to type their answer.<br/>
-      <b><h5>Question:</h5></b>
-      <textarea className="form-control" value={ question.question } cols={150}
-        onChange={(e) => dispatch(setChoiceQ({...question, question: e.target.value }))}/>
+      <div className="form-group mb-4 mt-4">
+        <b><h5>Question:</h5></b>
+        <Editor apiKey="fuwvr20gje9j16aatycd3yxkofqonpysg7nuf5jjsxm41iyi"
+          value={ question.question }
+          onEditorChange={(value, editor) => { dispatch(setChoiceQ({...question, question: editor.getContent({ format: 'text' })}))}} />
+      </div>
+
       <b><h5>Answers:</h5></b>
       <ul className="options">
       {options
-        .filter((option) => ((option.p_id === question._id) && (option.answer !== "$MC-")))
-        .map((option) => (
-            <li>
-              <input defaultValue={option.description} onChange={(e) => dispatch(updateOption({ ...option, description: e.target.value }))} />
-              <input defaultValue={option.answer} onChange={(e) => dispatch(updateOption({ ...option, answer: e.target.value }))} />
-              <button type="button" className="btn-secondary trash-button" onClick={() => dispatch(deleteOption(option.o_id))}>
+        .filter((o) => ((o.p_id === question._id) && (o.answer !== "$MC-")))
+        .map((o) => (
+            <li key={o._id}>
+              <input defaultValue={o.description} onChange={(e) => handleUpdateOption({ ...o, description: e.target.value })} />
+              <input defaultValue={o.answer} onChange={(e) => handleUpdateOption({ ...o, answer: e.target.value })} />
+              <button type="button" className="btn-secondary trash-button" onClick={() => handleDeleteOption(o._id)}>
                 <FaTrashAlt className="ms-2" />
               </button>
             </li>
           ))}
       </ul>
-      <button className="d-flex add-button" onClick={() => dispatch(addOption({ ...option, p_id: question._id}))}>
+      <button className="d-flex add-button" onClick={() => handleAddOption(question._id)}>
         + Add Another Answer
       </button>
     </>

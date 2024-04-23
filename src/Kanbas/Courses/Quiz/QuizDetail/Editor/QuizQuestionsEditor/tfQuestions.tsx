@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { Editor } from "@tinymce/tinymce-react";
 import { KanbasState } from "../../../../../Store";
 import { setChoiceQ } from "../../../choiceQReducer"; 
 import "./index.css";
@@ -11,9 +12,12 @@ function TFQuestions() {
   return (
     <>
       Enter your question text, then select if True or False is the correct answer.<br/>
-      <b><h5>Question:</h5></b>
-      <textarea className="form-control" defaultValue={ question.question } 
-        onChange={(e) => dispatch(setChoiceQ({...question, question: e.target.value }))}/>
+      <div className="form-group mb-4 mt-4">
+        <b><h5>Question:</h5></b>
+        <Editor apiKey="fuwvr20gje9j16aatycd3yxkofqonpysg7nuf5jjsxm41iyi"
+          value={ question.question }
+          onEditorChange={(value, editor) => { dispatch(setChoiceQ({...question, question: editor.getContent({ format: 'text' })}))}} />
+      </div>
         
       <b><h5>Answer:</h5></b>
       <div className="tf">
