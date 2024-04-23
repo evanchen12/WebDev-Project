@@ -14,7 +14,7 @@ const optionSlice = createSlice({
     addOption: (state, action) => {
       state.options = [
         ...state.options,
-        ...action.payload,
+        action.payload,
       ];
     },
     deleteOption: (state, action) => {

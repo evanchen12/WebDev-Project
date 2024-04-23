@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import './QuizPreview.css';
 import { Option } from '../../../DataType';
 import * as client from "../../../Courses/Quiz/Clients/optionClient"
-import { setOption } from "../optionReducer";
+import { setOption, setOptions } from "../optionReducer";
 
 function QuizPreview() {
   const { quizId } = useParams();
@@ -21,14 +21,15 @@ function QuizPreview() {
 
   const fetchOptions = async () => {
     const options = await client.findAllOptions();
-    dispatch(setOption(options));
+    dispatch(setOptions(options));
+    console.log(options);
   };
 
   
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   const currentQuestion = questionsForQuiz[currentQuestionIndex];
-  const optionsForCurrentQuestion = currentQuestion ? options.filter((option) => option.p_id === currentQuestion.p_id) : [];
+  const optionsForCurrentQuestion = currentQuestion ? options.filter((option) => option.p_id === currentQuestion._id) : [];
   console.log('Options for Current Question:', optionsForCurrentQuestion);
   
 
@@ -54,7 +55,9 @@ function QuizPreview() {
     }
   };
 
-
+  useEffect(() => {
+    fetchOptions();
+  }, []); 
 
 
 
@@ -65,7 +68,7 @@ function QuizPreview() {
     <>
       <h2>{quiz?.name} - HTML</h2>
       <h2>Quiz Instructions</h2>
-
+      
 
       {oneAtATime ? (
   // Display one question at a time
@@ -109,38 +112,53 @@ function QuizPreview() {
   // display all questions at once
   
   <>
-    {questionsForQuiz.map((question, index) => (
-      <div key={question.p_id} className="border">
-        <div><strong>Question {index + 1}: {question.title}</strong></div>
-        <div>{question.question}</div>
-        {options.filter(option => option.p_id === question.p_id).map(option => (
-          <div key={option._id}>
-            <label>
-              <input
-                type="radio"
-                name={`mc_answer_${question.p_id}`}
-                value={option.description}
-              /> {option.description}
-            </label>
-          </div>
-        ))}
-        {question.type === "BLANK" && (
-          <input
-            type="text"
-            placeholder="Your answer here"
-            value={userAnswer}
-            onChange={(e) => setUserAnswer(e.target.value)}
-          />
-        )}
-        {question.type === "TF" && (
-          <>
-            <input type="radio" name={`tf_answer_${question.p_id}`} value="True" /> True
-            <input type="radio" name={`tf_answer_${question.p_id}`} value="False" /> False
-          </>
-        )}
-      </div>
-    ))}
-  </>
+  {questionsForQuiz.map((question, index) => (
+    <div key={question.p_id} className="border">
+      <div><strong>Question {index + 1}: {question.title}</strong></div>
+      <div>{question.question}</div>
+        <div>
+          {question.type === "MC" && (
+            <div>
+              {options
+              .filter((option) => option.p_id === question._id)
+              .map((option) =>
+                <>
+                  <ul>
+                    <li>
+                      <input type="radio" />
+                      {option.description}
+                    </li>
+                  </ul>
+                </>
+              )}
+            </div>
+          )}
+          {question.type === "BLANK" && (
+            <div>
+              {options
+              .filter((option) => option.p_id === question.id)
+              .map((option) =>
+                <>
+                  <ul>
+                    <li>
+                      {option.description}
+                      <input type="text" />
+                    </li>
+                  </ul>
+                </>
+              )}
+            </div>
+          )}
+          {question.type === "TF" && (
+            <div>
+              <input type="radio" name={`tf_answer${question._id}`} value="True" /> True
+              <input type="radio" name={`tf_answer${question._id}`} value="False" /> False
+            </div>
+          )}
+        </div>
+    </div>
+  ))}
+</>
 )}
 
 {oneAtATime && (
