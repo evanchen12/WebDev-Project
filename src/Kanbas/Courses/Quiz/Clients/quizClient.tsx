@@ -2,7 +2,7 @@ import axios from "axios";
 import { Quiz } from "../../../DataType";
 // Call backend from here
 
-const QUIZ_API = "http://localhost:4000";
+const QUIZ_API = process.env.REACT_APP_API_BASE;
 
 export const getQuizDetailById = async (quizId:string) => {
     const response = await axios.get(`${QUIZ_API}/api/quiz/${quizId}`)
