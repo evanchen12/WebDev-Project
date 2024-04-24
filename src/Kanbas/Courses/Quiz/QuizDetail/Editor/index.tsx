@@ -18,7 +18,7 @@ function Editor() {
   const handleSaveQuiz = async (quiz: any) => {
     if (isValid) {
       await client.updateQuizDetail(quiz)
-      navigate(`/Kanbas/Courses/RS101/Quizzes/${ quizId }/QuizDetail`)
+      navigate(`../Quizzes/${ quizId }/QuizDetail`)
     }
     else {
       setErrorMessage('Please fill out the date and time field')
@@ -26,7 +26,7 @@ function Editor() {
 
   }
   const handleCancelEdit = () => {
-    navigate(`/Kanbas/Courses/RS101/Quizzes/${ quizId }/QuizDetail`)
+    navigate(`../Quizzes/${ quizId }/QuizDetail`)
   }
 
   return(
