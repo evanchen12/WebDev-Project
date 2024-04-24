@@ -63,21 +63,11 @@ function QuizPreview() {
     fetchOptions();
   }, []);
 
-
-
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-
   const currentQuestion = choiceQuestions[currentQuestionIndex];
   const optionsForCurrentQuestion = currentQuestion ? options.filter((option) => option.p_id === currentQuestion._id) : [];
-  console.log('Options for Current Question:', optionsForCurrentQuestion);
-  
-
-
   const [userAnswer, setUserAnswer] = useState("");
-
   const oneAtATime = quiz.oneAtATime ?? false;
-
-  
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < choiceQuestions.length - 1) {
@@ -87,7 +77,6 @@ function QuizPreview() {
       // end of quiz
     }
   };
-
   const handlePreviousQuestion = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
