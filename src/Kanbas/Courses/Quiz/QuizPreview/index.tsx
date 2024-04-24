@@ -207,18 +207,6 @@ function QuizPreview() {
 </button>
 </>
 )}
-
-
-
-
-
-
-
-
-
-
-
-
       <div className="border">
         <div className="button-container">
           Quiz saved at 8:19am
@@ -227,7 +215,7 @@ function QuizPreview() {
             <button className="btn btn-light d-flex align-items-center">Submit Quiz</button>
           </Link>
         </div>
-        <Link to={`/Kanbas/Courses/RS101/Quizzes/${quizId}/Editor/QuizDetailsEditor`}>
+        <Link to={`../Quizzes/${quizId}/QuizDetail/Editor/`}>
 
           <button className="btn btn-light d-flex align-items-center">Keep Editing This Quiz</button>
         </Link>
