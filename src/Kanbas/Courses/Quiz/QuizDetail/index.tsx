@@ -65,7 +65,7 @@ function QuizDetail() {
       <div className="d-flex">
         <button className={`btn ${publish ? 'btn-success' : 'btn-danger'} d-flex align-items-center`} onClick={updatePublished}>
           {publish ? "Published" : "Unpublished"}</button>
-        <Link to={"QuizPreview"}>
+        <Link to={`../Quizzes/${quizId}/QuizPreview`}>
           <button className="btn btn-light d-flex align-items-center">Preview</button>
         </Link>
 

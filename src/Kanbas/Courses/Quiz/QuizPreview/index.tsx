@@ -4,31 +4,70 @@ import { KanbasState } from "../../../Store";
 import { useState, useEffect } from "react";
 import './QuizPreview.css';
 import { Option } from '../../../DataType';
-import * as client from "../../../Courses/Quiz/Clients/optionClient"
-import { setOption, setOptions } from "../optionReducer";
+import * as optionClient from "../Clients/optionClient"
+import * as choiceQClient from "../Clients/choiceQClient"
+import * as quizClient from "../Clients/quizClient"
+import { setOptions } from "../optionReducer";
+import { setChoiceQs } from "../choiceQReducer";
 
 function QuizPreview() {
   const { quizId } = useParams();
   const dispatch = useDispatch();
-  const quizList = useSelector((state: KanbasState) => state.quizzesReducer.quizzes);
   const options = useSelector((state: KanbasState) => state.optionReducer.options);
-  
   const choiceQuestions = useSelector((state: KanbasState) => state.choiceQReducer.choiceQs);
+  const [quiz, setQuiz] = useState({
+    _id: "",
+    courseID: "",
+    instruction: "",
+    name: "",
+    type: "",
+    points: 0,
+    group: "",
+    shuffle: false,
+    setLimit: false,
+    limit: 0,
+    multiple: false,
+    showCorrect: false,
+    code: 0,
+    oneAtATime: false,
+    webcam: false,
+    lock: false,
+    due: "",
+    availiable: "",
+    until: "",
+    publish: false
+  });
 
-  const quiz = quizList.filter((quiz) => quiz._id === quizId)[0]
-  const questionsForQuiz = choiceQuestions.filter((question) => question.quiz_id === quiz._id);
-
-
-  const fetchOptions = async () => {
-    const options = await client.findAllOptions();
-    dispatch(setOptions(options));
-    console.log(options);
+  const fetchQuiz = async () => {
+    if (quizId) {
+      const fetchedQuiz = await quizClient.getQuizDetailById(quizId);
+      setQuiz(fetchedQuiz);
+    }
   };
-
+  const fetchQuestions = async () => {
+    const questions = await choiceQClient.findAllChoiceQs(quizId);
+    dispatch(setChoiceQs(questions));
+  };
+  const fetchOptions = async () => {
+    const options = await optionClient.findAllOptions();
+    dispatch(setOptions(options));
+  };
   
+  useEffect(() => {
+    fetchQuiz();
+  }, [quizId]);
+  useEffect(() => {
+    fetchQuestions();
+  }, [quizId]);
+  useEffect(() => {
+    fetchOptions();
+  }, []);
+
+
+
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-  const currentQuestion = questionsForQuiz[currentQuestionIndex];
+  const currentQuestion = choiceQuestions[currentQuestionIndex];
   const optionsForCurrentQuestion = currentQuestion ? options.filter((option) => option.p_id === currentQuestion._id) : [];
   console.log('Options for Current Question:', optionsForCurrentQuestion);
   
@@ -41,7 +80,7 @@ function QuizPreview() {
   
 
   const handleNextQuestion = () => {
-    if (currentQuestionIndex < questionsForQuiz.length - 1) {
+    if (currentQuestionIndex < choiceQuestions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
 
@@ -55,20 +94,11 @@ function QuizPreview() {
     }
   };
 
-  useEffect(() => {
-    fetchOptions();
-  }, []); 
-
-
-
-
-  
-
   return (
     <>
       <h2>{quiz?.name} - HTML</h2>
       <h2>Quiz Instructions</h2>
-      
+
 
       {oneAtATime ? (
   // Display one question at a time
@@ -77,9 +107,6 @@ function QuizPreview() {
       <div><strong>{currentQuestion.title}</strong></div>
       <div>{currentQuestion.question}</div>
       {currentQuestion.type === "MC" && optionsForCurrentQuestion.map((option) => (
-
-
-
         <div key={option._id}>
           <label>
             <input
@@ -109,62 +136,61 @@ function QuizPreview() {
     <div>No questions available for this quiz</div>
   )
 ) : (
-  // display all questions at once
-  
+  // display all questions at once 
   <>
-  {questionsForQuiz.map((question, index) => (
-    <div key={question.p_id} className="border">
-      <div><strong>Question {index + 1}: {question.title}</strong></div>
-      <div>{question.question}</div>
-        <div>
-          {question.type === "MC" && (
-            <div>
-              {options
-              .filter((option) => option.p_id === question._id)
-              .map((option) =>
-                <>
-                  <ul>
-                    <li>
-                      <input type="radio" />
-                      {option.description}
-                    </li>
-                  </ul>
-                </>
-              )}
-            </div>
-          )}
-          {question.type === "BLANK" && (
-            <div>
-              {options
-              .filter((option) => option.p_id === question.id)
-              .map((option) =>
-                <>
-                  <ul>
-                    <li>
-                      {option.description}
-                      <input type="text" />
-                    </li>
-                  </ul>
-                </>
-              )}
-            </div>
-          )}
-          {question.type === "TF" && (
-            <div>
-              <input type="radio" name={`tf_answer${question._id}`} value="True" /> True
-              <input type="radio" name={`tf_answer${question._id}`} value="False" /> False
-            </div>
-          )}
-        </div>
-    </div>
-  ))}
-</>
+    {choiceQuestions.map((question, index) => (
+      <div key={question.p_id} className="border">
+        <div><strong>Question {index + 1}: {question.title}</strong></div>
+        <div>{question.question}</div>
+          <div>
+            {question.type === "MC" && (
+              <div>
+                {options
+                .filter((option) => option.p_id === question._id)
+                .map((option) =>
+                  <>
+                    <ul>
+                      <li>
+                        <input type="radio" />
+                        {option.description}
+                      </li>
+                    </ul>
+                  </>
+                )}
+              </div>
+            )}
+            {question.type === "BLANK" && (
+              <div>
+                {options
+                .filter((option) => option.p_id === question.id)
+                .map((option) =>
+                  <>
+                    <ul>
+                      <li>
+                        {option.description}
+                        <input type="text" />
+                      </li>
+                    </ul>
+                  </>
+                )}
+              </div>
+            )}
+            {question.type === "TF" && (
+              <div>
+                <input type="radio" name={`tf_answer${question.pid}`} value="True" /> True
+                <input type="radio" name={`tf_answer${question.p_id}`} value="False" /> False
+              </div>
+            )}
+          </div>
+      </div>
+    ))}
+  </>
 )}
 
 {oneAtATime && (
      <>
 <ol className="questions-list">
-  {questionsForQuiz.map((question, index) => (
+  {choiceQuestions.map((question, index) => (
     <li key={question.p_id} style={{ fontWeight: index === currentQuestionIndex ? 'bold' : 'normal' }}>
       Question {index + 1}
     </li>
@@ -186,7 +212,7 @@ function QuizPreview() {
   className="btn btn-secondary d-flex align-items-center me-2"
   style={{ border: '1px solid #100' }}
   onClick={handleNextQuestion}
-  disabled={currentQuestionIndex >= questionsForQuiz.length - 1} // Disable if on the last question
+  disabled={currentQuestionIndex >= choiceQuestions.length - 1} // Disable if on the last question
 >
   Next
 </button>
