@@ -61,8 +61,8 @@ function QuizDetail() {
 
 
   return (
-    <div>
-      <div className="d-flex">
+    <div className="container pe-4 ps-4 mt-2">
+      <div className="d-flex gap-2">
         <button className={`btn ${publish ? 'btn-success' : 'btn-danger'} d-flex align-items-center`} onClick={updatePublished}>
           {publish ? "Published" : "Unpublished"}</button>
         <Link to={`../Quizzes/${quizId}/QuizPreview`}>
@@ -72,10 +72,12 @@ function QuizDetail() {
 
         <button className="btn btn-light d-flex align-items-center" onClick={handleEditRedirect}>Edit</button>
 
-        <button className="btn btn-light">:</button>
+        <button className="btn btn-light">⋮</button>
       </div>
       <hr />
-      <h1>{`${quiz.name}`} - HTML</h1>      <div>
+      <div className="container">
+      <h1>{`${quiz.name}`}</h1>      
+      <div className="d-flex flex-column gap-2">
         <h5>Quiz Type: {`${quiz.type}`}</h5>
         <h5>Points: {`${quiz.points}`}</h5>
         <h5>Assignment Group: {`${quiz.group}`}</h5>
@@ -106,6 +108,8 @@ function QuizDetail() {
           </tbody>
         </table>
       </div>
+      </div>
+
     </div>
   );
 }
