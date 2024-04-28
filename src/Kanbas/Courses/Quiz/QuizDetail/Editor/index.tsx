@@ -38,11 +38,11 @@ function Editor() {
         <Route path="QuizQuestionsEditor" element={<QuizQuestionsEditor/>} />
       </Routes>
       {errorMessage && <div className="text-danger">{errorMessage}</div>}
-      <div className="d-flex">
-          <button onClick={handleCancelEdit}> Cancel </button>
-          <button onClick={() => handleSaveQuiz({...quiz, publish: true})}>
+      <div className="d-flex container mt-4 mb-5 gap-2">
+          <button className="btn btn-light btn-md d-flex align-items-center p-3" onClick={handleCancelEdit}> Cancel </button>
+          <button className="btn btn-light btn-md d-flex align-items-center p-3" onClick={() => handleSaveQuiz({...quiz, publish: true})}>
             Save & Publish </button>
-          <button onClick={() => handleSaveQuiz(quiz)}> Save </button> 
+          <button className="btn btn-danger btn-md d-flex align-items-center p-3" onClick={() => handleSaveQuiz(quiz)}> Save </button> 
       </div> 
     </div>
   );
