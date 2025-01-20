@@ -7,7 +7,7 @@ const initialState = {
 };
 
 const choiceQSlice = createSlice({
-  name: "choiceQ",
+  name: "choiceQs",
   initialState,
   reducers: {
     setChoiceQs: (state, action) => {

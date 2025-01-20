@@ -14,6 +14,8 @@ function QuizQuestionsEditor() {
   const dispatch = useDispatch();
   const { quizId } = useParams();
   const [editing, setEditing] = useState(false);
+  const [searching, setSearching] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const question = useSelector((state: KanbasState) => 
     state.choiceQReducer.choiceQ);
   const questions = useSelector((state: KanbasState) => 
@@ -51,15 +53,26 @@ function QuizQuestionsEditor() {
       setEditing(false);
     }
   };
+  const handleNQG = () => {
+    alert("Yeah, I don't know what this button suppose to do. It's not described or required.");
+  };
   useEffect(() => {
     fetchQuestions();
   }, [quizId]);
 
   return (
     <div>
+      {searching && 
+        <input
+          type="text"
+          placeholder="Search by title"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      }
       <ul className="wd-questions">
         {questions
-          .filter((q) => (q.quiz_id === quizId))
+          .filter((q) => (q.quiz_id === quizId && q.title.toLowerCase().includes(searchQuery.toLowerCase())))
           .map((q) => (
             <li key={q._id}>
                 <div className="d-flex title">
@@ -117,8 +130,8 @@ function QuizQuestionsEditor() {
       <div className="buttons">
         <div className="text-center">
           <button onClick={handleAddQuestion}> + New Question </button>
-          <button> + New Question Group </button>
-          <button> Find Question </button>
+          <button onClick={handleNQG}> + New Question Group </button>
+          <button onClick={() => setSearching(!searching)}> Find Question </button>
         </div>
       </div>
     </div>

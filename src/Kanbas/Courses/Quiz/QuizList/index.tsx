@@ -90,7 +90,7 @@ function QuizList() {
             <li key={quiz._id} className="quiz-item">
               <div className="quiz-content">
                 <div className="quiz-info">
-                  <Link to={`/Kanbas/Courses/${courseId}/Quizzes/${quiz._id}/QuizDetail`} className="quiz-name">{quiz.name}</Link>
+                  <Link to={`/Kanbas/Courses/${courseId}/Quizzes/${quiz._id}/Quiz Detail`} className="quiz-name">{quiz.name}</Link>
                   <div className="quiz-details">
                     <p>Availability: {availabilityStatus}</p>
                     <p>Due date: {quiz.due === "" ? '' : format(new Date(quiz.due).toISOString(), "MMMM d 'at' h:mm a")}</p>

@@ -1,5 +1,40 @@
 .button-container {
   display: flex;
-  justify-content: flex-end; /* Aligns button to the right */
+  justify-content: flex-end;
+}
+
+.button {
+  background-color: lightgrey;
+}
+
+.border {
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+}
+
+.question-container {
+  margin: 10px;
+}
+
+.question-container ul {
+  list-style: none;
+}
+
+.MC input {
+  margin-right: 10px;
+}
+
+.BLANK input {
+  margin-left: 5px;
+}
+
+.BLANK div {
+  margin-bottom: 10px;
+}
+
+.TF input {
+  margin-right: 10px;
 }
 

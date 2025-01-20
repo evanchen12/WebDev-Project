@@ -18,7 +18,7 @@ function Editor() {
   const handleSaveQuiz = async (quiz: any) => {
     if (isValid) {
       await client.updateQuizDetail(quiz)
-      navigate(`../Quizzes/${ quizId }/QuizDetail`)
+      navigate(`../Quizzes/${ quizId }/Quiz Detail`)
     }
     else {
       setErrorMessage('Please fill out the date and time field')
@@ -26,16 +26,16 @@ function Editor() {
 
   }
   const handleCancelEdit = () => {
-    navigate(`../Quizzes/${ quizId }/QuizDetail`)
+    navigate(`../Quizzes/${ quizId }/Quiz Detail`)
   }
 
   return(
     <div className="container">
       <DetailsNav />
       <Routes>
-        <Route path="/" element={<Navigate to="QuizDetailsEditor"/>}/> 
-        <Route path="QuizDetailsEditor" element={<QuizDetailsEditor setIsValid={setIsValid}/>} />
-        <Route path="QuizQuestionsEditor" element={<QuizQuestionsEditor/>} />
+        <Route path="/" element={<Navigate to="Quiz Details Editor"/>}/> 
+        <Route path="Quiz Details Editor" element={<QuizDetailsEditor setIsValid={setIsValid}/>} />
+        <Route path="Quiz Questions Editor" element={<QuizQuestionsEditor/>} />
       </Routes>
       {errorMessage && <div className="text-danger">{errorMessage}</div>}
       <div className="d-flex container mt-4 mb-5 gap-2">
