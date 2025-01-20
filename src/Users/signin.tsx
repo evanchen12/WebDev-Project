@@ -12,7 +12,7 @@ export default function Signin() {
   const navigate = useNavigate();
   const signin = async () => {
     try {
-      await client.signin(credentials);
+      await client.signin({...credentials, username: credentials.username.toLowerCase()});
     navigate("/Kanbas/Account/Profile");
     } catch (err) {
       alert("Either the Username or Password is incorrect");

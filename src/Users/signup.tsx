@@ -9,11 +9,15 @@ export default function Signup() {
   const navigate = useNavigate();
 
   const signup = async () => {
-    try {
-      await client.signup(user);
-      navigate("/Kanbas/Account/Profile");
-    } catch (err) {
-      alert("Username already taken");
+    if (user.username === "" || user.password === "") {
+      alert("Username and password are required");
+    } else {
+      try {
+        await client.signup({...user, username: user.username.toLowerCase()});
+        navigate("/Kanbas/Account/Profile");
+      } catch (err) {
+        alert("Username already taken");
+      }
     }
   };
 
@@ -23,7 +27,7 @@ export default function Signup() {
       {error && <div>{error}</div>}
       <h5>Username</h5>
       <input value={user.username} onChange={(e) => setUser({
-          ...user, username: e.target.value })} />
+          ...user, username: e.target.value})} />
       <br />
       <h5>Password</h5>
       <input value={user.password} onChange={(e) => setUser({

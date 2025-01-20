@@ -33,7 +33,7 @@ function Dashboard({courses, course, setCourse, addNewCourse,
     <div className="p-4">
       <h1>Dashboard</h1>
       <hr />
-      {(profile.email !== "") && 
+      {(profile.username !== "") && 
         <div>
           <h2>Published Courses ({courses.length})</h2> <hr />
           <div className="row">
