@@ -96,7 +96,7 @@ function QuizDetailsEditor({setIsValid} : ChildComponentProps) {
         </div>
       <div className="form-group">
         <label htmlFor="instruction" className="mb-2">Quiz Instructions:</label>
-        <Editor apiKey={`${process.env.REACT_APP_API_KEY}`}
+        <Editor apiKey=""
           initialValue={text}
           onInit={(evt, editor) => { setEditorContent(editor.getContent({ format: 'text' })) }}
           onEditorChange={(value, editor) => { handleEditorChange(editor.getContent({ format: 'text' })); }} />
