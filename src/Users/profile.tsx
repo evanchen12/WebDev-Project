@@ -25,7 +25,10 @@ export default function Profile() {
 
   return (
     <div className="container-fluid profile">
-      <h1>{ profile.firstName } { profile.lastName }'s  Profile</h1>
+      <h1>{(profile.firstName !== "" && profile.lastName !== "") ? 
+          `${ profile.firstName } ${ profile.lastName }'s  Profile` : 
+          `${profile.firstName + profile.lastName}'s Profile`}
+      </h1>
       <hr/>
       {profile && (
         <div className="bio">
