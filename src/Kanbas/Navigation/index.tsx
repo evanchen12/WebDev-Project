@@ -20,7 +20,9 @@ function KanbasNavigation() {
   return (
     <ul className="wd-kanbas-navigation">
       <li>
-        <Link to='/Kanbas/Dashboard'>N</Link>
+        <Link to='/Kanbas/Dashboard'>
+          <img src={`/images/logo.png`} style={{ width: 70 }}/>
+        </Link>
       </li>
       {links.map((link, index) => (
         <li key={index} className={(pathname.includes(link.label) ? "wd-active" : "") +
