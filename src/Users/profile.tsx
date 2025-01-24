@@ -56,15 +56,6 @@ export default function Profile() {
             <h5> Email </h5>
             <input value={profile.email} onChange={(e) =>
               setProfile({ ...profile, email: e.target.value })}/>
-            <br/>
-            <h5> Role </h5>
-            <select onChange={(e) =>
-              setProfile({ ...profile, role: e.target.value })}>
-              <option value="USER" selected={profile.role === "USER"}>User</option>
-              <option value="ADMIN" selected={profile.role === "ADMIN"}>Admin</option>
-              <option value="FACULTY" selected={profile.role === "FACULTY"}>Faculty</option>
-              <option value="STUDENT" selected={profile.role === "STUDENT"}>Student</option>
-            </select>
           </div>
         </div>
       )}
