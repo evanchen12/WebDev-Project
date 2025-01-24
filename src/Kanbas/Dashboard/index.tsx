@@ -41,10 +41,16 @@ function Dashboard({courses, course, setCourse, addNewCourse,
               {courses.map((course: any) => (
                 <div key={course._id} className="col" style={{ width: 300 }}>
                   <div className="card">
-                    <Link to={`/Kanbas/Courses/${course._id}/Home`}>  
-                      <img src={`/images/${course.image}`} className="card-img-top"
-                            style={{ height: 150 }}/>
-                    </Link>
+                    <Link to={`/Kanbas/Courses/${course._id}/Home`}>
+                        <img
+                          src={`/images/${course.image}`}
+                          className="card-img-top"
+                          style={{ height: 150 }}
+                          onError={(e) => {
+                            e.currentTarget.src = '/logo.svg';
+                          }}
+                        />
+                      </Link>
                     <div className="card-body ellipsis">
                       <Link to={`/Kanbas/Courses/${course._id}/Home`}>
                         <div className="card-title">{course.number} {course.name}</div>
